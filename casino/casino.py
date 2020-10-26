@@ -9,6 +9,7 @@ import re
 from functools import wraps
 from operator import itemgetter
 from collections import namedtuple
+from typing import Union, Final, Literal
 
 # Casino
 from . import utils
@@ -18,6 +19,7 @@ from .checks import Checks
 # Red
 from redbot.core.i18n import Translator
 from redbot.core import Config, bank, commands, checks
+from redbot.core.utils import AsyncIter
 
 # Discord
 import discord
@@ -346,6 +348,17 @@ class Casino(Data, BaseCog):
         self.bot = bot
         self.cycle_task = self.bot.loop.create_task(self.membership_updater())
         super().__init__()
+    
+    
+    async def red_delete_data_for_user(
+        self, *, requester: Literal["discord", "owner", "user", "user_strict"], user_id: int
+    ):
+        await super().config.user_from_id(user_id).clear()
+        all_members = await super().config.all_members()
+        async for guild_id, guild_data in AsyncIter(all_members.items(), steps=100):
+            if user_id in guild_data:
+                await super().config.member_from_ids(guild_id, user_id).clear()
+
 
     # --------------------------------------------------------------------------------------------------
     @commands.command(aliases=["bj", "21"])
