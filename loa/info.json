@@ -1,0 +1,7 @@
+{
+    "author": ["Northwood Bot Development Team"],
+    "name" : "LOA",
+    "short" : "Tools for managing absences from.. places.",
+    "installmsg" : "Thanks for Installing! You'll probably need 3 channels.",
+    "end_user_data_statement" : "This cog stores User While storing an LOA. For now, cancelling your LOA will delete data, While we add a proper way to scrub it cleanly."
+}
