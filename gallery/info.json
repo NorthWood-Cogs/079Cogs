@@ -1,0 +1,9 @@
+{
+    "author" : ["Base version -saurichable, edited Version - Sinon"],
+    "install_msg" : "Thank you for installing my cog! glhf 🦊☕",
+    "name" : "Gallery",
+    "short" : "Gallery channels!",
+    "description" : "Set channels as galleries, deleting all messages that don't contain any attachments., [EDITED] - Allows YouTube, Tenor links and added more file formats",
+    "end_user_data_statement" : "This cog does not store any user data, all this cog is actively responsable for is allowing image only channels. It will not respect data deletion by end users as no data is stored.",
+    "tags" : ["gallery"]
+}
