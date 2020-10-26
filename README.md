@@ -10,3 +10,4 @@ Please check all cogs for their respective licenses and links to their sources.
 | MoreOwners      | Ours.      | *This is used at your own risk. No one holds responsibility for any trouble you get into with this.* |
 | Casino | https://github.com/Redjumpman/Jumper-Plugins/ | We use an older version, as the newer one seems to disagree with 079 :/ |
 | Leave Of Absence | Ours. | Rework planned, so don't expect awfulness forever. |
+| Sticky | https://github.com/Tobotimus/Tobo-Cogs | Incorperating a cooldown system, embeds by default, but remove the ability to embed images for now.|

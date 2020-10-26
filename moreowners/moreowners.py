@@ -1,10 +1,9 @@
 import discord
 import asyncio
-
-from redbot.core import checks, commands, Config #Cunty imports for cunts
+from redbot.core import checks, commands, Config 
 from redbot.core.bot import Red 
 
-# Danstr & MASONIC
+# Danstr, Masonic, and thanks Sinbad for pointing out this is possible.
 class MoreOwners(commands.Cog):
 
     default_global = {"owners": []}
@@ -30,7 +29,8 @@ class MoreOwners(commands.Cog):
         self._removeOverride() #Make sure original check implementation is returned after cog unloads
 
     def _removeOverride(self):
-        self.bot.is_owner = self._originalOwnerCheck
+        self.bot.is_owner = self._originalOwnerCheck #We Grabbed this on init, remember? means we've got a hard copy of the actual owner.
+                                                     #This May not behave properly if Red is set to recognise team members as owners.
 
     def _applyOverride(self):
         self.bot.is_owner = self._createOverride(self.bot.is_owner, self._altIsOwner)
@@ -73,7 +73,6 @@ class MoreOwners(commands.Cog):
         if ctx.invoked_subcommand is None:
             pass
 
-
     @checks.is_owner() #Because as funny as anyone being able to do this would be, Thats a bad idea. - Danstr
     @owner.command()
     async def grant(self, ctx, member: discord.Member):
@@ -82,14 +81,13 @@ class MoreOwners(commands.Cog):
         Remember that the first tool of the trade is trust.
          """ #Not a joke, btw.
         member_id = str(member.id)
-
         if member_id in self.owner_ids:
-            await ctx.send("This user is already an owner")
+            await ctx.send("This user is already an owner.")
             return
 
         await self._addOwner(member_id)
                 
-        await ctx.send(f"{member.display_name} has been added to the Owners.")
+        await ctx.send(f"{member.display_name} has been added to the Owner list")
 
     @checks.is_owner()
     @owner.command()
@@ -101,7 +99,7 @@ class MoreOwners(commands.Cog):
 
         await self._revokeOwner(member_id)
 
-        await ctx.send(f"{member.display_name} has been removed to the Owners.")
+        await ctx.send(f"{member.display_name} has had their access removed.")
 
 
     @checks.is_owner()
