@@ -46,7 +46,7 @@ class Warnings(commands.Cog):
 
     def __init__(self, bot: Red):
         super().__init__()
-        self.config = Config.get_conf(self, identifier=5757575755)
+        self.config = Config.get_conf(self, identifier=1426112320)
         self.config.register_guild(**self.default_guild)
         self.config.register_member(**self.default_member)
         self.bot = bot
