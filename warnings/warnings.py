@@ -422,11 +422,13 @@ class Warnings(commands.Cog):
             return
         member_settings = self.config.member(user)
         current_point_count = await member_settings.total_points()
+        currentTime = str(datetime.date.today())
         warning_to_add = {
             str(ctx.message.id): {
                 "points": reason_type["points"],
                 "description": reason_type["description"],
                 "mod": ctx.author.id,
+                "submitTime": currentTime,
             }
         }
         async with member_settings.warnings() as user_warnings:
@@ -568,24 +570,24 @@ class Warnings(commands.Cog):
                         )
                     em_ToSend.add_field(name=f"Unwarn command", value=unwarnTxt, inline=False)
 
-                    #try:
-                    warnTime = user_warnings[key]["submitTime"]
-                    warnTimeDate = datetime.date.fromisoformat(warnTime)
-                    if warnTimeDate == datetime.date.today():
-                        elapsed = "(Today)"
-                    else:
-                        diff = datetime.date.today() - warnTimeDate
-                        if diff.days < 14:
-                            elapsed = f"({str(diff.days)} days ago)"
-                        if diff.days >= 14:
-                            diffy = diff.days / 7
-                            diffy = int(diffy)
-                            elapsed = f"({str(diffy)} weeks ago)"
-                    em_ToSend.add_field(name=f"Warning Date", value=f"{warnTimeDate} {elapsed}", inline=False)
+                    try:
+                        warnTime = user_warnings[key]["submitTime"]
+                        warnTimeDate = datetime.date.fromisoformat(warnTime)
+                        if warnTimeDate == datetime.date.today():
+                            elapsed = "(Today)"
+                        else:
+                            diff = datetime.date.today() - warnTimeDate
+                            if diff.days < 14:
+                                elapsed = f"({str(diff.days)} days ago)"
+                            if diff.days >= 14:
+                                diffy = diff.days / 7
+                                diffy = int(diffy)
+                                elapsed = f"({str(diffy)} weeks ago)"
+                        em_ToSend.add_field(name=f"Warning Date", value=f"{warnTimeDate} {elapsed}", inline=False)
 
-                    #except:
-                        #warnTimeDate = "No Warn Time Supplied."
-                        #em_ToSend.add_field(name=f"Warning Date", value=f"{warnTimeDate}", inline=False)
+                    except:
+                        warnTimeDate = "No Warn Time Supplied."
+                        em_ToSend.add_field(name=f"Warning Date", value=f"{warnTimeDate}", inline=False)
                     embeds.append(em_ToSend)
                     count += 1
                 await menu(ctx, embeds, DEFAULT_CONTROLS, timeout=6)
