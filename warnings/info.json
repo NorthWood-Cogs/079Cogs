@@ -1,0 +1,6 @@
+{
+    "author": ["Danstr#1984", "Northwood Bot Development Team", "Adapted from Red's base warnings."],
+    "name" : "Warnings",
+    "short" : "Warnings cog with embedded warns",
+    "end_user_data_statement" : "This Cog stores a Members user ID and the Guild ID To Allow the Correlation of warns. Due to their Operational requirement, these cannot be deleted by the user by default."
+}
