@@ -11,4 +11,5 @@ Please check all cogs for their respective licenses and links to their sources.
 | Casino | https://github.com/Redjumpman/Jumper-Plugins/ | We use an older version, as the newer one seems to disagree with 079 :/ |
 | Leave Of Absence | Ours. | Rework planned, so don't expect awfulness forever. |
 | Sticky | https://github.com/Tobotimus/Tobo-Cogs | Incorperating a cooldown system, embeds by default, but remove the ability to embed images for now.|
-| Gallery | https://github.com/elijabesu/SauriCogs | Added own GDPR /User data complience, updated the Regex to include/whitelist diffrent links and added more file types ^^ |  
+| Gallery | https://github.com/elijabesu/SauriCogs | Added own GDPR /User data complience, updated the Regex to include/whitelist diffrent links and added more file types ^^ |
+| Warnings | Core Red | The mods get to see an embedded Warnings menu page, with a warn-date |
