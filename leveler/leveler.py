@@ -24,6 +24,9 @@ from redbot.core.data_manager import bundled_data_path
 from redbot.core.utils.chat_formatting import pagify, box
 from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
 from redbot.core.utils.predicates import MessagePredicate
+from redbot.core.i18n import Translator, cog_i18n
+
+_ = Translator("Leveler", __file__)
 
 try:
     from motor.motor_asyncio import AsyncIOMotorClient
@@ -66,7 +69,7 @@ log.debug(f"using {AVATAR_FORMAT} avatar format")
 async def non_global_bank(ctx):
     return not await bank.is_global()
 
-
+@cog_i18n(_)
 class Leveler(commands.Cog):
     """A level up thing with image generation!"""
 
