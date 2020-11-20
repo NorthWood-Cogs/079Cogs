@@ -31,9 +31,8 @@ class PingAlert(commands.Cog):
     async def setchannel(self, ctx, channel: discord.TextChannel):
         """Sets the channel for alerting for a ping."""
         guild = ctx.guild
-        async with self.config.guild(ctx.guild).AlertChannel() as channels:
-            channels.set(channel.id)
-            
+        config = self.config.guild(ctx.guild).AlertChannel()
+        config.set(channel)
 
     @commands.Cog.listener()
     async def on_message(self, message):
