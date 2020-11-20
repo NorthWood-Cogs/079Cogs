@@ -7,7 +7,7 @@ from discord.utils import get
 
 # Shoutout to all my homies that have ZERO grasp of any self-fucking-restraint
 
-class PingAlert(Commands.Cog):
+class PingAlert(commands.Cog):
     """I hate you all"""
 
     #Ver. 0.1 - really basic "stop pinging hubert you cunts" version
