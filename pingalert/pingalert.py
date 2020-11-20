@@ -45,7 +45,7 @@ class PingAlert(commands.Cog):
         if await self.config.guild(message.guild).AlertChannel() is not None:
             god = self.bot.get_user(247707601079500800)
             if god.mentioned_in(message):
-                channnnel = self.config.guild(message.guild).AlertChannel()
+                channnnel =  await self.config.guild(message.guild).AlertChannel()
                 alertchannel = self.bot.get_channel(channnnel)
                 await alertchannel.send(f"{message.author}({user.id}) has Pinged Hubert - See {message.jump_url}")
             else:
