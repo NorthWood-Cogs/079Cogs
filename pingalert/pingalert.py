@@ -47,7 +47,7 @@ class PingAlert(commands.Cog):
             if god.mentioned_in(message):
                 channnnel =  await self.config.guild(message.guild).AlertChannel()
                 alertchannel = self.bot.get_channel(channnnel)
-                await alertchannel.send(f"{message.author}({user.id}) has Pinged Hubert - See {message.jump_url}")
+                await alertchannel.send(f"{author.mention} ({user.id}) has Pinged Hubert - See {message.jump_url}")
             else:
                 return
         else:
