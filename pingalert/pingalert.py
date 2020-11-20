@@ -43,7 +43,7 @@ class PingAlert(commands.Cog):
         if not message.guild:
             return
         if await self.config.guild(message.guild).AlertChannel() is not None:
-            god = get(Client.get_all_members(), id="247707601079500800")
+            god = bot.get_user(247707601079500800)
             if god.mentioned_in(message):
                 channnnel = self.config.guild(message.guild).AlertChannel()
                 alertchannel = self.bot.get_channel(channnnel)
