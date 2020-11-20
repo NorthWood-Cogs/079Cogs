@@ -31,12 +31,13 @@ class PingAlert(commands.Cog):
     async def setchannel(self, ctx, Achannel: discord.TextChannel):
         """Sets the channel for alerting for a ping."""
         guild = ctx.guild
-        await self.config.guild(guild).AlertChannel.set(Achannel)
+        await self.config.guild(guild).AlertChannel.set(Achannel.id)
         await ctx.send("Done.")
 
     @commands.Cog.listener()
     async def on_message(self, message):
         user = message.author
+
         if user.bot:
             return
         if not message.guild:
@@ -44,8 +45,9 @@ class PingAlert(commands.Cog):
         if await self.config.guild(message.guild).AlertChannel() is not None:
             god = get(Client.get_all_members(), id="247707601079500800")
             if god.mentioned_in(message):
-                channel = self.config.guild(message.guild).AlertChannel()
-                await channel.send(f"{message.author}({user.id}) has Pinged Hubert - See {message.jump_url}")
+                channnnel = self.config.guild(message.guild).AlertChannel()
+                alertchannel = self.bot.get_channel(channnnel)
+                await alertchannel.send(f"{message.author}({user.id}) has Pinged Hubert - See {message.jump_url}")
             else:
                 return
         else:
