@@ -1,0 +1,56 @@
+import discord
+from redbot.core import Config, checks, commands
+from redbot.core.utils import common_filters
+from redbot.core.bot import Red
+from typing import Union
+from discord.utils import get
+
+# Shoutout to all my homies that have ZERO grasp of any self-fucking-restraint
+
+class PingAlert(Commands.Cog):
+    """I hate you all"""
+
+    #Ver. 0.1 - really basic "stop pinging hubert you cunts" version
+    #A proper cog comes later. 
+
+    def __init__(self, bot: Red):
+        self.bot = bot
+        self.config = Config.get_conf(self, identifier=412354885235, force_registration=True)
+        self.config.register_guild(
+            DontPing=[],
+            AlertChannel=None
+        )
+        
+
+    async def red_get_data_for_user(self, *, user_id: int):
+        # this cog does not story any data you know the fucking drill
+        return {}
+
+
+    @commands.command()
+    async def setchannel(self, ctx, channel: discord.TextChannel):
+        """Sets the channel for alerting for a ping."""
+        guild = ctx.guild
+        try:
+            async with self.config.guild(ctx.guild).AlertChannel() as channels:
+                channels.set(channel.id)
+        except:
+            await ctx.send("""That wasn't valid. try "mentioning" the channel. """)
+            
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        user = message.author
+        if user.bot:
+            return
+        if not message.guild:
+            return
+        if await self.config.guild(message.guild).AlertChannel() is not None:
+            god = get(Client.get_all_members(), id="247707601079500800")
+            if god.mentioned_in(message):
+                channel = self.config.guild(message.guild).AlertChannel()
+                await channel.send(f"{message.author}({user.id}) has Pinged Hubert - See {message.jump_url}")
+            else:
+                return
+        else:
+            return
