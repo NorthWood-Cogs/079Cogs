@@ -1,6 +1,6 @@
 from redbot.core import commands # We going super fucking basic
+from redbot.core.bot import Red
 from typing import Optional
-
 
 
 
