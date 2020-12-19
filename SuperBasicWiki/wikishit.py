@@ -11,10 +11,9 @@ class wikishite(commands.Cog):
 
     @commands.command()
     async def wikishite(self, ctx, *, args = None):
-        if args = None:
+        if args == None:
             URL = DEFAULT_URL_SHIT + MY_WIFE_LEFT_ME
         else:
             args.replace(" ", "_")
             URL = DEFAULT_URL_SHIT + args
         await ctx.send(f"{URL}")
-        
