@@ -1,3 +1,4 @@
+import discord
 from redbot.core import commands # We going super fucking basic
 from redbot.core.bot import Red
 from typing import Optional
@@ -17,4 +18,5 @@ class wikishite(commands.Cog):
         else:
             NewArgs = args.replace(" ", "_")
             URL = DEFAULT_URL_SHIT + NewArgs
-        await ctx.send(f"{URL}")
+        await ctx.send(f"{URL}", allowed_mentions=discord.AllowedMentions(everyone=False, roles=False, users=False))
+        # Finally, a useful thing
