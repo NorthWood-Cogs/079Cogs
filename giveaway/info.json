@@ -1,0 +1,7 @@
+{
+    "author": ["Northwood Bot Development Team"],
+    "name" : "Giveaway",
+    "short" : "Reaction based giveaway",
+    "installmsg" : "Thanks for Installing! ",
+    "end_user_data_statement" : "Due to how giveaways are handled here, you only need to store a User for at most a few seconds. While the cog needs some changes to let you delete your own entries, NW Bot Dev will happily manually remove you from giveaway at your wish."
+}
