@@ -99,7 +99,7 @@ class NWTools(commands.Cog):
             await ctx.channel.set_permissions(user, overwrite=permies, reason="Muted By TS in #tech-support")
             await ctx.send(f"{user.mention} has been muted in this channel.")
         else:
-            permies.send_messages = True
+            permies.send_messages = None
             await ctx.channel.set_permissions(user, overwrite=permies, reason="unmuted By TS in #tech-support")
             await ctx.send(f"{user.mention} has been unmuted in this channel.")
 
@@ -113,6 +113,6 @@ class NWTools(commands.Cog):
             await ctx.channel.set_permissions(user, overwrite=permies, reason="Muted By TerranHawk in #wiki-feedback")
             await ctx.send(f"{user.mention} has been muted in this channel.")
         else:
-            permies.send_messages = True
+            permies.send_messages = None
             await ctx.channel.set_permissions(user, overwrite=permies, reason="unmuted By TerranHawk in #wiki-feedback")
             await ctx.send(f"{user.mention} has been unmuted in this channel.")
