@@ -81,7 +81,7 @@ class NWTools(commands.Cog):
     @check_senior_ts()
     async def tatoggle(self, ctx, user: discord.Member):
         """Toggles the TA role on a user."""
-        techAssistRole = get(ctx.guild.roles, id=472408645305499659)
+        techAssistRole = get(ctx.guild.roles, id=716363340334759947)
         if techAssistRole in user.roles:
             await user.remove_roles(techAssistRole) #Crime, She typed. idk. 
             await ctx.send(f"I removed {techAssistRole.name} from {user.mention}.")
