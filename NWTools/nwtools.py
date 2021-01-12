@@ -36,7 +36,7 @@ class NWTools(commands.Cog):
             await ctx.send(f"I from {ServerHost.name} from {user.mention}.")
         else:
             await user.add_roles(ServerHost)
-            await ctx.send(f"I have added {ServerHost.name} to {user.mention")
+            await ctx.send(f"I have added {ServerHost.name} to {user.mention}")
     
     @commands.command()
     #@is_in_server(server_id)
@@ -49,9 +49,6 @@ class NWTools(commands.Cog):
         await asyncio.sleep(120)
         await ctx.send(f"I've removed the advert role from {user.mention} as the timer has expired.")
         await user.remove_roles(advertRole) # You taken the hint of how basic we're going?
-
-
-    @commands.
 
 
         
