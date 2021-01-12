@@ -28,10 +28,10 @@ class NWTools(commands.Cog):
     #@is_in_server(server_id)
     #@commands.has_role(773662839289937980)
     @commands.is_owner()
-    async def serverhost(self, ctx, *, user: discord.Member):
+    async def serverhost(self, ctx, user: discord.Member):
         """Toggles the serverhost role on a user."""
         ServerHost = get(ctx.guild.roles, id=serverhost_id)
-        if user.has_role(ServerHost):
+        if ServerHost in user.roles:
             await user.remove_roles(ServerHost) #Crime, She typed. idk.
             await ctx.send(f"I removed {ServerHost.name} from {user.mention}.")
         else:
@@ -42,7 +42,7 @@ class NWTools(commands.Cog):
     #@is_in_server(server_id)
     #@commands.has_any_role(472408217528434717,472407900443246603,219040433861296128)
     @commands.is_owner()
-    async def advert(self, ctx, *, user: discord.Member):
+    async def advert(self, ctx, user: discord.Member):
         advertRole = get(ctx.guild.roles, id=472419831262740510)
         await user.add_roles(advertRole)
         await ctx.send(f"I've added the advert role to {user.mention} and will remove it in 120 seconds.")
