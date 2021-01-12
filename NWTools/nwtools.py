@@ -13,16 +13,37 @@ import asyncio
 ### To go fuck themselves on a bed of rusty fucking nails - because if I have to fuck my evening over due to trust issues, then fuck you too.
 server_id = 330432627649544202
 serverhost_id = 472419831262740510
+
+
 class NWTools(commands.Cog):
     """The long-awaited thing to end the shitshow that is addrole.
     I do not care that theres a swear, this cog is NW only."""
     def __init__(self, bot):
         self.bot = bot
-    
+
+    # time for the custom checks. since they're mostly similar, i'm keeping them here for now.
     def is_in_server(guild_id):
         async def predicate(ctx):
             return ctx.guild and ctx.guild.id == guild_id
-        return commands.check(predicate)
+        return commands.check(predicate) # SL guild only
+
+    def check_senior_ts():
+        async def predicate(ctx):
+            return ctx.message.author.id == 235520881953210369 or ctx.message.author.id == 124241068727336963
+        return commands.check(predicate) #So only Phoenix and Khaos can add TA roles
+    def is_techsupport_channel():
+        async def predicate(ctx):
+            return ctx.message.channel.id == 472408806211715083
+        return commands.check(predicate) #Only works in #tech-support
+
+    def is_wikifeedback_channel():
+        async def predicate(ctx):
+            return ctx.message.channel.id == 736009227172053103
+        return commands.check(predicate) #Only works in #tech-support
+
+    #Repeats over, time for more repeating.
+
+
 
     @commands.command()
     @is_in_server(server_id)
@@ -50,6 +71,48 @@ class NWTools(commands.Cog):
         await user.remove_roles(advertRole) # You taken the hint of how basic we're going?
 
 
-        
-        
+    @commands.group()
+    @commands.has_role(472408645305499659)
+    @is_in_server(server_id)
+    async def ts(self, ctx):
+        """Tech support Commands"""
 
+    @ts.command()
+    @check_senior_ts()
+    async def tatoggle(self, ctx, user: discord.Member):
+        """Toggles the TA role on a user."""
+        techAssistRole = get(ctx.guild.roles, id=472408645305499659)
+        if techAssistRole in user.roles:
+            await user.remove_roles(techAssistRole) #Crime, She typed. idk. 
+            await ctx.send(f"I removed {techAssistRole.name} from {user.mention}.")
+        else:
+            await user.add_roles(techAssistRole)
+            await ctx.send(f"I have added {techAssistRole.name} to {user.mention}")
+    
+    @ts.command()
+    @is_techsupport_channel()
+    async def togglemute(self, ctx, user: discord.Member):
+        """Mute or unmute user in #tech-support. Finally!"""
+        permies = ctx.channel.overwrites_for(user)
+        if permies.send_messages == True or permies.send_messages == None:
+            permies.send_messages = False
+            await ctx.channel.set_permissions(user, overwrite=permies, reason="Muted By TS in #tech-support")
+            await ctx.send(f"{user.mention} has been muted in this channel.")
+        else:
+            permies.send_messages = True
+            await ctx.channel.set_permissions(user, overwrite=permies, reason="unmuted By TS in #tech-support")
+            await ctx.send(f"{user.mention} has been unmuted in this channel.")
+
+    @commands.command(name="steb")
+    @is_techsupport_channel()
+    async def _terransmagicalmute(self, ctx, user: discord.Member):
+        """I hate the name of this command. Mute or Unmute folks in #wiki-feedback."""
+        permies = ctx.channel.overwrites_for(user)
+        if permies.send_messages == True or permies.send_messages == None:
+            permies.send_messages = False
+            await ctx.channel.set_permissions(user, overwrite=permies, reason="Muted By TerranHawk in #wiki-feedback")
+            await ctx.send(f"{user.mention} has been muted in this channel.")
+        else:
+            permies.send_messages = True
+            await ctx.channel.set_permissions(user, overwrite=permies, reason="unmuted By TerranHawk in #wiki-feedback")
+            await ctx.send(f"{user.mention} has been unmuted in this channel.")
