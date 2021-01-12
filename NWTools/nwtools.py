@@ -24,6 +24,7 @@ class NWTools(commands.Cog):
     @commands.command()
     @is_in_server(535222684880207904)
     @commands.has_role(773662839289937980)
+    @commands.has_role(588355805061971990)
     async def wellhellothere(self, ctx):
         await ctx.send("General Kenobi")
 
