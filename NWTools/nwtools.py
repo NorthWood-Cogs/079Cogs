@@ -38,7 +38,7 @@ class NWTools(commands.Cog):
 
     def is_wikifeedback_channel():
         async def predicate(ctx):
-            return ctx.message.channel.id == 736009227172053103
+            return ctx.message.channel.id == 736009227172053103 and ctx.message.author.id == 224309184294813697
         return commands.check(predicate) #Only works in #tech-support
 
     #Repeats over, time for more repeating.
@@ -104,7 +104,7 @@ class NWTools(commands.Cog):
             await ctx.send(f"{user.mention} has been unmuted in this channel.")
 
     @commands.command(name="steb")
-    @is_techsupport_channel()
+    @is_wikifeedback_channel()
     async def _terransmagicalmute(self, ctx, user: discord.Member):
         """I hate the name of this command. Mute or Unmute folks in #wiki-feedback."""
         permies = ctx.channel.overwrites_for(user)
