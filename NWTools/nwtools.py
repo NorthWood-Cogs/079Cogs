@@ -12,7 +12,7 @@ import asyncio
 ### I WILL tell *anyone* that tells me that this cog isn't up to par, Including Masonic (tho frankly he's probably read this and is just staying away from it)
 ### To go fuck themselves on a bed of rusty fucking nails - because if I have to fuck my evening over due to trust issues, then fuck you too.
 server_id = 535222684880207904
-serverhost_id = 492635905811546130
+serverhost_id = 472419831262740510
 class NWTools(commands.Cog):
     """The long-awaited thing to end the shitshow that is addrole.
     I do not care that theres a swear, this cog is NW only."""
@@ -25,9 +25,8 @@ class NWTools(commands.Cog):
         return commands.check(predicate)
 
     @commands.command()
-    #@is_in_server(server_id)
-    #@commands.has_role(773662839289937980)
-    @commands.is_owner()
+    @is_in_server(server_id)
+    @commands.has_role(492635905811546130)
     async def serverhost(self, ctx, user: discord.Member):
         """Toggles the serverhost role on a user."""
         ServerHost = get(ctx.guild.roles, id=serverhost_id)
