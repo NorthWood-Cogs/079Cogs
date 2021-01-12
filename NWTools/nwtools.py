@@ -22,8 +22,8 @@ class NWTools(commands.Cog):
         return commands.check(predicate)
 
     @commands.command()
-    @is_in_server(330432627649544202)
-    @commands.has_role(535222684880207904)
+    @is_in_server(535222684880207904)
+    @commands.has_role(773662839289937980)
     async def wellhellothere(self, ctx):
         await ctx.send("General Kenobi")
 
