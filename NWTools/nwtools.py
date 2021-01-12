@@ -11,7 +11,7 @@ import asyncio
 ### I WILL ONLY allow this cog to function within the SL Discord.
 ### I WILL tell *anyone* that tells me that this cog isn't up to par, Including Masonic (tho frankly he's probably read this and is just staying away from it)
 ### To go fuck themselves on a bed of rusty fucking nails - because if I have to fuck my evening over due to trust issues, then fuck you too.
-server_id = 535222684880207904
+server_id = 330432627649544202
 serverhost_id = 472419831262740510
 class NWTools(commands.Cog):
     """The long-awaited thing to end the shitshow that is addrole.
