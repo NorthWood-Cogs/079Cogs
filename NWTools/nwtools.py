@@ -59,9 +59,8 @@ class NWTools(commands.Cog):
             await ctx.send(f"I have added {ServerHost.name} to {user.mention}")
     
     @commands.command()
-    #@is_in_server(server_id)
-    #@commands.has_any_role(472408217528434717,472407900443246603,219040433861296128)
-    @commands.is_owner()
+    @is_in_server(server_id)
+    @commands.has_any_role(472408217528434717,472407900443246603,219040433861296128)
     async def advert(self, ctx, user: discord.Member):
         advertRole = get(ctx.guild.roles, id=472411216677961728)
         await user.add_roles(advertRole)
