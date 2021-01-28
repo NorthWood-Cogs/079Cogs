@@ -621,7 +621,6 @@ class Warnings(commands.Cog):
                     ).format(
                         num_points=user_warnings[key]["points"],
                         reason_name=key,
-                        user=mod,
                         description=user_warnings[key]["description"],
                     )
                 await ctx.send_interactive(
