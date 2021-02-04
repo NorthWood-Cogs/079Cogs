@@ -616,12 +616,11 @@ class Warnings(commands.Cog):
                         bot = ctx.bot
                         mod = bot.get_user(mod_id) or _("Unknown Moderator ({})").format(mod_id)
                     msg += _(
-                        "{num_points} point warning {reason_name} issued by {user} for "
+                        "{num_points} point warning {reason_name} issued for "
                         "{description}\n"
                     ).format(
                         num_points=user_warnings[key]["points"],
                         reason_name=key,
-                        user=mod,
                         description=user_warnings[key]["description"],
                     )
                 await ctx.send_interactive(
