@@ -10,14 +10,15 @@ from redbot.core import Config
 from redbot.core import checks
 
 # Helpers - Not quite playing nice yet...
-#from .helpers import query_discord_id, give_badge, remove_badge
+# from .helpers import query_discord_id, give_badge, remove_badge
+
 
 class Badge(commands.Cog):
-    """Commands to give the badge to the Patreon Supporters and Twitch Subs""" 
+    """Commands to give the badge to the Patreon Supporters and Twitch Subs"""
 
     def __init__(self, bot):
         self.bot = bot
-        self.config = Config.get_conf(self, identifier=5349824615) #Take a shot
+        self.config = Config.get_conf(self, identifier=5349824615)  # Take a shot
         default_global = {"TOKEN": "123"}
         self.config.register_global(**default_global)
         print('Addon "{}" loaded'.format(self.__class__.__name__))
@@ -26,26 +27,29 @@ class Badge(commands.Cog):
     def is_in_server(guild_id):
         async def predicate(ctx):
             return ctx.guild and ctx.guild.id == guild_id
+
         return commands.check(predicate)
 
     @is_in_server(330432627649544202)
-
     @commands.group(name="badge")
-    async def badge(self,ctx):
+    async def badge(self, ctx):
         """Base class for Badge cog. Hi there! if you're seeing this, you should
         only see the next available step for you!"""
         pass
 
     @badge.group(name="patreon")
     @commands.has_any_role(
-        "Patreon level - Major Scientist",
-        "Patreon level - Zone Manager",
-        "Patreon level - Facility Manager",
+        409844788985331723,  # Janitor
+        409845203352944641,  # Scientist
+        409845543070597120,  # Major Scientist
+        409845714257182721,  # Zone Manager
+        409845890740912138,  # Facility Manager
     )
     async def issuepatreonbadge(self, ctx):
         """If you're seeing this, you're entitled to a Patreon badge ingame!
         Follow the steps to get a badge in either the steam version or the discord version."""
         pass
+
     @issuepatreonbadge.command(name="steam")
     async def patreonsteam(self, ctx, steam_id: str):
         """
@@ -57,7 +61,11 @@ class Badge(commands.Cog):
         discord_query_response = await self.query_discord_id(ctx.message.author.id)
         if discord_query_response == "Badge not issued":
             author = ctx.message.author
-            await ctx.send(await self.give_badge("steam", "10", author.name, steam_id, str(author.id)))
+            await ctx.send(
+                await self.give_badge(
+                    "steam", "10", author.name, steam_id, str(author.id)
+                )
+            )
         else:
             await ctx.send("You currently have an active badge.")
 
@@ -70,16 +78,19 @@ class Badge(commands.Cog):
         if discord_query_response == "Badge not issued":
             str_id = str(ctx.message.author.id)
             author = ctx.message.author
-            await ctx.send(await self.give_badge("discord", "10", author.name, str_id, str_id))
+            await ctx.send(
+                await self.give_badge("discord", "10", author.name, str_id, str_id)
+            )
 
         else:
             await ctx.send("You currently have an active badge")
 
-
-    @badge.group(name="twitch") #Twitch bades start here!
+    @badge.group(name="twitch")  # Twitch bades start here!
     @commands.has_any_role(
-        "Twitch Subscriber: Tier 2",
-        "Twitch Subscriber: Tier 3",
+        # Currently only T3 are eligible for the role
+        # 781597284050665494,  # T1 Dark
+        # 781597284050665495,  # T2 Keneq
+        781597284050665496,  # T3 Amida
     )
     async def issuetwitchbadge(self, ctx):
         """If you're seeing this, you're entitled to a Twitch Subscriber badge ingame!
@@ -96,7 +107,15 @@ class Badge(commands.Cog):
             return
         discord_query_response = await self.query_discord_id(ctx.message.author.id)
         if discord_query_response == "Badge not issued":
-            await ctx.send(await self.give_badge("steam", "9", ctx.message.author.name, steam_id, str(ctx.message.author.id)))
+            await ctx.send(
+                await self.give_badge(
+                    "steam",
+                    "9",
+                    ctx.message.author.name,
+                    steam_id,
+                    str(ctx.message.author.id),
+                )
+            )
         else:
             await ctx.send("You currently have an active badge.")
 
@@ -109,12 +128,13 @@ class Badge(commands.Cog):
         if discord_query_response == "Badge not issued":
             str_id = str(ctx.message.author.id)
             author = ctx.message.author
-            await ctx.send(await self.give_badge("discord", "9", author.name, str_id, str_id))
+            await ctx.send(
+                await self.give_badge("discord", "9", author.name, str_id, str_id)
+            )
 
             await ctx.send(issue_request.text)
         else:
-            await ctx.send("You currently have an active badge")    
-    
+            await ctx.send("You currently have an active badge")
 
     @badge.command(name="revoke")
     @commands.has_any_role(
@@ -128,15 +148,17 @@ class Badge(commands.Cog):
         """
         Revokes a patreon badge from yourself.
         """
-        await ctx.send(await self.remove_badge(discord_id=str(ctx.message.author.id),discord_name=ctx.message.author.name))
+        await ctx.send(
+            await self.remove_badge(
+                discord_id=str(ctx.message.author.id),
+                discord_name=ctx.message.author.name,
+            )
+        )
 
-
-    @checks.is_owner() # Dear Masonic, remember what this is. I saw you added that pokey owner check before. It dissapoints me.
+    @checks.is_owner()  # Dear Masonic, remember what this is. I saw you added that pokey owner check before. It dissapoints me.
     @commands.command()
     async def settoken(self, ctx, arg):
         await self.config.TOKEN.set(arg)
-    
-
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
@@ -144,7 +166,9 @@ class Badge(commands.Cog):
             server = before.guild
             # TODO: Make these cog-wide
             patreon_roles = [
-                discord.utils.get(server.roles, name="Patreon level - Facility Manager"),
+                discord.utils.get(
+                    server.roles, name="Patreon level - Facility Manager"
+                ),
                 discord.utils.get(server.roles, name="Patreon level - Zone Manager"),
                 discord.utils.get(server.roles, name="Patreon level - Major Scientist"),
                 discord.utils.get(server.roles, name="Twitch Subscriber: Tier 2"),
@@ -158,15 +182,23 @@ class Badge(commands.Cog):
                         has_role_after = True
                         break
                 if not has_role_after:
-                    await self.remove_badge(discord_id=after.id, discord_name=after.name)
+                    await self.remove_badge(
+                        discord_id=after.id, discord_name=after.name
+                    )
 
     @commands.Cog.listener()
     async def on_member_remove(self, member: discord.Member):
         if member.guild.id == 330432627649544202:
             await self.remove_badge(discord_id=member.id, discord_name=member.name)
 
-
-    async def give_badge(self, type: str, badge_id: str, discord_name: str, given_id: str, discord_id: str):
+    async def give_badge(
+        self,
+        type: str,
+        badge_id: str,
+        discord_name: str,
+        given_id: str,
+        discord_id: str,
+    ):
         if type == "discord":
             issue_request = requests.post(
                 self.endpoint,
@@ -196,8 +228,6 @@ class Badge(commands.Cog):
         else:
             return "Badge type wasn't valid, somehow. Please contact a Bot Engineer!"
 
-
-
     async def remove_badge(self, discord_id: str, discord_name: str):
         """
         Attempts to remove a user's badge
@@ -217,8 +247,8 @@ class Badge(commands.Cog):
                         "badge": "",
                         "id": query_userid,
                         "info": discord_name,
-                        "info2": author_id
-                    }
+                        "info2": author_id,
+                    },
                 )
                 return revoke_query.text
             else:
