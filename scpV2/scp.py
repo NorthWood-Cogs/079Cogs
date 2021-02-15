@@ -22,9 +22,13 @@ class SCP(commands.Cog):
         #So by using string finds, we're gonna pick out some useful information
         Content = BaseContentText[:300] + (BaseContentText[300:] and '..')
         #in order - "Preview" is the short text that'll be included, "OC" Will Be Object Class, "Ra" will be Rating.
+        OC = Content[Content.find("Object Class"):("Special Containment Procedures")]
+        await ctx.send(f"{OC}")
+        Ra = Content[Content.find("Rating"):("Object Class")]
+        await ctx.send(f"{Ra}")
         Preview = Content[Content.find("Special Containment"):]
-        #TODO So because I like colours we're going to make the embed colour based off the object class
         await ctx.send(f"{Preview}")
+        #TODO So because I like colours we're going to make the embed colour based off the object class
         #scpEM = discord.Embed(
             #titlle=f"{target.title}",
             #url=f"{target.url}",
