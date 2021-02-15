@@ -28,7 +28,7 @@ class SCP(commands.Cog):
         #TODO So because I like colours we're going to make the embed colour based off the object class
         await ctx.send(f"{Preview}")
         await ctx.send(f"{OC}")
-        awaot ctx.send(f"{Ra}")
+        await ctx.send(f"{Ra}")
         scpEM = discord.Embed(
             titlle=f"{target.title}",
             url=f"{target.url}",
