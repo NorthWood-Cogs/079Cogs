@@ -19,7 +19,9 @@ class SCP(commands.Cog):
         """Finds an SCP based on their number. Standard Content warning applies."""
         target = SCPWiki(f'scp-{scpID}')
         await ctx.send(f"{target.title}")
-        await ctx.send(f"{target.text}")
+        BaseContentText = target.text
+        Content = BaseContentText[:75] + (BaseContentText[75:] and '..')
+        await ctx.send(f"{Content}")
         scpEM = discord.Embed(
             titlle=f"{target.title}",
             url=f"{target.url}"
