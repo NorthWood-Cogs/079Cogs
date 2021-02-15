@@ -26,14 +26,16 @@ class SCP(commands.Cog):
         PreviewSplit = Preview.split()
         OBJCL = PreviewSplit[0] + PreviewSplit[1] + PreviewSplit[2]
         EmbedContent = Preview.replace(f"{OBJCL}","")
-        images = target.images
-        print(*images, sep='\n')
         #TODO So because I like colours we're going to make the embed colour based off the object class
         scpEM = discord.Embed(
             title=f"{target.title}",
             url=f"{target.url}",
             description=f"{EmbedContent}",
         )
+        try:
+            scpEM.set_thumbnail(url=target.images[0])
+        except:
+            pass
         await ctx.send(embed=scpEM)
         
 
