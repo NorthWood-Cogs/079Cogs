@@ -16,15 +16,15 @@ class SCP(commands.Cog):
 
     def ColourPicker(self, OClass):
         #Basically just a list of If statements because fuck it
-        if OClass.lower == "safe":
+        if OClass.lower() == "safe":
             return 0x2ecc71
-        if OClass.lower == "euclid":
+        if OClass.lower() == "euclid":
             return 0xf1c40f
-        if OClass.lower == "keter":
+        if OClass.lower() == "keter":
             return 0xe74c3c
-        if OClass.lower == "thaumiel":
+        if OClass.lower() == "thaumiel":
             return 0x3498db
-        if OClass.lower == "explained":
+        if OClass.lower() == "explained":
             return 0xe91e63
         else:
             return 0x99aab5
