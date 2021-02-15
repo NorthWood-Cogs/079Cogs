@@ -28,9 +28,9 @@ class SCP(commands.Cog):
         EmbedContent = Preview.replace(f"{OBJCL}","")
         #TODO So because I like colours we're going to make the embed colour based off the object class
         scpEM = discord.Embed(
-            titlle=f"{target.title}",
+            title=f"{target.title}",
             url=f"{target.url}",
-            description=f"{OBJCL} \n {EmbedContent}",
+            description=f"{EmbedContent}",
         )
         await ctx.send(embed=scpEM)
         
