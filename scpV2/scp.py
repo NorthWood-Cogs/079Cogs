@@ -49,7 +49,7 @@ class SCP(commands.Cog):
             title=f"{target.title}",
             url=f"{target.url}",
             description=f"{EmbedContent}",
-            colour=f"{ClassColour}"
+            colour=ClassColour
         )
         try:
             scpEM.set_thumbnail(url=target.images[0])
