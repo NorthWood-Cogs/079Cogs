@@ -23,7 +23,10 @@ class SCP(commands.Cog):
         Content = BaseContentText[:300] + (BaseContentText[300:] and '..')
         #in order - "Preview" is the short text that'll be included, "OC" Will Be Object Class, "Ra" will be Rating.
         Preview = Content[Content.find("Object Class"):]
+        PreviewSplit = Preview.split()
+        OBJCL = PreviewSplit[0] + PreviewSplit[1] + PreviewSplit[2]
         await ctx.send(f"{Preview}")
+        await ctx.send(f"{OBJCL}")
         #TODO So because I like colours we're going to make the embed colour based off the object class
         #scpEM = discord.Embed(
             #titlle=f"{target.title}",
