@@ -37,7 +37,7 @@ class SCP(commands.Cog):
         target = SCPWiki(f'scp-{scpID}')
         BaseContentText = target.text
         #So by using string finds, we're gonna pick out some useful information
-        Content = BaseContentText[:300] + (BaseContentText[300:] and '..')
+        Content = BaseContentText[:800] + (BaseContentText[800:] and '..')
         #in order - "Preview" is the short text that'll be included, "OC" Will Be Object Class, "Ra" will be Rating.
         Preview = Content[Content.find("Object Class"):]
         PreviewSplit = Preview.split()
