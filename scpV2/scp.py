@@ -20,7 +20,7 @@ class SCP(commands.Cog):
         target = SCPWiki(f'scp-{scpID}')
         await ctx.send(f"{target.title}")
         BaseContentText = target.text
-        Content = BaseContentText[:75] + (BaseContentText[75:] and '..')
+        Content = BaseContentText[:300] + (BaseContentText[300:] and '..')
         await ctx.send(f"{Content}")
         scpEM = discord.Embed(
             titlle=f"{target.title}",
