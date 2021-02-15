@@ -17,17 +17,17 @@ class SCP(commands.Cog):
     def ColourPicker(self, OClass):
         #Basically just a list of If statements because fuck it
         if OClass.lower == "safe":
-            return discord.Color.green
+            return "0x2ecc71"
         if OClass.lower == "euclid":
-            return discord.Color.gold
+            return "0xf1c40f"
         if OClass.lower == "keter":
-            return discord.Color.red
+            return "0xe74c3c"
         if OClass.lower == "thaumiel":
-            return discord.Color.blurple
+            return "0x3498db"
         if OClass.lower == "explained":
-            return discord.Color.dark_magenta
+            return "0xe91e63"
         else:
-            return discord.Color.greyple
+            return "0x99aab5"
 
 
     @commands.command()
