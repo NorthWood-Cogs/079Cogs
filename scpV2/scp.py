@@ -20,7 +20,7 @@ class SCP(commands.Cog):
         target = SCPWiki(f'scp-{scpID}')
         #PreviewS = target.content
         #Preview = PreviewS[:75] + (PreviewS[75:] and '..')
-        await ctx.send(f"{target}")
+        await ctx.send(f"{target.first_paragraph}")
         scpEM = discord.Embed(
             titlle=f"{target.title}",
             url=f"{target.url}"
