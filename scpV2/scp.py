@@ -7,6 +7,7 @@ from redbot.core.commands import Cog
 
 
 SCPWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
+ObjectClass = ["Safe", "Euclid", "Keter", "Thaumiel", "Neutralized", "Explained"]
 class SCP(commands.Cog):
     """ SCP Cog that utilises an especially adapted wikidot api"""
     def __init__(self, bot):
@@ -15,8 +16,14 @@ class SCP(commands.Cog):
 
     @commands.command()
     async def scp(self, ctx, scpID: str):
-        """Finds an SCP based on inputted value or common aliases."""
+        """Finds an SCP based on their number. Standard Content warning applies."""
         target = SCPWiki(f'scp-{scpID}')
-        await ctx.send(f"{target.title} has a url of {target.url}")
+        Preview = target.preview
+        await ctx.send(f"{Preview}")
+        scpEM = discord.Embed(
+            titlle=f"{target.title}"
+            url=f"{target.url}"
+
+        )
 
 
