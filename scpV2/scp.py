@@ -32,7 +32,6 @@ class SCP(commands.Cog):
             url=f"{target.url}",
             description=f"{OBJCL} \n {EmbedContent}",
         )
-        scpEM.set_thumbnail(target.images[0].url)
         await ctx.send(embed=scpEM)
         
 
