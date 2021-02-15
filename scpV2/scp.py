@@ -41,9 +41,14 @@ class SCP(commands.Cog):
         #in order - "Preview" is the short text that'll be included, "OC" Will Be Object Class, "Ra" will be Rating.
         Preview = Content[Content.find("Object Class"):]
         PreviewSplit = Preview.split()
-        OBJCL = PreviewSplit[0] + PreviewSplit[1] + PreviewSplit[2]
-        ClassColour = self.ColourPicker(PreviewSplit[2])
-        EmbedContent = Preview.replace(f"{OBJCL}","")
+        try:
+            OBJCL = PreviewSplit[0] + PreviewSplit[1] + PreviewSplit[2]
+            ClassColour = self.ColourPicker(PreviewSplit[2])
+            EmbedContent = Preview.replace(f"{OBJCL}","")
+        except:
+            EmbedContent = Preview
+            errors = "There was some trouble obtaining some information needed, but we've managed with what was found."
+
         #TODO So because I like colours we're going to make the embed colour based off the object class
         scpEM = discord.Embed(
             title=f"{target.title}",
@@ -55,6 +60,6 @@ class SCP(commands.Cog):
             scpEM.set_thumbnail(url=target.images[0])
         except:
             pass
-        await ctx.send(embed=scpEM)
+        await ctx.send(f"{errors}",embed=scpEM)
         
 
