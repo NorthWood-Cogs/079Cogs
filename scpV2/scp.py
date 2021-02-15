@@ -21,7 +21,7 @@ class SCP(commands.Cog):
         Preview = target.preview
         await ctx.send(f"{Preview}")
         scpEM = discord.Embed(
-            titlle=f"{target.title}"
+            titlle=f"{target.title}",
             url=f"{target.url}"
 
         )
