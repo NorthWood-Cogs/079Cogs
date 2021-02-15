@@ -45,6 +45,7 @@ class SCP(commands.Cog):
             OBJCL = PreviewSplit[0] + PreviewSplit[1] + PreviewSplit[2]
             ClassColour = self.ColourPicker(PreviewSplit[2])
             EmbedContent = Preview.replace(f"{OBJCL}","")
+            errors = ""
         except:
             EmbedContent = Preview
             errors = "There was some trouble obtaining some information needed, but we've managed with what was found."
