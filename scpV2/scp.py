@@ -6,7 +6,7 @@ from typing import Optional
 from redbot.core.commands import Cog
 
 
-SCPWiki = pyscp.wikidot.Wiki('www.scp-wiki.net')
+SCPWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
 class SCP(commands.Cog):
     """ SCP Cog that utilises an especially adapted wikidot api"""
     def __init__(self, bot):
