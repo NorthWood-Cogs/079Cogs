@@ -18,7 +18,7 @@ class SCP(commands.Cog):
     async def scp(self, ctx, scpID: str):
         """Finds an SCP based on their number. Standard Content warning applies."""
         target = SCPWiki(f'scp-{scpID}')
-        Preview = target.preview
+        Preview = target.content
         await ctx.send(f"{Preview}")
         scpEM = discord.Embed(
             titlle=f"{target.title}",
