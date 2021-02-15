@@ -19,11 +19,16 @@ class SCP(commands.Cog):
         """Finds an SCP based on their number. Standard Content warning applies."""
         target = SCPWiki(f'scp-{scpID}')
         BaseContentText = target.text
+        #So by using string finds, we're gonna pick out some useful information
         Content = BaseContentText[:300] + (BaseContentText[300:] and '..')
-        Heck = Content[Content.find("Special Containment"):]
-
+        #in order - "Preview" is the short text that'll be included, "OC" Will Be Object Class, "Ra" will be Rating.
+        Preview = Content[Content.find("Special Containment"):]
+        OC = Content[Content.find("Object Class"):("Special Containment Procedures")]
+        Ra = Content[Content.find("Rating"):("Object Class")]
         #TODO So because I like colours we're going to make the embed colour based off the object class
-        await ctx.send(f"{Heck}")
+        await ctx.send(f"{Preview}")
+        await ctx.send(f"{OC}")
+        awaot ctx.send(f"{Ra}")
         scpEM = discord.Embed(
             titlle=f"{target.title}",
             url=f"{target.url}",
