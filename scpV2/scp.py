@@ -20,7 +20,7 @@ class SCP(commands.Cog):
         target = SCPWiki(f'scp-{scpID}')
         BaseContentText = target.text
         Content = BaseContentText[:300] + (BaseContentText[300:] and '..')
-        Heck = Content.find("Special Containment")
+        Heck = Content[Content.find("Special Containment"):]
 
         #TODO So because I like colours we're going to make the embed colour based off the object class
         await ctx.send(f"{Heck}")
