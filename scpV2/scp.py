@@ -41,11 +41,10 @@ class SCP(commands.Cog):
         #in order - "Preview" is the short text that'll be included, "OC" Will Be Object Class, "Ra" will be Rating.
         Preview = Content[Content.find("Object Class"):]
         PreviewSplit = Preview.split()
-        EmbedContent = ' '.join(Preview.Split(' ')[6:]) 
         try:
             OBJCL = PreviewSplit[2]
             ClassColour = self.ColourPicker(PreviewSplit[2])
-            EmbedContent = ' '.join(Preview.Split(' ')[6:]) # Annoyingly, the OBJCL split can't seem to be used here. I tried.
+            EmbedContent = ' '.join(Preview.split(' ')[6:]) # Annoyingly, the OBJCL split can't seem to be used here. I tried.
             errors = ""
         except:
             EmbedContent = Preview
