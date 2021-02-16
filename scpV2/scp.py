@@ -47,7 +47,7 @@ class SCP(commands.Cog):
         configLocation = str(data_manager.cog_data_path(self) / "scp.db")
         os.remove(configLocation)
         snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
-        snapshotToMake.take_snapshot("scp-wiki.wikidot.com", forums=False)
+        snapshotToMake.take_snapshot(scp-wiki.wikidot.com, forums=False)
         #NOTE - THIS WILL TAKE SOME TIME.
 
 
