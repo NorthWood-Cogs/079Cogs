@@ -36,9 +36,8 @@ class SCP(commands.Cog):
         """Finds an SCP based on their number. Standard Content warning applies.
         Include -j or -ex after the number if it is a joke/explained SCP."""
         target = SCPWiki(f'scp-{scpID}')  #pyscp handles the rest
-        BaseContentText = target.text
+        Content = target.text
         #So by using string finds, we're gonna pick out the first "block" of the article
-        Content = BaseContentText[:700] + (BaseContentText[700:] and '..')
         ObjectClassFinder = target.source[:400] + (target.source[400:]) #I hate their templates, this is the workaround.
 
         try:
@@ -60,7 +59,7 @@ class SCP(commands.Cog):
         #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
             try:
                 SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
-                ContainmentToEmbed = SpeConProStr[30:]
+                ContainmentToEmbed = " ".join(SpeConProStr.split(" ")[3:])
                 #Instead of splitting like last time, this time we'll join off a split for the fun of it.
             except:
                 ContainmentToEmbed = "Couldn't obtain the Containment Procedure..."
