@@ -42,9 +42,9 @@ class SCP(commands.Cog):
         Preview = Content[Content.find("Object Class"):]
         PreviewSplit = Preview.split()
         try:
-            OBJCL = PreviewSplit[0] + PreviewSplit[1] + PreviewSplit[2]
+            OBJCL = PreviewSplit[2]
             ClassColour = self.ColourPicker(PreviewSplit[2])
-            EmbedContent = Preview.replace(f"{OBJCL}","")
+            EmbedContent = ' '.join(Preview.Split(' ')[6:]) # Annoyingly, the OBJCL split can't seem to be used here. I tried.
             errors = ""
         except:
             EmbedContent = Preview
@@ -55,11 +55,12 @@ class SCP(commands.Cog):
         scpEM = discord.Embed(
             title=f"{target.title}",
             url=f"{target.url}",
-            description=f"{EmbedContent}",
             colour=ClassColour,
         )
         try:
             scpEM.set_thumbnail(url=target.images[0])
+            scpEM.add_field(name="Object Class",value=f"{OBJCL}",inline=False)
+            scpEM.add_field(name="Special Containment Procedures", value=f"{EmbedContent}",inline=False)
         except:
             pass
         await ctx.send(f"{errors}",embed=scpEM)
