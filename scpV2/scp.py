@@ -76,7 +76,7 @@ class SCP(commands.Cog):
             colour=ClassColour,     # Since we want custom fields for the formatting.
         )
         try: #as all this is, technically, not required, so it gets its own try loop. THE ORDER HERE IS IMPORTANT!
-            scpEM.add_field(name="Object Class",value=f"{OBJCL.capitalize()}",inline=False)
+            scpEM.add_field(name="Object Class",value="{OBJCL}".format(OBJCL=OBJCL.capitalize()),inline=False)
             scpEM.add_field(name="Special Containment Procedures", value=f"{ContainmentToEmbed}",inline=False)
             scpEM.set_thumbnail(url=target.images[0]) #THUMBNAIL must ALWAYS be last, as not every page has an image attached
         except:
