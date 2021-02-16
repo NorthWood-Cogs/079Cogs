@@ -49,6 +49,7 @@ class SCP(commands.Cog):
         #NOTE - THIS WILL TAKE SOME TIME.
 
     @commands.is_owner()
+    @commands.command()
     async def DBCreate(self, ctx):
         """Creates a local DB of the SCP wiki"""
         await ctx.send("Now Creating a local copy, This WILL take some time.")
