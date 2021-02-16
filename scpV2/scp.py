@@ -49,12 +49,12 @@ class SCP(commands.Cog):
                 try:
                     ObjectCLStr = Content[Content.find("Object Class"):]
                     ObjectSplit = ObjectCLStr.split() #This will (try) to find a string
-                    OBJCL = ObjectSplit[2]
+                    #OBJCL = ObjectSplit[2]
                 except:
-                    OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder)
+                    #OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder)
                 ClassColour = self.ColourPicker(OBJCL)
             except:
-                OBJCL = "Failed to Obtain Object Class..."
+                #OBJCL = "Failed to Obtain Object Class..."
                 ClassColour = 0x99aab5 
         #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
             try:
