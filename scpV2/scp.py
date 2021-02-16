@@ -44,7 +44,7 @@ class SCP(commands.Cog):
             return 0x99aab5 #Greyple
 
     async def UpdateDB(self):
-        configLocation = data_manager.cog_data_path(self) 
+        configLocation = str(data_manager.cog_data_path(self) / "scp.db")
         os.remove(configLocation)
         snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
         snapshotToMake.take_snapshot("scp-wiki.wikidot.com", forums=False)
