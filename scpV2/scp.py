@@ -34,33 +34,44 @@ class SCP(commands.Cog):
     async def scp(self, ctx, scpID: str):
         """Finds an SCP based on their number. Standard Content warning applies.
         Include -j or -ex after the number if it is a joke/explained SCP."""
-        target = SCPWiki(f'scp-{scpID}')
+        target = SCPWiki(f'scp-{scpID}')  #pyscp handles the rest
         BaseContentText = target.text
-        #So by using string finds, we're gonna pick out some useful information
+        #So by using string finds, we're gonna pick out the first "block" of the article
         Content = BaseContentText[:600] + (BaseContentText[600:] and '..')
-        #in order - "Preview" is the short text that'll be included, "OC" Will Be Object Class, "Ra" will be Rating.
-        Preview = Content[Content.find("Object Class"):]
-        PreviewSplit = Preview.split()
+
         try:
-            OBJCL = PreviewSplit[2]
-            ClassColour = self.ColourPicker(PreviewSplit[2])
-            EmbedContent = ' '.join(Preview.split(' ')[6:]) # Annoyingly, the OBJCL split can't seem to be used here. I tried.
-            errors = ""
+            #now, the problem with our method is that it creates A LOT of ways for it to go wrong. so lets prepare for that.
+
+        #We'll firstly gleam it for an object Class - Safe, Euclid, etc... and also the corresponding Colour.
+            try:
+                ObjectCLStr = Content[Content.find("Object Class"):]
+                ObjectSplit = ObjectCLStr.split()
+                OBJCL = ObjectSplit[2]
+                ClassColour = self.ColourPicker(OBJCL) 
+            except:
+                OBJCL = "Failed to Obtain Object Class..."
+        #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
+            try:
+                SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
+                ContainmentToEmbed = " ".join(SpeConProStr.split(" ")[3:])
+                #Instead of splitting like last time, this time we'll join off a split for the fun of it.
+            except:
+                ContainmentToEmbed = "Couldn't obtain the Containment Procedure..."
+
+        
         except:
-            EmbedContent = Preview
             errors = "There was some trouble obtaining some information. Typically, this is due to an archive warning - the Link should work fine to open the real article."
             ClassColour = 0x99aab5 #Greyple in case it all goes wrong
 
-        #TODO So because I like colours we're going to make the embed colour based off the object class
         scpEM = discord.Embed(
             title=f"{target.title}",
-            url=f"{target.url}",
-            colour=ClassColour,
+            url=f"{target.url}", #We're not really including a lot in the base embed (NOTE to self do I want a footer?) 
+            colour=ClassColour,     # Since we want custom fields for the formatting.
         )
-        try:
-            scpEM.set_thumbnail(url=target.images[0])
+        try: #as all this is, technically, not required, so it gets its own try loop. THE ORDER HERE IS IMPORTANT!
             scpEM.add_field(name="Object Class",value=f"{OBJCL}",inline=False)
-            scpEM.add_field(name="Special Containment Procedures", value=f"{EmbedContent}",inline=False)
+            scpEM.add_field(name="Special Containment Procedures", value=f"{ContainmentToEmbed}",inline=False)
+            scpEM.set_thumbnail(url=target.images[0]) #THUMBNAIL must ALWAYS be last, as not every page has an image attached
         except:
             pass
         await ctx.send(f"{errors}",embed=scpEM)
