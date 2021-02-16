@@ -50,6 +50,7 @@ class SCP(commands.Cog):
                 ClassColour = self.ColourPicker(OBJCL) 
             except:
                 OBJCL = "Failed to Obtain Object Class..."
+                ClassColour = self.ColourPicker(OBJCL) 
         #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
             try:
                 SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
@@ -61,7 +62,7 @@ class SCP(commands.Cog):
             errors = ""
         except:
             errors = "There was some trouble obtaining some information. Typically, this is due to an archive warning - the Link should work fine to open the real article."
-            ClassColour = 0x99aab5 #Greyple in case it all goes wrong
+            ClassColour = self.ColourPicker("Keked") #Greyple in case it all goes wrong
 
         scpEM = discord.Embed(
             title=f"{target.title}",
