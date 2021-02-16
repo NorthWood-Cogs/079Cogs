@@ -38,7 +38,7 @@ class SCP(commands.Cog):
         target = SCPWiki(f'scp-{scpID}')  #pyscp handles the rest
         BaseContentText = target.text
         #So by using string finds, we're gonna pick out the first "block" of the article
-        Content = BaseContentText[:600] + (BaseContentText[600:] and '..')
+        Content = BaseContentText[:700] + (BaseContentText[700:] and '..')
         ObjectClassFinder = target.source[:400] + (target.source[400:]) #I hate their templates, this is the workaround.
 
         try:
@@ -59,7 +59,7 @@ class SCP(commands.Cog):
                 ClassColour = 0x99aab5 
         #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
             try:
-                SpeConProStr = Content[Content.find("Special Containment Procedures"):]
+                SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
                 ContainmentToEmbed = SpeConProStr[30:]
                 #Instead of splitting like last time, this time we'll join off a split for the fun of it.
             except:
