@@ -46,9 +46,10 @@ class SCP(commands.Cog):
             #Now that ObjectClassFinder is Making sense, eh?
             try: # and so, i bring to you the triple-try loop. now go home and cry, bitch.
                 try:
-                    ObjectCLStr = Content[Content.find("Object Class"):]
-                    ObjectSplit = ObjectCLStr.split() #This will (try) to find a string
-                    OBJCL = ObjectSplit[2]
+                    #ObjectCLStr = Content[Content.find("Object Class"):]
+                    #ObjectSplit = ObjectCLStr.split() #This will (try) to find a string
+                    #OBJCL = ObjectSplit[2]
+                    OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
                 except:
                     OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
                     pass
