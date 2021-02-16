@@ -2,6 +2,7 @@ import discord
 import pyscp # specifically the one available on PyPi, which links to https://github.com/MrNereof/pyscp/
 import re
 import asyncio
+import os
 
 from redbot.core import commands, Config, data_manager
 from typing import Optional
@@ -44,6 +45,7 @@ class SCP(commands.Cog):
 
     async def UpdateDB(self):
         configLocation = str(data_manager.cog_data_path(self) / 'scp.db')
+        os.remove(configLocation)
         snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
         snapshotToMake.take_snapshot('scp-wiki.wikidot.com', forums=False)
         #NOTE - THIS WILL TAKE SOME TIME.
