@@ -60,6 +60,7 @@ class SCP(commands.Cog):
         #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
             try:
                 SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
+                ContainmentToEmbed = SpeConProStr[3:]
                 #Instead of splitting like last time, this time we'll join off a split for the fun of it.
             except:
                 ContainmentToEmbed = "Couldn't obtain the Containment Procedure..."
