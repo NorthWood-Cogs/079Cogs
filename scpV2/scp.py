@@ -52,6 +52,7 @@ class SCP(commands.Cog):
                     #OBJCL = ObjectSplit[2]
                 except:
                     #OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder)
+                    pass
                 ClassColour = self.ColourPicker(OBJCL)
             except:
                 #OBJCL = "Failed to Obtain Object Class..."
