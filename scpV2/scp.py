@@ -17,17 +17,17 @@ class SCP(commands.Cog):
     def ColourPicker(self, OClass):
         #Basically just a list of If statements because fuck it
         if OClass.lower() == "safe":
-            return 0x2ecc71
+            return 0x2ecc71 #Green
         if OClass.lower() == "euclid":
-            return 0xf1c40f
+            return 0xf1c40f #Gold
         if OClass.lower() == "keter":
-            return 0xe74c3c
+            return 0xe74c3c #Red
         if OClass.lower() == "thaumiel":
-            return 0x3498db
+            return 0x3498db #Blue
         if OClass.lower() == "explained":
-            return 0xe91e63
+            return 0xe91e63 #Magenta
         else:
-            return 0x99aab5
+            return 0x99aab5 #Greyple
 
 
     @commands.command()
@@ -48,8 +48,8 @@ class SCP(commands.Cog):
             errors = ""
         except:
             EmbedContent = Preview
-            errors = "There was some trouble obtaining some information needed, but we've managed with what was found."
-            ClassColour = 0x99aab5
+            errors = "There was some trouble obtaining some information. Typically, this is due to an archive warning - the Link should work fine to open the real article."
+            ClassColour = 0x99aab5 #Greyple in case it all goes wrong
 
         #TODO So because I like colours we're going to make the embed colour based off the object class
         scpEM = discord.Embed(
