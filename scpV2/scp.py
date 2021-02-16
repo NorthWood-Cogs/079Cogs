@@ -1,21 +1,33 @@
 import discord
 import pyscp # specifically the one available on PyPi, which links to https://github.com/MrNereof/pyscp/
-from redbot.core import commands
-from typing import Optional
 import re
+import asyncio
 
+from redbot.core import commands, Config, data_manager
+from typing import Optional
 from redbot.core.commands import Cog
 
 
-SCPWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
 ObjectClass = ["Safe", "Euclid", "Keter", "Thaumiel", "Neutralized", "Explained"]
 class SCP(commands.Cog):
     """ SCP Cog that utilises an especially adapted wikidot api""" # Their Claim, not mine
     def __init__(self, bot):
         self.bot = bot
+        self.config = Config.get_conf(self, identifier="3957890832758296589023290568043")
+        self.config.register_global(
+                isthisjustawayofsavingmytime=True,
+                configLocation=str(data_manager.cog_data_path(self) / "scp.db")
+        )
+        try:
+            confLoc = str(self.config.configLocation())
+            self.SCPWiki = pyscp.snapshot.Wiki('scp-wiki.wikidot.com', confLoc)
+        except:
+            self.SCPWIki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
+            print("WARNING - DB Not Found! This cog will be slower!")
+            
+    
 
-
-    def ColourPicker(self, OClass):
+    async def ColourPicker(self, OClass):
         #Basically just a list of If statements because fuck it
         if OClass.lower() == "safe":
             return 0x2ecc71 #Green
@@ -30,12 +42,24 @@ class SCP(commands.Cog):
         else:
             return 0x99aab5 #Greyple
 
+    async def UpdateDB(self):
+        configLocation = str(data_manager.cog_data_path(self) / "scp.db")
+        snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
+        snapshotToMake.take_snapshot('scp-wiki.wikidot.com', forums=False)
+        #NOTE - THIS WILL TAKE SOME TIME.
+
+    @commands.is_owner()
+    async def DBCreate(self, ctx):
+        """Creates a local DB of the SCP wiki"""
+        await ctx.send("Now Creating a local copy, This WILL take some time.")
+        await self.UpdateDB()
+        await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
 
     @commands.command()
     async def scp(self, ctx, scpID: str):
         """Finds an SCP based on their number. Standard Content warning applies.
         Include -j or -ex after the number if it is a joke/explained SCP."""
-        target = SCPWiki(f'scp-{scpID}')  #pyscp handles the rest
+        target = self.SCPWiki(f'scp-{scpID}')  #pyscp handles the rest
         Content = target.text
         #So by using string finds, we're gonna pick out the first "block" of the article
         ObjectClassFinder = target.source #I hate their templates, this is the workaround.
@@ -52,7 +76,7 @@ class SCP(commands.Cog):
                 except:
                     OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
                     # the less neat way...
-                ClassColour = self.ColourPicker(OBJCL)
+                ClassColour = await self.ColourPicker(OBJCL)
             except:
                 #OBJCL = "Failed to Obtain Object Class..."
                 ClassColour = 0x99aab5 
