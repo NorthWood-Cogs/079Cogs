@@ -2,6 +2,7 @@ import discord
 import pyscp # specifically the one available on PyPi, which links to https://github.com/MrNereof/pyscp/
 from redbot.core import commands
 from typing import Optional
+import re
 
 from redbot.core.commands import Cog
 
@@ -38,19 +39,24 @@ class SCP(commands.Cog):
         BaseContentText = target.text
         #So by using string finds, we're gonna pick out the first "block" of the article
         Content = BaseContentText[:600] + (BaseContentText[600:] and '..')
+        ObjectClassFinder = target.source[:400] + (target.source[400:]) #I hate their templates, this is the workaround.
 
         try:
             #now, the problem with our method is that it creates A LOT of ways for it to go wrong. so lets prepare for that.
-
-        #We'll firstly gleam it for an object Class - Safe, Euclid, etc... and also the corresponding Colour.
-            try:
-                ObjectCLStr = Content[Content.find("Object Class"):]
-                ObjectSplit = ObjectCLStr.split()
-                OBJCL = ObjectSplit[2]
-                ClassColour = self.ColourPicker(OBJCL) 
+            #We'll firstly gleam it for an object Class - Safe, Euclid, etc... and also the corresponding Colour.
+            #Sorta Cute you'd think its easy. The issue with the wiki is one of inconsistent formatting and names - so we'll need to encounter for banner styles where possible
+            #Now that ObjectClassFinder is Making sense, eh?
+            try: # and so, i bring to you the triple-try loop. now go home and cry, bitch.
+                try:
+                    ObjectCLStr = Content[Content.find("Object Class"):]
+                    ObjectSplit = ObjectCLStr.split() #This will (try) to find a string
+                    OBJCL = ObjectSplit[2]
+                except:
+                    OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder)
+                ClassColour = self.ColourPicker(OBJCL)
             except:
                 OBJCL = "Failed to Obtain Object Class..."
-                ClassColour = self.ColourPicker(OBJCL) 
+                ClassColour = 0x99aab5 
         #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
             try:
                 SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
