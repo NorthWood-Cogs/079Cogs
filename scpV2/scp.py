@@ -58,7 +58,7 @@ class SCP(commands.Cog):
             except:
                 ContainmentToEmbed = "Couldn't obtain the Containment Procedure..."
 
-        
+            errors = ""
         except:
             errors = "There was some trouble obtaining some information. Typically, this is due to an archive warning - the Link should work fine to open the real article."
             ClassColour = 0x99aab5 #Greyple in case it all goes wrong
