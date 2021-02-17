@@ -43,6 +43,7 @@ class SCP(commands.Cog):
         else:
             return 0x99aab5 #Greyple
 
+
     async def UpdateDB(self):
         configLocation = str(data_manager.cog_data_path(self) / "scp.db")
         BaseWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
@@ -56,7 +57,9 @@ class SCP(commands.Cog):
     async def DBCreate(self, ctx):
         """Creates a local DB of the SCP wiki"""
         await ctx.send("Now Creating a local copy, This WILL take some time.")
-        await self.UpdateDB()
+        loopy = asyncio.get_event_loop()
+        loopy.run_until_complete(self.UpdateDB())
+        loopy.close()
         await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
 
     @commands.command()
