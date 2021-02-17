@@ -19,12 +19,13 @@ class SCP(commands.Cog):
                 isthisjustawayofsavingmytime=True,
                 configLocation=str(data_manager.cog_data_path(self) / "scp.db")
         )
-        try:
-            confLoc = str(self.config.configLocation())
-            self.SCPWiki = pyscp.snapshot.Wiki('scp-wiki.wikidot.com', confLoc)
-        except:
-            self.SCPWIki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
-            print("WARNING - DB Not Found! This cog will be slower!")
+        self.SCPWIki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
+        #try:
+            #confLoc = str(self.config.configLocation())
+            #self.SCPWiki = pyscp.snapshot.Wiki('scp-wiki.wikidot.com', confLoc)
+        #except:
+            #self.SCPWIki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
+            #print("WARNING - DB Not Found! This cog will be slower!")
             
     
 
