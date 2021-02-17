@@ -20,7 +20,7 @@ class SCP(commands.Cog):
                 configLocation=str(data_manager.cog_data_path(self) / "scp.db")
         )
         try:
-            confLoc = str(self.config.configLocation())
+            await confLoc = str(self.config.configLocation())
             self.SCPWiki = pyscp.snapshot.Wiki('scp-wiki.wikidot.com', confLoc)
         except:
             self.SCPWIki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
@@ -45,7 +45,7 @@ class SCP(commands.Cog):
 
 
     async def UpdateDB(self):
-        configLocation = str(data_manager.cog_data_path(self) / "scp.db")
+        await configLocation = str(data_manager.cog_data_path(self) / "scp.db")
         BaseWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
         snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
         await snapshotToMake.take_snapshot(BaseWiki, forums=False)
