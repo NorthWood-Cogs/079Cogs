@@ -20,7 +20,7 @@ class SCP(commands.Cog):
                 configLocation=str(data_manager.cog_data_path(self) / "scp.db")
         )
         try:
-            await confLoc = str(self.config.configLocation())
+            confLoc = str( await self.config.configLocation())
             self.SCPWiki = pyscp.snapshot.Wiki('scp-wiki.wikidot.com', confLoc)
         except:
             self.SCPWIki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
