@@ -57,7 +57,7 @@ class SCP(commands.Cog):
     async def DBCreate(self, ctx):
         """Creates a local DB of the SCP wiki"""
         await ctx.send("Now Creating a local copy, This WILL take some time.")
-        loopy = asyncio.get_event_loop()
+        loopy = asyncio.get_running_loop() # Reds in one, so it SHOULD exist.
         loopy.run_until_complete(self.UpdateDB())
         loopy.close()
         await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
