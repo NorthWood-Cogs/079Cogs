@@ -61,7 +61,7 @@ class SCP(commands.Cog):
         try:
             loop = asyncio.get_running_loop()
             taske = loop.create_task(self.UpdateDB())
-            loop.run_forever()
+            loop.run_forever(taske)
         finally:
             loop.close()
         
