@@ -9,6 +9,23 @@ from typing import Optional
 from redbot.core.commands import Cog
 
 
+
+
+
+
+
+
+
+# WARNING - THIS COG IS INOPERABLE. PYSCP IS NOT ASYNCHRONOUS.
+
+
+
+
+
+
+
+
+
 ObjectClass = ["Safe", "Euclid", "Keter", "Thaumiel", "Neutralized", "Explained"]
 class SCP(commands.Cog):
     """ SCP Cog that utilises an especially adapted wikidot api""" # Their Claim, not mine
