@@ -51,18 +51,20 @@ class SCP(commands.Cog):
         await snapshotToMake.take_snapshot(BaseWiki, forums=False)
         return "Finished."
         #NOTE - THIS WILL TAKE SOME TIME.
-    async def updater(self, loopy):
-        taskToDo = loopy.create_task(self.UpdateDB())
-        await taskToDo
+
 
     @commands.is_owner()
     @commands.command()
     async def DBCreate(self, ctx):
         """Creates a local DB of the SCP wiki"""
         await ctx.send("Now Creating a local copy, This WILL take some time.")
-        loopy = asyncio.get_event_loop() # Reds in one, so it SHOULD exist.
-        loopy.run_until_complete(self.updater(self.UpdateDB()))
-        loopy.close()
+        try:
+            loop = asyncio.get_running_loop()
+            taske = loop.create_task(self.UpdateDB())
+            loop.run_forever()
+        finally:
+            loop.close()
+        
         await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
 
     @commands.command()
