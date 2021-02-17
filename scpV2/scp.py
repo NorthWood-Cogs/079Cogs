@@ -48,22 +48,15 @@ class SCP(commands.Cog):
         BaseWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
         os.remove(configLocation)
         snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
-        snapshotToMake.take_snapshot(BaseWiki, forums=False)
+        await snapshotToMake.take_snapshot(BaseWiki, forums=False)
         #NOTE - THIS WILL TAKE SOME TIME.
-
-
-
-
-
-
-
 
     @commands.is_owner()
     @commands.command()
     async def DBCreate(self, ctx):
         """Creates a local DB of the SCP wiki"""
         await ctx.send("Now Creating a local copy, This WILL take some time.")
-        await self.UpdateDB()
+        asyncio.run(self.DBCreate())
         await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
 
     @commands.command()
