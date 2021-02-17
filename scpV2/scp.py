@@ -47,18 +47,20 @@ class SCP(commands.Cog):
     async def UpdateDB(self):
         configLocation = str(data_manager.cog_data_path(self) / "scp.db")
         BaseWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
-        os.remove(configLocation)
         snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
         await snapshotToMake.take_snapshot(BaseWiki, forums=False)
         #NOTE - THIS WILL TAKE SOME TIME.
+    async def updater(self, loopy):
+        taskToDo = loopy.create_task(self.UpdateDB())
+        await taskToDo
 
     @commands.is_owner()
     @commands.command()
     async def DBCreate(self, ctx):
         """Creates a local DB of the SCP wiki"""
         await ctx.send("Now Creating a local copy, This WILL take some time.")
-        loopy = asyncio.get_running_loop() # Reds in one, so it SHOULD exist.
-        loopy.run_until_complete(self.UpdateDB())
+        loopy = asyncio.get_event_loop() # Reds in one, so it SHOULD exist.
+        loopy.run_until_complete(self.updater(self.UpdateDB))
         loopy.close()
         await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
 
