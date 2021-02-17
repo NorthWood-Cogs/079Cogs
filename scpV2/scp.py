@@ -49,6 +49,7 @@ class SCP(commands.Cog):
         BaseWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
         snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
         await snapshotToMake.take_snapshot(BaseWiki, forums=False)
+        return "Finished."
         #NOTE - THIS WILL TAKE SOME TIME.
     async def updater(self, loopy):
         taskToDo = loopy.create_task(self.UpdateDB())
@@ -60,7 +61,7 @@ class SCP(commands.Cog):
         """Creates a local DB of the SCP wiki"""
         await ctx.send("Now Creating a local copy, This WILL take some time.")
         loopy = asyncio.get_event_loop() # Reds in one, so it SHOULD exist.
-        loopy.run_until_complete(self.updater(self.UpdateDB))
+        loopy.run_until_complete(self.updater(self.UpdateDB())
         loopy.close()
         await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
 
