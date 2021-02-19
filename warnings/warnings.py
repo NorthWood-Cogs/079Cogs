@@ -565,10 +565,10 @@ class Warnings(commands.Cog):
                     ).format(
                         num_points=user_warnings[key]["points"],
                         reason_name=key,
-                        description=unwarnTxt,
+                        description=user_warnings[key]["description"]
                     )
+                    em_ToSend.description=(unwarnTxt)
                     em_ToSend.add_field(name=f"Warning #{count}", value=warningTxt, inline=False)
-                    em_ToSend.add_field(name="Desc", value=user_warnings[key]["description"], inline=True)
 
                     try:
                         warnTime = user_warnings[key]["submitTime"]
