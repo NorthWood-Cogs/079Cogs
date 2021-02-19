@@ -532,8 +532,8 @@ class Warnings(commands.Cog):
         def is_paginating(self):
             return True
 
-        async def format_page(self, menu, page, user):
-            try: avatar = user.avatar_url_as(static_format="png")
+        async def format_page(self, menu, page, users):
+            try: avatar = users.avatar_url_as(static_format="png")
             except: avatar = "https://i.imgur.com/azpo3Dc.png"
             em=discord.Embed(title="Test")
             
