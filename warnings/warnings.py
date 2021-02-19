@@ -566,7 +566,7 @@ class Warnings(commands.Cog):
         count = 1
 
         dab = menus.MenuPages(source=self.WarningsMenu(pages=["my","wife","left"], users=ctx.author), clear_reactions_after=True)
-        await dab.start()
+        await dab.start(ctx)
         member_settings = self.config.member(user)
         async with member_settings.warnings() as user_warnings:
             if not user_warnings.keys():  # no warnings for the user
