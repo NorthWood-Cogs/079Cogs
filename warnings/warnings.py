@@ -560,8 +560,6 @@ class Warnings(commands.Cog):
         embeds = []
         count = 1
 
-        dab = menus.MenuPages(source=self.WarningsMenu(user=user))
-        await dab.start(ctx)
         member_settings = self.config.member(user)
         async with member_settings.warnings() as user_warnings:
             if not user_warnings.keys():  # no warnings for the user
@@ -611,6 +609,8 @@ class Warnings(commands.Cog):
                     count += 1
                 await menu(ctx, embeds, DEFAULT_CONTROLS, timeout=6)
 
+            dab = menus.MenuPages(source=self.WarningsMenu(user=user_warnings))
+            await dab.start(ctx)
 
 
 
