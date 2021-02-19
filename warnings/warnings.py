@@ -525,18 +525,13 @@ class Warnings(commands.Cog):
 
 
     class WarningsMenu(menus.ListPageSource):
-        def __init__(self, pages: list, users: discord.User):
-            super().__init__(pages, per_page=1)
-            self.pages = pages
-            self.users = users
-        def is_paginating(self):
-            return True
+        def __init__(self, user):
+            super().__init__(entries=user, per_page=1)
 
-        async def format_page(self, menu, page, users):
-            try: avatar = users.avatar_url_as(static_format="png")
-            except: avatar = "https://i.imgur.com/azpo3Dc.png"
-            em=discord.Embed(title="Test")
-            
+        async def format_page(self, menu, user):
+            e = discord.Embed(title=f"Warnings for {user}")
+            return e
+
 
             
 
@@ -565,7 +560,7 @@ class Warnings(commands.Cog):
         embeds = []
         count = 1
 
-        dab = menus.MenuPages(source=self.WarningsMenu(pages=["my","wife","left"], users=ctx.author), clear_reactions_after=True)
+        dab = menus.MenuPages(source=self.WarningsMenu(user=user))
         await dab.start(ctx)
         member_settings = self.config.member(user)
         async with member_settings.warnings() as user_warnings:
