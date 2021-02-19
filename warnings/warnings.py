@@ -23,7 +23,7 @@ from redbot.core.i18n import Translator, cog_i18n
 from redbot.core.utils import AsyncIter
 from redbot.core.utils.chat_formatting import warning, pagify
 from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
-
+from redbot.vendored.discord.ext import menus
 
 _ = Translator("Warnings", __file__)
 
@@ -520,6 +520,28 @@ class Warnings(commands.Cog):
             channel=None,
         )
 
+
+
+
+
+    class WarningsMenu(menus.ListPageSource):
+        def __init__(self, pages: list, users: discord.User):
+            super().__init__(pages, per_page=1)
+            self.pages = pages
+            self.users = users
+        def is_paginating(self):
+            return True
+
+        async def format_page(self, menu, page, user):
+            try: avatar = user.avatar_url_as(static_format="png")
+            except: avatar = "https://i.imgur.com/azpo3Dc.png"
+            em=discord.Embed(title="Test")
+            
+
+            
+
+
+        
     @commands.command()
     @commands.guild_only()
     @commands.mod_or_permissions(manage_messages = True)
@@ -543,6 +565,7 @@ class Warnings(commands.Cog):
         embeds = []
         count = 1
 
+        dab = menus.MenuPages(source=self.WarningsMenu(pages=["my","wife","left"], users=ctx.author), clear_reactions_after=True)
         member_settings = self.config.member(user)
         async with member_settings.warnings() as user_warnings:
             if not user_warnings.keys():  # no warnings for the user
