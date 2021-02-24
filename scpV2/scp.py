@@ -1,5 +1,6 @@
 import discord
-import pyscp # specifically the one available on PyPi, which links to https://github.com/MrNereof/pyscp/
+from discord.errors import Forbidden
+import pyscp # Installed On Cog install, using https://github.com/NorthWood-Cogs/pyscp
 import re
 import asyncio
 import os
@@ -7,23 +8,6 @@ import os
 from redbot.core import commands, Config, data_manager
 from typing import Optional
 from redbot.core.commands import Cog
-
-
-
-
-
-
-
-
-
-# WARNING - THIS COG IS INOPERABLE. PYSCP IS NOT ASYNCHRONOUS.
-
-
-
-
-
-
-
 
 
 ObjectClass = ["Safe", "Euclid", "Keter", "Thaumiel", "Neutralized", "Explained"]
@@ -61,34 +45,10 @@ class SCP(commands.Cog):
         else:
             return 0x99aab5 #Greyple
 
-
-    async def UpdateDB(self):
-        configLocation = str(data_manager.cog_data_path(self) / "scp.db")
-        BaseWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
-        snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
-        await snapshotToMake.take_snapshot(BaseWiki, forums=False)
-        return "Finished."
-        #NOTE - THIS WILL TAKE SOME TIME.
-
-
-    @commands.is_owner()
-    @commands.command()
-    async def DBCreate(self, ctx):
-        """Creates a local DB of the SCP wiki"""
-        await ctx.send("Now Creating a local copy, This WILL take some time.")
-        try:
-            loop = asyncio.get_running_loop()
-            taske = loop.create_task(self.UpdateDB())
-            loop.run_forever(taske)
-        finally:
-            loop.close()
-        
-        await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
-
     @commands.command()
     async def scp(self, ctx, scpID: str):
         """Finds an SCP based on their number. Standard Content warning applies.
-        Include -j or -ex after the number if it is a joke/explained SCP."""
+        Include -j or -ex after the number if it is a joke/explained SCP. Others work too!"""
         target = self.SCPWiki(f'scp-{scpID}')  #pyscp handles the rest
         Content = target.text
         #So by using string finds, we're gonna pick out the first "block" of the article
@@ -98,7 +58,7 @@ class SCP(commands.Cog):
             #We'll firstly gleam it for an object Class - Safe, Euclid, etc... and also the corresponding Colour.
             #Sorta Cute you'd think its easy. The issue with the wiki is one of inconsistent formatting and names - so we'll need to encounter for banner styles where possible
             #Now that ObjectClassFinder is Making sense, eh?
-            try: # and so, i bring to you the triple-try loop. now go home and cry, bitch.
+            try: # and so, i bring to you the triple-try-that-probably-doesn't-need-to-be-this-way-loop. Run.
                 try:
                     ObjectCLStr = Content[Content.find("Object Class"):]
                     ObjectSplit = ObjectCLStr.split() #This will (try) to find a string
@@ -113,7 +73,8 @@ class SCP(commands.Cog):
         #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
             try:
                 SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
-                ContainmentToEmbed = " ".join(SpeConProStr.split(" ")[3:])
+                ContainmentInfo = " ".join(SpeConProStr.split(" ")[3:])
+                ContainmentToEmbed = ContainmentInfo[:1000] + (ContainmentInfo[1000:] and '...')
                 #Instead of splitting like last time, this time we'll join off a split for the fun of it.
             except:
                 ContainmentToEmbed = "Couldn't obtain the Containment Procedure..."
@@ -135,6 +96,38 @@ class SCP(commands.Cog):
             scpEM.set_thumbnail(url=target.images[0]) #THUMBNAIL must ALWAYS be last, as not every page has an image attached
         except:
             pass
-        await ctx.send(f"{errors}",embed=scpEM)
+        try:
+            await ctx.send(f"{errors}",embed=scpEM)
+        except Exception(Forbidden):
+            await ctx.send("I can't send embeds here!")
+
         
 
+
+
+        ### THE FOLLOWING is retired code from an old idea to store a local copy of the wiki.
+        ### Turns out its fairly large; storage would be impractical to a fair few folks.
+        ### Good Job I hadn't finished this up then, huh..
+
+    # async def UpdateDB(self):
+    #     configLocation = str(data_manager.cog_data_path(self) / "scp.db")
+    #     BaseWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
+    #     snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
+    #     await snapshotToMake.take_snapshot(BaseWiki, forums=False)
+    #     return "Finished."
+    #     #NOTE - THIS WILL TAKE SOME TIME.
+
+
+    # @commands.is_owner()
+    # @commands.command()
+    # async def DBCreate(self, ctx):
+    #     """Creates a local DB of the SCP wiki"""
+    #     await ctx.send("Now Creating a local copy, This WILL take some time.")
+    #     try:
+    #         loop = asyncio.get_running_loop()
+    #         taske = loop.create_task(self.UpdateDB())
+    #         loop.run_forever(taske)
+    #     finally:
+    #         loop.close()
+        
+    #     await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
