@@ -111,7 +111,7 @@ class MoreOwners(commands.Cog):
     @checks.is_owner()
     @owner.command()
     async def refreshowners(self, ctx):
-        await _refreshOwners()
+        await self._refreshOwners()
         await ctx.send(f"Refreshed Owners, {str(self.owner_ids)} co-owners")
 
     @checks.is_owner()

@@ -21,9 +21,8 @@ from redbot.core.bot import Red
 from redbot.core.commands import UserInputOptional
 from redbot.core.i18n import Translator, cog_i18n
 from redbot.core.utils import AsyncIter
-from redbot.core.utils.chat_formatting import warning, pagify
+from redbot.core.utils.chat_formatting import inline, warning, pagify
 from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
-
 
 _ = Translator("Warnings", __file__)
 
@@ -520,6 +519,8 @@ class Warnings(commands.Cog):
             channel=None,
         )
 
+
+        
     @commands.command()
     @commands.guild_only()
     @commands.mod_or_permissions(manage_messages = True)
@@ -542,7 +543,6 @@ class Warnings(commands.Cog):
 
         embeds = []
         count = 1
-
         member_settings = self.config.member(user)
         async with member_settings.warnings() as user_warnings:
             if not user_warnings.keys():  # no warnings for the user
@@ -552,15 +552,6 @@ class Warnings(commands.Cog):
                     EmColour = randint(0, 0xffffff)
                     em_ToSend = discord.Embed(title=f"Warnings for {user}", color=EmColour)
                     em_ToSend.set_thumbnail(url=avatar)
-                    warningTxt = _(
-                        "{num_points} point warning {reason_name} issued for "
-                        "{description}\n"
-                    ).format(
-                        num_points=user_warnings[key]["points"],
-                        reason_name=key,
-                        description=user_warnings[key]["description"],
-                    )
-                    em_ToSend.add_field(name=f"Warning #{count}", value=warningTxt, inline=False)
                     unwarnTxt = _(
                         "`{prefix}unwarn {userid} {reason_name}`"
                     ).format(
@@ -568,7 +559,16 @@ class Warnings(commands.Cog):
                             reason_name=key,
                             userid = user.id,
                         )
-                    em_ToSend.add_field(name=f"Unwarn command", value=unwarnTxt, inline=False)
+                    warningTxt = _(
+                        "{num_points} point warning {reason_name} issued for "
+                        "{description}\n"
+                    ).format(
+                        num_points=user_warnings[key]["points"],
+                        reason_name=key,
+                        description=user_warnings[key]["description"]
+                    )
+                    em_ToSend.description=(unwarnTxt)
+                    em_ToSend.add_field(name=f"Warning #{count}", value=warningTxt, inline=False)
 
                     try:
                         warnTime = user_warnings[key]["submitTime"]
@@ -591,8 +591,6 @@ class Warnings(commands.Cog):
                     embeds.append(em_ToSend)
                     count += 1
                 await menu(ctx, embeds, DEFAULT_CONTROLS, timeout=6)
-
-
 
 
     @commands.command()
