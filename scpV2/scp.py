@@ -66,6 +66,7 @@ class SCP(commands.Cog):
                 except:
                     OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
                     # the less neat way...
+                print(OBJCL)
                 ClassColour = await self.ColourPicker(OBJCL)
             except:
                 #OBJCL = "Failed to Obtain Object Class..."
