@@ -1,146 +1,133 @@
 import discord
-from redbot.core import commands
-from typing import Optional
+from discord.errors import Forbidden
+import pyscp # Installed On Cog install, using https://github.com/NorthWood-Cogs/pyscp
+import re
+import asyncio
+import os
 
+from redbot.core import commands, Config, data_manager
+from typing import Optional
 from redbot.core.commands import Cog
 
 
-class SCP(Cog):
-    """Look up SCP articles. Warning: Some of them may be too creepy or gruesome."""
-
+ObjectClass = ["Safe", "Euclid", "Keter", "Thaumiel", "Neutralized", "Explained"]
+class SCP(commands.Cog):
+    """ SCP Cog that utilises an especially adapted wikidot api""" # Their Claim, not mine
     def __init__(self, bot):
-        super().__init__()
         self.bot = bot
-
-    async def red_delete_data_for_user(self, **kwargs):
-        """Nothing to delete"""
-        return
-
-    @commands.command()
-    async def scp(self, ctx: commands.Context, num: Optional[int] = 0):
-        """Look up SCP articles.
-
-        Warning: Some of them may be too creepy or gruesome.
-        Reminder: You must specify a number between 1 and 5999.
-        """
-
-        # Thanks Shigbeard and Redjumpman for helping me!
-        if num == 0:
-            msg = "http://www.scp-wiki.net/"
-            c = discord.Color.gold()
-        elif 0 < num <= 5999:
-            msg = "http://www.scp-wiki.net/scp-{:03}".format(num)
-            c = discord.Color.green()
-        else:
-            msg = "You must specify a number between 1 and 5999."
-            c = discord.Color.red()
-
-        if await ctx.embed_requested():
-            await ctx.send(embed=discord.Embed(description=msg, color=c))
-        else:
-            await ctx.maybe_send_embed(msg)
-
-    @commands.command()
-    async def scpj(self, ctx: commands.Context, joke: str):
-        """Look up SCP-Js.
-
-        Reminder: Enter the correct name or else the resultant page will be invalid.
-        Use 001, etc. in case of numbers less than 100.
-        """
-
-        msg = "http://www.scp-wiki.net/scp-{}-j".format(joke)
-        await ctx.maybe_send_embed(msg)
-
-    @commands.command()
-    async def scparc(self, ctx: commands.Context, num: int):
-        """Look up SCP archives.
-
-        Warning: Some of them may be too creepy or gruesome."""
-        valid_archive = (
-            13, 48, 49, 51, 91,
-            112, 132, 138, 157, 186,
-            232, 234, 244, 252, 257,
-            338, 356,
-            400, 406, 494,
-            515, 517, 578,
-            728, 744, 776, 784,
-            837,
-            922, 987,
-            1023
-
+        self.config = Config.get_conf(self, identifier="3957890832758296589023290568043")
+        self.config.register_global(
+                isthisjustawayofsavingmytime=True,
+                configLocation=str(data_manager.cog_data_path(self) / "scp.db")
         )
-        if num in valid_archive:
-            msg = "http://www.scp-wiki.net/scp-{:03}-arc".format(num)
-            c = discord.Color.green()
-            em = discord.Embed(description=msg, color=c)
-        else:
-            ttl = "You must specify a valid archive number."
-            msg = "{}".format(valid_archive)
-            c = discord.Color.red()
-
-            em = discord.Embed(title=ttl, description=msg, color=c)
-
-        if await ctx.embed_requested():
-            await ctx.send(embed=em)
-        else:
-            await ctx.maybe_send_embed(msg)
-
-    @commands.command()
-    async def scpex(self, ctx: commands.Context, num: int):
-        """Look up explained SCP articles.
-
-        Warning: Some of them may be too creepy or gruesome.
-        """
-
-        valid_archive = (
-            1, 2, 67, 123, 445, 711, 888, 920, 1094,
-            1401, 1512, 1548, 1763, 1841, 1851, 1927,
-            1933, 1964, 1974, 1990, 2023, 2600, 2700,
-            3000, 3393, 4023, 4445, 4734, 5050, 5297,
-            5735, 8900
+        self.SCPWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
+        #try:
+            #confLoc = str(self.config.configLocation())
+            #self.SCPWiki = pyscp.snapshot.Wiki('scp-wiki.wikidot.com', confLoc)
+        #except:
+            #self.SCPWIki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
+            #print("WARNING - DB Not Found! This cog will be slower!")
             
+    
+
+    async def ColourPicker(self, OClass):
+        #Basically just a list of If statements because fuck it
+        if OClass.lower() == "safe":
+            return 0x2ecc71 #Green
+        if OClass.lower() == "euclid":
+            return 0xf1c40f #Gold
+        if OClass.lower() == "keter":
+            return 0xe74c3c #Red
+        if OClass.lower() == "thaumiel":
+            return 0x3498db #Blue
+        if OClass.lower() == "explained":
+            return 0xe91e63 #Magenta
+        else:
+            return 0x99aab5 #Greyple
+
+    @commands.command()
+    async def scp(self, ctx, scpID: str):
+        """Finds an SCP based on their number. Standard Content warning applies.
+        Include -j or -ex after the number if it is a joke/explained SCP. Others work too!"""
+        target = self.SCPWiki(f'scp-{scpID}')  #pyscp handles the rest
+        Content = target.text
+        #So by using string finds, we're gonna pick out the first "block" of the article
+        ObjectClassFinder = await target.source #I hate their templates, this is the workaround.
+        try:
+            #now, the problem with our method is that it creates A LOT of ways for it to go wrong. so lets prepare for that.
+            #We'll firstly gleam it for an object Class - Safe, Euclid, etc... and also the corresponding Colour.
+            #Sorta Cute you'd think its easy. The issue with the wiki is one of inconsistent formatting and names - so we'll need to encounter for banner styles where possible
+            #Now that ObjectClassFinder is Making sense, eh?
+            try: # and so, i bring to you the triple-try-that-probably-doesn't-need-to-be-this-way-loop. Run.
+                try:
+                    ObjectCLStr = Content[Content.find("Object Class"):]
+                    ObjectSplit = ObjectCLStr.split() #This will (try) to find a string
+                    OBJCL = ObjectSplit[2]
+                except:
+                    OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
+                    # the less neat way...
+                ClassColour = await self.ColourPicker(OBJCL)
+            except:
+                OBJCL = "Failed to Obtain Object Class..."
+                ClassColour = 0x99aab5 
+        #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
+            try:
+                SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
+                ContainmentInfo = " ".join(SpeConProStr.split(" ")[3:])
+                ContainmentToEmbed = ContainmentInfo[:1000] + (ContainmentInfo[1000:] and '...')
+                #Instead of splitting like last time, this time we'll join off a split for the fun of it.
+            except:
+                ContainmentToEmbed = "Couldn't obtain the Containment Procedure..."
+
+            errors = ""
+        except:
+            errors = "There was some trouble obtaining some information. Typically, this is due to an archive warning - the Link should work fine to open the real article."
+            ClassColour = self.ColourPicker("Keked") #Greyple in case it all goes wrong
+
+        scpEM = discord.Embed(
+            title=f"{target.title}",
+            url=f"{target.url}", #We're not really including a lot in the base embed (NOTE to self do I want a footer?) 
+            colour=ClassColour,     # Since we want custom fields for the formatting.
         )
-        if num == 0 or num == 000 or num == 0000:
-            msg = "http://www.scp-wiki.net/scp-0000-ex"
-            c = discord.Color.green()
-            em = discord.Embed(description = msg, color=c)
-        elif num in valid_archive:
-            msg = "http://www.scp-wiki.net/scp-{:03}-ex".format(num)
-            c = discord.Color.green()
-            em = discord.Embed(description=msg, color=c)
-        else:
-            ttl = "You must specify a valid archive number."
-            msg = "{}".format(valid_archive)
-            c = discord.Color.red()
+        try: #as all this is, technically, not required, so it gets its own try loop. THE ORDER HERE IS IMPORTANT!
+            OBJCCL = OBJCL.capitalize()
+            scpEM.add_field(name="Object Class",value=f"{OBJCCL}",inline=False)
+            scpEM.add_field(name="Special Containment Procedures", value=f"{ContainmentToEmbed}",inline=False)
+            scpEM.set_thumbnail(url=target.images[0]) #THUMBNAIL must ALWAYS be last, as not every page has an image attached
+        except:
+            pass
+        try:
+            await ctx.send(f"{errors}",embed=scpEM)
+        except Exception(Forbidden):
+            await ctx.send("I can't send embeds here!")
 
-            em = discord.Embed(title=ttl, description=msg, color=c)
-
-        if await ctx.embed_requested():
-            await ctx.send(embed=em)
-        else:
-            await ctx.maybe_send_embed(msg)
-
-    @commands.command()
-    async def anomalousitems(self, ctx: commands.Context):
-        """Look through the log of anomalous items."""
-
-        msg = "http://www.scp-wiki.net/log-of-anomalous-items"
-        await ctx.maybe_send_embed(msg)
-
-    @commands.command()
-    async def extranormalevents(self, ctx: commands.Context):
-        """Look through the log of extranormal events."""
-
-        msg = "http://www.scp-wiki.net/log-of-extranormal-events"
-        await ctx.maybe_send_embed(msg)
-
-    @commands.command()
-    async def unexplainedlocations(self, ctx: commands.Context):
-        """Look through the log of unexplained locations."""
-
-        msg = "http://www.scp-wiki.net/log-of-unexplained-locations"
-        await ctx.maybe_send_embed(msg)
+        
 
 
-def setup(bot):
-    bot.add_cog(SCP(bot))
+
+        ### THE FOLLOWING is retired code from an old idea to store a local copy of the wiki.
+        ### Turns out its fairly large; storage would be impractical to a fair few folks.
+        ### Good Job I hadn't finished this up then, huh..
+
+    # async def UpdateDB(self):
+    #     configLocation = str(data_manager.cog_data_path(self) / "scp.db")
+    #     BaseWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
+    #     snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
+    #     await snapshotToMake.take_snapshot(BaseWiki, forums=False)
+    #     return "Finished."
+    #     #NOTE - THIS WILL TAKE SOME TIME.
+
+
+    # @commands.is_owner()
+    # @commands.command()
+    # async def DBCreate(self, ctx):
+    #     """Creates a local DB of the SCP wiki"""
+    #     await ctx.send("Now Creating a local copy, This WILL take some time.")
+    #     try:
+    #         loop = asyncio.get_running_loop()
+    #         taske = loop.create_task(self.UpdateDB())
+    #         loop.run_forever(taske)
+    #     finally:
+    #         loop.close()
+        
+    #     await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
