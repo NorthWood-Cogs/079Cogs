@@ -52,7 +52,7 @@ class SCP(commands.Cog):
         target = self.SCPWiki(f'scp-{scpID}')  #pyscp handles the rest
         Content = target.text
         #So by using string finds, we're gonna pick out the first "block" of the article
-        ObjectClassFinder = str(target.source) #I hate their templates, this is the workaround.
+        ObjectClassFinder = await target.source #I hate their templates, this is the workaround.
         OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
         print(OBJCL)
         try:
