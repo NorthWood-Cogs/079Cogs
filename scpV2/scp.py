@@ -69,7 +69,8 @@ class SCP(commands.Cog):
                 print(OBJCL)
                 ClassColour = await self.ColourPicker(OBJCL)
             except:
-                #OBJCL = "Failed to Obtain Object Class..."
+                OBJCL = "Failed to Obtain Object Class..."
+                print(OBJCL)
                 ClassColour = 0x99aab5 
         #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
             try:
