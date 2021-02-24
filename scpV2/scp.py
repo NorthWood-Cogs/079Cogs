@@ -53,8 +53,6 @@ class SCP(commands.Cog):
         Content = target.text
         #So by using string finds, we're gonna pick out the first "block" of the article
         ObjectClassFinder = await target.source #I hate their templates, this is the workaround.
-        OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
-        print(OBJCL)
         try:
             #now, the problem with our method is that it creates A LOT of ways for it to go wrong. so lets prepare for that.
             #We'll firstly gleam it for an object Class - Safe, Euclid, etc... and also the corresponding Colour.
