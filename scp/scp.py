@@ -1,5 +1,5 @@
 import discord
-from discord.errors import Forbidden
+from discord.errors import Forbidden, HTTPException
 import pyscp # Installed On Cog install, using https://github.com/NorthWood-Cogs/pyscp
 import re
 import asyncio
@@ -58,20 +58,20 @@ class SCP(commands.Cog):
             #We'll firstly gleam it for an object Class - Safe, Euclid, etc... and also the corresponding Colour.
             #Sorta Cute you'd think its easy. The issue with the wiki is one of inconsistent formatting and names - so we'll need to encounter for banner styles where possible
             #Now that ObjectClassFinder is Making sense, eh?
-            try: # and so, i bring to you the triple-try-that-probably-doesn't-need-to-be-this-way-loop. Run.
-                try:
-                    ObjectCLStr = Content[Content.find("Object Class"):]
-                    ObjectSplit = ObjectCLStr.split() #This will (try) to find a string
-                    OBJCL = ObjectSplit[2]
-                except:
-                    try:
-                        OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
-                    except: OBJCL = "My Wife Left Me"
-                    # the less neat way...
+            # and so, i bring to you the triple-try-that-probably-doesn't-need-to-be-this-way-loop. Run.
+            try:
+                ObjectCLStr = Content[Content.find("Object Class"):]
+                ObjectSplit = ObjectCLStr.split() #This will (try) to find a string
+                OBJCL = ObjectSplit[2]
                 ClassColour = await self.ColourPicker(OBJCL)
             except:
-                OBJCL = "Failed to Obtain Object Class..."
-                ClassColour = 0x99aab5 
+                try:
+                    OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
+                    ClassColour = await self.ColourPicker(OBJCL)
+                # the less neat way...
+                except:
+                    OBJCL = "Failed to Obtain Object Class..."
+                    ClassColour = 0x99aab5 
         #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
             try:
                 SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
@@ -100,7 +100,7 @@ class SCP(commands.Cog):
             pass
         try:
             await ctx.send(f"{errors}",embed=scpEM)
-        except BaseException(Forbidden):
+        except HTTPException(Forbidden):
             try:
                 await ctx.send("I can't send embeds here! Probably")
             except: pass
