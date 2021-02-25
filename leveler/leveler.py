@@ -1622,11 +1622,11 @@ class Leveler(commands.Cog):
 
     @commands.group()
     @commands.guild_only()
-    async def badge(self, ctx):
+    async def badges(self, ctx):
         """Badge configuration options."""
         pass
 
-    @badge.command(name="available")
+    @badges.command(name="available")
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def badge_available(self, ctx):
@@ -1677,7 +1677,7 @@ class Leveler(commands.Cog):
         for embed in global_list + server_list:
             await ctx.send(embed=embed)
 
-    @badge.command(name="list")
+    @badges.command(name="list")
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def listuserbadges(self, ctx, user: discord.Member = None):
@@ -1725,7 +1725,7 @@ class Leveler(commands.Cog):
         else:
             await menu(ctx, embeds, DEFAULT_CONTROLS)
 
-    @badge.command(name="buy")
+    @badges.command(name="buy")
     @commands.guild_only()
     async def badge_buy(self, ctx, name: str, global_badge: str = None):
         """
@@ -1797,7 +1797,7 @@ class Leveler(commands.Cog):
         else:
             await ctx.send("**The badge `{}` does not exist in the global badge list. List badges with** `{}badge available`.".format(ctx.prefix))
 
-    @badge.command(name="set")
+    @badges.command(name="set")
     @commands.guild_only()
     async def badge_set(self, ctx, name: str, priority_num: int):
         """
@@ -1841,7 +1841,7 @@ class Leveler(commands.Cog):
         return await self.db.users.find_one({"user_id": userinfo["user_id"]})
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(name="add")
+    @badges.command(name="add")
     @commands.guild_only()
     async def badge_add(self, ctx, name: str, badge_image_url: str, border_color: str, price: int, *, description: str):
         """
@@ -1946,7 +1946,7 @@ class Leveler(commands.Cog):
             await ctx.send("**The `{}` badge has been updated.**".format(name))
 
     @checks.is_owner()
-    @badge.command(name="type")
+    @badges.command(name="type")
     @commands.guild_only()
     async def badge_type(self, ctx, name: str):
         """Circles or bars."""
@@ -1959,7 +1959,7 @@ class Leveler(commands.Cog):
         await ctx.send("**Badge type set to `{}`.**".format(name.lower()))
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(name="delete", aliases=["remove"])
+    @badges.command(name="delete", aliases=["remove"])
     @commands.guild_only()
     async def badge_delete(self, ctx, *, name: str):
         """
@@ -2008,7 +2008,7 @@ class Leveler(commands.Cog):
             await ctx.send("**That badge does not exist.**")
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(name="give")
+    @badges.command(name="give")
     @commands.guild_only()
     async def badge_give(self, ctx, user: discord.Member, name: str, global_badge: str = None):
         """
@@ -2058,7 +2058,7 @@ class Leveler(commands.Cog):
                 await ctx.send("**That badge doesn't exist in this server!**")
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(name="take")
+    @badges.command(name="take")
     @commands.guild_only()
     async def badge_take(self, ctx, user: discord.Member, name: str):
         """Take a user's badge."""
@@ -2091,7 +2091,7 @@ class Leveler(commands.Cog):
             )
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(name="link")
+    @badges.command(name="link")
     @commands.guild_only()
     async def badge_link(self, ctx, badge_name: str, level: int):
         """Associate a badge with a level."""
@@ -2118,7 +2118,7 @@ class Leveler(commands.Cog):
             await ctx.send("**The `{}` badge has been linked to level `{}`.**".format(badge_name, level))
 
     @checks.admin_or_permissions(manage_roles=True)
-    @badge.command(name="unlink")
+    @badges.command(name="unlink")
     @commands.guild_only()
     async def badge_unlink(self, ctx, *, badge_name: str):
         """Unlink a badge/level association."""
@@ -2135,7 +2135,7 @@ class Leveler(commands.Cog):
             await ctx.send("**The `{}` badge is not linked to any levels!**".format(badge_name))
 
     @checks.mod_or_permissions(manage_roles=True)
-    @badge.command(name="listlinks")
+    @badges.command(name="listlinks")
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def badge_list(self, ctx):
