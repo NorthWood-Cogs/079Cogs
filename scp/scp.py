@@ -52,7 +52,7 @@ class SCP(commands.Cog):
         target = self.SCPWiki(f'scp-{scpID}')  #pyscp handles the rest
         Content = target.text
         #So by using string finds, we're gonna pick out the first "block" of the article
-        ObjectClassFinder = await target.sourc
+        ObjectClassFinder = await target.source
         if scpID == "2521": # Fucking Edge cases
             em = discord.Embed(
                 title="●●|●●●●●|●●|●",
