@@ -2162,11 +2162,11 @@ class Leveler(commands.Cog):
     @commands.group()
     @commands.guild_only()
     @checks.mod_or_permissions(manage_roles=True)
-    async def roles(self, ctx):
+    async def rolelink(self, ctx):
         """Role configuration."""
         pass
 
-    @roles.command(name="link")
+    @rolelink.command(name="link")
     @commands.guild_only()
     async def linkrole(self, ctx, role_name: str, level: int, remove_role=None):
         """Associate a role with a level. Removes previous role if given."""
@@ -2205,7 +2205,7 @@ class Leveler(commands.Cog):
                     "Will also remove `{}` role.**".format(role_name, level, remove_role)
                 )
 
-    @roles.command(name="unlink")
+    @rolelink.command(name="unlink")
     @commands.guild_only()
     async def unlinkrole(self, ctx, *, role_name: str):
         """Unlink a role/level association."""
@@ -2221,7 +2221,7 @@ class Leveler(commands.Cog):
         else:
             await ctx.send("**The `{}` role is not linked to any levels!**".format(role_name))
 
-    @roles.command(name="listlinks")
+    @rolelink.command(name="listlinks")
     @commands.bot_has_permissions(embed_links=True)
     @commands.guild_only()
     async def listrole(self, ctx):
