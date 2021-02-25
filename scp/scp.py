@@ -59,6 +59,7 @@ class SCP(commands.Cog):
                 url="http://www.scpwiki.com/scp-2521",
                 color=0xe74c3c
             )
+            em.set_image("http://scp-wiki.wdfiles.com/local--files/scp-2521/scp_number.jpg")
             try:
                 await ctx.send(embed=em)
             except:
