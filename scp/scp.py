@@ -64,7 +64,9 @@ class SCP(commands.Cog):
                     ObjectSplit = ObjectCLStr.split() #This will (try) to find a string
                     OBJCL = ObjectSplit[2]
                 except:
-                    OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
+                    try:
+                        OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
+                    except: OBJCL = "My Wife Left Me"
                     # the less neat way...
                 ClassColour = await self.ColourPicker(OBJCL)
             except:
@@ -98,8 +100,10 @@ class SCP(commands.Cog):
             pass
         try:
             await ctx.send(f"{errors}",embed=scpEM)
-        except Exception(Forbidden):
-            await ctx.send("I can't send embeds here!")
+        except BaseException(Forbidden):
+            try:
+                await ctx.send("I can't send embeds here! Probably")
+            except: pass
 
         
 
