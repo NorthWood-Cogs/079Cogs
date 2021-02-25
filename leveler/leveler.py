@@ -12,6 +12,8 @@ import time
 from asyncio import TimeoutError
 from copy import copy
 from datetime import datetime, timedelta
+
+from discord.ext.commands import BotMissingPermissions
 from tabulate import tabulate
 from io import BytesIO
 from typing import Union
@@ -319,6 +321,11 @@ class Leveler(commands.Cog):
             await self.db.users.update_one(
                 {"user_id": str(user.id)}, {"$set": {"rank_block".format(server.id): curr_time}}, upsert=True,
             )
+
+    @rank.error
+    async def rank_error(self, ctx, error):
+        if isinstance(error, BotMissingPermissions):
+            await ctx.send("I need ``attach_files``-permissions =)")
 
     async def rank_text(self, user, server, userinfo):
         em = discord.Embed(colour=user.colour)
