@@ -1,4 +1,5 @@
 import discord
+from discord.colour import Color
 from discord.errors import Forbidden, HTTPException
 import pyscp # Installed On Cog install, using https://github.com/NorthWood-Cogs/pyscp
 import re
@@ -55,19 +56,9 @@ class SCP(commands.Cog):
             target = self.SCPWiki(f'scp-{scpID}')
         Content = target.text
         #So by using string finds, we're gonna pick out the first "block" of the article
+        CaseTag = self.special_cases(scpID) #But this will handle all edge-cases.. Woo...
         ObjectClassFinder = await target.source
-        if scpID == "2521": # Fucking Edge cases
-            em = discord.Embed(
-                title="●●|●●●●●|●●|●",
-                url="http://www.scpwiki.com/scp-2521",
-                color=0xe74c3c
-            )
-            em.set_image(url="http://scp-wiki.wdfiles.com/local--files/scp-2521/scp_number.jpg")
-            try:
-                await ctx.send(embed=em)
-            except:
-                await ctx.send("I have no embed perms.")
-        else:
+        if CaseTag is None:
             try:
                 try:
                     ObjectCLStr = Content[Content.find("Object Class"):]
@@ -90,8 +81,8 @@ class SCP(commands.Cog):
                     #Instead of splitting like last time, this time we'll join off a split for the fun of it.
                 except:
                     ContainmentToEmbed = "Couldn't obtain the Containment Procedure..."
-
-                errors = ""
+ 
+                errors = " "
             except:
                 errors = "There was some trouble obtaining some information. Typically, this is due to an archive warning - the Link should work fine to open the real article."
                 ClassColour = self.ColourPicker("Keked") #Greyple in case it all goes wrong
@@ -118,31 +109,34 @@ class SCP(commands.Cog):
 
         
 
-
-
-        ### THE FOLLOWING is retired code from an old idea to store a local copy of the wiki.
-        ### Turns out its fairly large; storage would be impractical to a fair few folks.
-        ### Good Job I hadn't finished this up then, huh..
-
-    # async def UpdateDB(self):
-    #     configLocation = str(data_manager.cog_data_path(self) / "scp.db")
-    #     BaseWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
-    #     snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
-    #     await snapshotToMake.take_snapshot(BaseWiki, forums=False)
-    #     return "Finished."
-    #     #NOTE - THIS WILL TAKE SOME TIME.
-
-
-    # @commands.is_owner()
-    # @commands.command()
-    # async def DBCreate(self, ctx):
-    #     """Creates a local DB of the SCP wiki"""
-    #     await ctx.send("Now Creating a local copy, This WILL take some time.")
-    #     try:
-    #         loop = asyncio.get_running_loop()
-    #         taske = loop.create_task(self.UpdateDB())
-    #         loop.run_forever(taske)
-    #     finally:
-    #         loop.close()
-        
-    #     await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
+        # The wiki has a lot of.. unique cases that the script can't figure out. they go here. If adding to this, please follow the elif format.
+        def special_cases(ID: str):
+            if ID == "2521":
+                em = discord.Embed(
+                    title="●●|●●●●●|●●|●",
+                    url="http://www.scpwiki.com/scp-2521",
+                    color=0xe74c3c
+                )   
+                em.set_image(url="http://scp-wiki.wdfiles.com/local--files/scp-2521/scp_number.jpg")
+                return em
+            elif ID == "231":
+                ObClass = "keter"
+                em = discord.Embed(
+                    title="SCP-231 - Special Personnel Requirements",
+                    url="https://scp-wiki.wikidot.com/scp-231",
+                    color= self.ColourPicker(ObClass)
+                )
+                em.add_field(name="Object Class",value="Keter",inline=False)
+                return em
+            elif ID == "000": # There's No canon 000. So...
+                em = discord.Embed(
+                    title = "SCP-███ - He he watches us all",
+                    url = "https://scp-secret-laboratory-wiki.fandom.com/wiki/Hubert_Moszka",
+                    color = 0xe91e63
+                )
+                em.add_field(name="Object Class", value="Thaumiel", inline=False)
+                em.add_field(name="Help", value="We're trapped in his basement, help!", inline=False)
+                em.set_thumbnail(url="https://cdn.discordapp.com/attachments/681599779242770444/817006021276336128/HubS.png")
+                return em
+            
+            
