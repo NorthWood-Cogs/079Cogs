@@ -49,7 +49,10 @@ class SCP(commands.Cog):
     async def scp(self, ctx, scpID: str):
         """Finds an SCP based on their number. Standard Content warning applies.
         Include -j or -ex after the number if it is a joke/explained SCP. Others work too!"""
-        target = self.SCPWiki(f'scp-{scpID}')  #pyscp handles the rest
+        if len(scpID) <= 2:
+            target = self.SCPWiki(f'scp-{scpID.zfill(3)}')  #pyscp handles the rest
+        else:
+            target = self.SCPWiki(f'scp-{scpID}')
         Content = target.text
         #So by using string finds, we're gonna pick out the first "block" of the article
         ObjectClassFinder = await target.source
@@ -83,7 +86,7 @@ class SCP(commands.Cog):
                 try:
                     SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
                     ContainmentInfo = " ".join(SpeConProStr.split(" ")[3:])
-                    ContainmentToEmbed = ContainmentInfo[:1000] + (ContainmentInfo[1000:] and '...')
+                    ContainmentToEmbed = ContainmentInfo[:750] + (ContainmentInfo[750:] and '...')
                     #Instead of splitting like last time, this time we'll join off a split for the fun of it.
                 except:
                     ContainmentToEmbed = "Couldn't obtain the Containment Procedure..."
@@ -98,10 +101,11 @@ class SCP(commands.Cog):
                 url=f"{target.url}", #We're not really including a lot in the base embed (NOTE to self do I want a footer?) 
                 colour=ClassColour,     # Since we want custom fields for the formatting.
             )
-            try: #as all this is, technically, not required, so it gets its own try loop. THE ORDER HERE IS IMPORTANT!
-                OBJCCL = OBJCL.capitalize()
-                scpEM.add_field(name="Object Class",value=f"{OBJCCL}",inline=False)
-                scpEM.add_field(name="Special Containment Procedures", value=f"{ContainmentToEmbed}",inline=False)
+            #as all this is, technically, not required, so it gets its own try loop. THE ORDER HERE IS IMPORTANT!
+            OBJCCL = OBJCL.capitalize()
+            scpEM.add_field(name="Object Class",value=f"{OBJCCL}",inline=False)
+            scpEM.add_field(name="Special Containment Procedures", value=f"{ContainmentToEmbed}",inline=False)
+            try:
                 scpEM.set_thumbnail(url=target.images[0]) #THUMBNAIL must ALWAYS be last, as not every page has an image attached
             except:
                 pass
