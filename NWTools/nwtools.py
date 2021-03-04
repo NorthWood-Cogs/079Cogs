@@ -54,7 +54,7 @@ class NWTools(commands.Cog):
 
     @commands.command()
     @is_in_server(server_id)
-    @commands.has_role(492635905811546130)
+    @commands.has_any_role(492635905811546130, 525082728237105172)
     async def serverhost(self, ctx, user: discord.Member):
         """Toggles the serverhost role on a user."""
         ServerHost = get(ctx.guild.roles, id=serverhost_id)
