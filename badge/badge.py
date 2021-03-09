@@ -138,13 +138,7 @@ class Badge(commands.Cog):
 
     @badge.command(name="revoke")
     @commands.has_any_role(
-        409844788985331723,  # Janitor
-        409845203352944641,  # Scientist
-        409845543070597120,  # Major Scientist
-        409845714257182721,  # Zone Manager
-        409845890740912138,  # Facility Manager
-        781597284050665496,  #T3 Twitch yada yada
-        
+        409845890740912138
     )
     async def revokebadge(self, ctx):
         """
