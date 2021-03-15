@@ -71,8 +71,12 @@ class SCP(commands.Cog):
                         ClassColour = await self.ColourPicker(OBJCL)
                     # the less neat way...
                     except:
-                        OBJCL = "Failed to Obtain Object Class..."
-                        ClassColour = 0x99aab5 
+                        try:
+                            OBJCL = re.search("/ADULT CONTENT/im", ObjectClassFinder).group()
+                            ClassColour = await self.ColourPicker(OBJCL)
+                        except:
+                            OBJCL = "Failed to Obtain Object Class..."
+                            ClassColour = 0x99aab5 
             #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
                 try:
                     SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
@@ -110,33 +114,41 @@ class SCP(commands.Cog):
         
 
         # The wiki has a lot of.. unique cases that the script can't figure out. they go here. If adding to this, please follow the elif format.
-        def special_cases(ID: str):
-            if ID == "2521":
-                em = discord.Embed(
-                    title="●●|●●●●●|●●|●",
-                    url="http://www.scpwiki.com/scp-2521",
-                    color=0xe74c3c
-                )   
-                em.set_image(url="http://scp-wiki.wdfiles.com/local--files/scp-2521/scp_number.jpg")
-                return em
-            elif ID == "231":
-                ObClass = "keter"
-                em = discord.Embed(
-                    title="SCP-231 - Special Personnel Requirements",
-                    url="https://scp-wiki.wikidot.com/scp-231",
-                    color= self.ColourPicker(ObClass)
-                )
-                em.add_field(name="Object Class",value="Keter",inline=False)
-                return em
-            elif ID == "000": # There's No canon 000. So...
-                em = discord.Embed(
-                    title = "SCP-███ - He he watches us all",
-                    url = "https://scp-secret-laboratory-wiki.fandom.com/wiki/Hubert_Moszka",
-                    color = 0xe91e63
-                )
-                em.add_field(name="Object Class", value="Thaumiel", inline=False)
-                em.add_field(name="Help", value="We're trapped in his basement, help!", inline=False)
-                em.set_thumbnail(url="https://cdn.discordapp.com/attachments/681599779242770444/817006021276336128/HubS.png")
-                return em
+    def special_cases(self, ID: str):
+        if ID == "2521":
+            em = discord.Embed(
+                title="●●|●●●●●|●●|●",
+                url="http://www.scpwiki.com/scp-2521",
+                color=0xe74c3c
+            )   
+            em.set_image(url="http://scp-wiki.wdfiles.com/local--files/scp-2521/scp_number.jpg")
+            return em
+        elif ID == "231":
+            ObClass = "keter"
+            em = discord.Embed(
+                title="SCP-231 - Special Personnel Requirements",
+                url="https://scp-wiki.wikidot.com/scp-231",
+                color= self.ColourPicker(ObClass)
+            )
+            em.add_field(name="Object Class",value="Keter",inline=False)
+            return em
+        elif ID == "000": # There's No canon 000. So...
+            em = discord.Embed(
+                title = "SCP-███ - He he watches us all",
+                url = "https://scp-secret-laboratory-wiki.fandom.com/wiki/Hubert_Moszka",
+                color = 0xe91e63
+            )
+            em.add_field(name="Object Class", value="Thaumiel", inline=False)
+            em.add_field(name="Help", value="We're trapped in his basement, help!", inline=False)
+            em.set_thumbnail(url="https://cdn.discordapp.com/attachments/681599779242770444/817006021276336128/HubS.png")
+            return em
+        elif ID == "5167":
+            em = discord.Embed(
+                title="When the imposter is sus",
+                url="https://scp-wiki.wikidot.com/scp-5167",
+                color=0xe74c3c
+            )
+            em.set_image(url="https://i.kym-cdn.com/entries/icons/original/000/035/973/cover3.jpg")
+            return em
             
             
