@@ -125,11 +125,10 @@ class SCP(commands.Cog):
             em.set_image(url="http://scp-wiki.wdfiles.com/local--files/scp-2521/scp_number.jpg")
             return em
         elif ID == "231":
-            ObClass = "keter"
             em = discord.Embed(
                 title="SCP-231 - Special Personnel Requirements",
                 url="https://scp-wiki.wikidot.com/scp-231",
-                color= self.ColourPicker(ObClass)
+                color= 0xe74c3c
             )
             em.add_field(name="Object Class",value="Keter",inline=False)
             return em
