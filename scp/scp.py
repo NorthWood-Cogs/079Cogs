@@ -47,9 +47,10 @@ class SCP(commands.Cog):
             return 0x99aab5 #Greyple
 
     @commands.command()
-    async def scp(self, ctx, scpID: str):
+    async def scp(self, ctx, scpIDOG: str):
         """Finds an SCP based on their number. Standard Content warning applies.
         Include -j or -ex after the number if it is a joke/explained SCP. Others work too!"""
+        scpID = scpIDOG.replace(" ", "")
         if len(scpID) <= 2:
             target = self.SCPWiki(f'scp-{scpID.zfill(3)}')  #pyscp handles the rest
         else:
