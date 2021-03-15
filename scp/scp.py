@@ -132,7 +132,7 @@ class SCP(commands.Cog):
             )
             em.add_field(name="Object Class",value="Keter",inline=False)
             return em
-        elif ID == "000": # There's No canon 000. So...
+        elif ID == "000" or ID == "00" or ID == "0": # There's No canon 000. So...
             em = discord.Embed(
                 title = "SCP-███ - He he watches us all",
                 url = "https://scp-secret-laboratory-wiki.fandom.com/wiki/Hubert_Moszka",
