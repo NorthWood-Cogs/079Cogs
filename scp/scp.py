@@ -58,7 +58,7 @@ class SCP(commands.Cog):
         try:
             Content = target.text
         except:
-            return await ctx.send("This isn't a valid ID, dumbass")
+            return await ctx.send("This isn't a valid ID, dumbass.")
         #So by using string finds, we're gonna pick out the first "block" of the article
         CaseTag = self.special_cases(scpID) #But this will handle all edge-cases.. Woo...
         ObjectClassFinder = await target.source
