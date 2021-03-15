@@ -151,6 +151,5 @@ class SCP(commands.Cog):
             )
             em.set_image(url="https://i.kym-cdn.com/entries/icons/original/000/035/973/cover3.jpg")
             return em
-             #Expected discord.Colour, int, or Embed.Empty but received coroutine instead.
 
             
