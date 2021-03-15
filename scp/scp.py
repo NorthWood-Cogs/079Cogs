@@ -110,7 +110,8 @@ class SCP(commands.Cog):
                 try:
                     await ctx.send("I can't send embeds here! Probably")
                 except: pass
-
+        else:
+            await ctx.send(embed=CaseTag)
         
 
         # The wiki has a lot of.. unique cases that the script can't figure out. they go here. If adding to this, please follow the elif format.
@@ -150,5 +151,6 @@ class SCP(commands.Cog):
             )
             em.set_image(url="https://i.kym-cdn.com/entries/icons/original/000/035/973/cover3.jpg")
             return em
-            
+             #Expected discord.Colour, int, or Embed.Empty but received coroutine instead.
+
             
