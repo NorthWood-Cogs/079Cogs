@@ -39,8 +39,8 @@ class Badge(commands.Cog):
 
     @badge.group(name="patreon")
     @commands.has_any_role(
-        409844788985331723,  # Janitor
-        409845203352944641,  # Scientist
+        # 409844788985331723,  # Janitor
+        # 409845203352944641,  # Scientist
         409845543070597120,  # Major Scientist
         409845714257182721,  # Zone Manager
         409845890740912138,  # Facility Manager
@@ -138,11 +138,14 @@ class Badge(commands.Cog):
 
     @badge.command(name="revoke")
     @commands.has_any_role(
-        "Patreon level - Major Scientist",
-        "Patreon level - Zone Manager",
-        "Patreon level - Facility Manager",
-        "Twitch Subscriber: Tier 2",
-        "Twitch Subscriber: Tier 3",
+        # 409844788985331723,  # Janitor
+        # 409845203352944641,  # Scientist
+        409845543070597120,  # Major Scientist
+        409845714257182721,  # Zone Manager
+        409845890740912138,  # Facility Manager
+        # 781597284050665494,  # T1 Dark
+        # 781597284050665495,  # T2 Keneq
+        781597284050665496,  # T3 Amida
     )
     async def revokebadge(self, ctx):
         """
