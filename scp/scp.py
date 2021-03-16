@@ -1,4 +1,5 @@
 import discord
+from discord.colour import Color
 from discord.errors import Forbidden, HTTPException
 import pyscp # Installed On Cog install, using https://github.com/NorthWood-Cogs/pyscp
 import re
@@ -46,25 +47,22 @@ class SCP(commands.Cog):
             return 0x99aab5 #Greyple
 
     @commands.command()
-    async def scp(self, ctx, scpID: str):
+    async def scp(self, ctx, scpIDOG: str):
         """Finds an SCP based on their number. Standard Content warning applies.
         Include -j or -ex after the number if it is a joke/explained SCP. Others work too!"""
-        target = self.SCPWiki(f'scp-{scpID}')  #pyscp handles the rest
-        Content = target.text
-        #So by using string finds, we're gonna pick out the first "block" of the article
-        ObjectClassFinder = await target.source
-        if scpID == "2521": # Fucking Edge cases
-            em = discord.Embed(
-                title="●●|●●●●●|●●|●",
-                url="http://www.scpwiki.com/scp-2521",
-                color=0xe74c3c
-            )
-            em.set_image(url="http://scp-wiki.wdfiles.com/local--files/scp-2521/scp_number.jpg")
-            try:
-                await ctx.send(embed=em)
-            except:
-                await ctx.send("I have no embed perms.")
+        scpID = scpIDOG.replace(" ", "")
+        if len(scpID) <= 2:
+            target = self.SCPWiki(f'scp-{scpID.zfill(3)}')  #pyscp handles the rest
         else:
+            target = self.SCPWiki(f'scp-{scpID}')
+        try:
+            Content = target.text
+        except:
+            return await ctx.send("This isn't a valid ID, dumbass.")
+        #So by using string finds, we're gonna pick out the first "block" of the article
+        CaseTag = self.special_cases(scpID) #But this will handle all edge-cases.. Woo...
+        ObjectClassFinder = await target.source
+        if CaseTag is None:
             try:
                 try:
                     ObjectCLStr = Content[Content.find("Object Class"):]
@@ -77,18 +75,22 @@ class SCP(commands.Cog):
                         ClassColour = await self.ColourPicker(OBJCL)
                     # the less neat way...
                     except:
-                        OBJCL = "Failed to Obtain Object Class..."
-                        ClassColour = 0x99aab5 
+                        try:
+                            OBJCL = re.search("/ADULT CONTENT/im", ObjectClassFinder).group()
+                            ClassColour = await self.ColourPicker(OBJCL)
+                        except:
+                            OBJCL = "Failed to Obtain Object Class..."
+                            ClassColour = 0x99aab5 
             #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
                 try:
                     SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
                     ContainmentInfo = " ".join(SpeConProStr.split(" ")[3:])
-                    ContainmentToEmbed = ContainmentInfo[:1000] + (ContainmentInfo[1000:] and '...')
+                    ContainmentToEmbed = ContainmentInfo[:750] + (ContainmentInfo[750:] and '...')
                     #Instead of splitting like last time, this time we'll join off a split for the fun of it.
                 except:
                     ContainmentToEmbed = "Couldn't obtain the Containment Procedure..."
-
-                errors = ""
+ 
+                errors = " "
             except:
                 errors = "There was some trouble obtaining some information. Typically, this is due to an archive warning - the Link should work fine to open the real article."
                 ClassColour = self.ColourPicker("Keked") #Greyple in case it all goes wrong
@@ -98,10 +100,11 @@ class SCP(commands.Cog):
                 url=f"{target.url}", #We're not really including a lot in the base embed (NOTE to self do I want a footer?) 
                 colour=ClassColour,     # Since we want custom fields for the formatting.
             )
-            try: #as all this is, technically, not required, so it gets its own try loop. THE ORDER HERE IS IMPORTANT!
-                OBJCCL = OBJCL.capitalize()
-                scpEM.add_field(name="Object Class",value=f"{OBJCCL}",inline=False)
-                scpEM.add_field(name="Special Containment Procedures", value=f"{ContainmentToEmbed}",inline=False)
+            #as all this is, technically, not required, so it gets its own try loop. THE ORDER HERE IS IMPORTANT!
+            OBJCCL = OBJCL.capitalize()
+            scpEM.add_field(name="Object Class",value=f"{OBJCCL}",inline=False)
+            scpEM.add_field(name="Special Containment Procedures", value=f"{ContainmentToEmbed}",inline=False)
+            try:
                 scpEM.set_thumbnail(url=target.images[0]) #THUMBNAIL must ALWAYS be last, as not every page has an image attached
             except:
                 pass
@@ -111,34 +114,45 @@ class SCP(commands.Cog):
                 try:
                     await ctx.send("I can't send embeds here! Probably")
                 except: pass
-
+        else:
+            await ctx.send(embed=CaseTag)
         
 
+        # The wiki has a lot of.. unique cases that the script can't figure out. they go here. If adding to this, please follow the elif format.
+    def special_cases(self, ID: str):
+        if ID == "2521":
+            em = discord.Embed(
+                title="●●|●●●●●|●●|●",
+                url="http://www.scpwiki.com/scp-2521",
+                color=0xe74c3c
+            )   
+            em.set_image(url="http://scp-wiki.wdfiles.com/local--files/scp-2521/scp_number.jpg")
+            return em
+        elif ID == "231":
+            em = discord.Embed(
+                title="SCP-231 - Special Personnel Requirements",
+                url="https://scp-wiki.wikidot.com/scp-231",
+                color= 0xe74c3c
+            )
+            em.add_field(name="Object Class",value="Keter",inline=False)
+            return em
+        elif ID == "000" or ID == "00" or ID == "0": # There's No canon 000. So...
+            em = discord.Embed(
+                title = "SCP-███ - He he watches us all",
+                url = "https://scp-secret-laboratory-wiki.fandom.com/wiki/Hubert_Moszka",
+                color = 0xe91e63
+            )
+            em.add_field(name="Object Class", value="Thaumiel", inline=False)
+            em.add_field(name="Help", value="We're trapped in his basement, help!", inline=False)
+            em.set_thumbnail(url="https://cdn.discordapp.com/attachments/681599779242770444/817006021276336128/HubS.png")
+            return em
+        elif ID == "5167":
+            em = discord.Embed(
+                title="When the imposter is sus",
+                url="https://scp-wiki.wikidot.com/scp-5167",
+                color=0xe74c3c
+            )
+            em.set_image(url="https://i.kym-cdn.com/entries/icons/original/000/035/973/cover3.jpg")
+            return em
 
-
-        ### THE FOLLOWING is retired code from an old idea to store a local copy of the wiki.
-        ### Turns out its fairly large; storage would be impractical to a fair few folks.
-        ### Good Job I hadn't finished this up then, huh..
-
-    # async def UpdateDB(self):
-    #     configLocation = str(data_manager.cog_data_path(self) / "scp.db")
-    #     BaseWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
-    #     snapshotToMake = pyscp.snapshot.SnapshotCreator(configLocation)
-    #     await snapshotToMake.take_snapshot(BaseWiki, forums=False)
-    #     return "Finished."
-    #     #NOTE - THIS WILL TAKE SOME TIME.
-
-
-    # @commands.is_owner()
-    # @commands.command()
-    # async def DBCreate(self, ctx):
-    #     """Creates a local DB of the SCP wiki"""
-    #     await ctx.send("Now Creating a local copy, This WILL take some time.")
-    #     try:
-    #         loop = asyncio.get_running_loop()
-    #         taske = loop.create_task(self.UpdateDB())
-    #         loop.run_forever(taske)
-    #     finally:
-    #         loop.close()
-        
-    #     await ctx.send(f"DB download Completed, {ctx.author.mention}. Please reload the cog.")
+            
