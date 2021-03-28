@@ -51,7 +51,7 @@ class SCP(commands.Cog):
                         }}
                     }}
                 }}
-            }}""".format(targetScp=scp))
+            }}""".format(targetScp=scp.title))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
             respJson = response.json
             emTitle = (f"{respJson['data']['searchPages'][0]['wikidotInfo']['title']}")
@@ -59,7 +59,7 @@ class SCP(commands.Cog):
             emImage = (f"{respJson['data']['searchPages'][0]['wikidotInfo']['thumbnailUrl']}")
             emURL = (f"{respJson['data']['searchPages'][0]['url']}")
         em = discord.Embed(
-           title=(f"{emTitle} + {emName}"),
+           title=(f"{emTitle} - {emName}"),
             url=emURL,
         )
         if emImage != "None":
