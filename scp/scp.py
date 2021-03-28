@@ -29,7 +29,7 @@ class SCP(commands.Cog):
 
 
 
-    async def CromRequest(scp):
+    async def CromRequest(self, scp):
         async with aiohttp.ClientSession() as session:
             json = ("""searchPages(query: "{querytarget}") 
             {url
