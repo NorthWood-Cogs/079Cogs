@@ -53,7 +53,6 @@ class SCP(commands.Cog):
             return await ctx.send("This isn't a valid ID, dumbass.")
         #So by using string finds, we're gonna pick out the first "block" of the article
         CaseTag = self.special_cases(scpID) #But this will handle all edge-cases.. Woo...
-        ObjectClassFinder = await target.source
         print(self)
         if CaseTag is None:
             embedBack = await self.SCPFinder(scpID=scpID, scpContent=Content, scpTarget=target)
@@ -61,6 +60,7 @@ class SCP(commands.Cog):
 
     async def SCPFinder(self, scpID, scpContent, scpTarget):
         # And now, to hate myself. hey fun fact, you know Python 3.9 is adding switch statements?
+        ObjectClassFinder = str(scpTarget.source)
         try:
             ObjectCLStr = scpContent[scpContent.find("Object Class"):]
             ObjectSplit = ObjectCLStr.split()
@@ -80,10 +80,7 @@ class SCP(commands.Cog):
                 OBJCL = str("Can't find an object class!")
                 print("error")
                 ClassColour = 0x99aab5
-        return str(OBJCL)
-            
-    class GoFuckYourself(Exception):
-        pass
+        return OBJCL
 
         # The wiki has a lot of.. unique cases that the script can't figure out. they go here. If adding to this, please follow the elif format.
     def special_cases(self, ID: str):
