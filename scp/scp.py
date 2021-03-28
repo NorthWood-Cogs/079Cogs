@@ -79,13 +79,12 @@ class SCP(commands.Cog):
             emDesc1 = (f"{coreJson['wikidotInfo']['rating']}") #The articles rating on the wiki
             emDesc2 = (f"{coreJson['attributions'][0]['user']['name']}") # The original Author/submitter.
 
-        r = lambda: random.randint(0,255)
-        colour = ('#%02X%02X%02X' % (r(),r(),r()))
+        EmColour = random.randint(0, 0xffffff)
         em = discord.Embed(
            title=emTrueTitle,
            url=emURL,
            description=(f"Rating: {emDesc1}, Orignal submitter or author: {emDesc2}"),
-           color=colour
+           color=EmColour
         )
         if emImage != "None": #This is annoying..
             em.set_image(url=emImage)
