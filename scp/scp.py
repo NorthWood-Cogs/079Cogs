@@ -30,6 +30,11 @@ class SCP(commands.Cog):
             Client = client.GraphQLClient(
                 endpoint = "https://api.crom.avn.sh/"
             )
+            if str(scp).isdecimal():
+                targetSCP = scp
+            else:
+                targetSCP = str(scp).title()
+                
             CromQuery = client.GraphQLRequest("""
             {{
             searchPages(query: "{targetScp}")
@@ -51,7 +56,7 @@ class SCP(commands.Cog):
                         }}
                     }}
                 }}
-            }}""".format(targetScp=scp.title))
+            }}""".format(targetScp=targetSCP))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
             respJson = response.json
             emTitle = (f"{respJson['data']['searchPages'][0]['wikidotInfo']['title']}")
