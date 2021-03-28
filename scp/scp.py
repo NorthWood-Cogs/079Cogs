@@ -55,7 +55,7 @@ class SCP(commands.Cog):
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
             respjson = response.json
             regexData = regex.search("\[{'url'.+?(?={'url')", respjson).group()
-            regexedJson = json.loads(regexData.json)
+            regexedJson = json.loads(regexData)
             print(regexedJson['url'])
             
 
