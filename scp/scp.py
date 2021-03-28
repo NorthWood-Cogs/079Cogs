@@ -68,7 +68,7 @@ class SCP(commands.Cog):
             ClassColour = await self.ColourPicker(OBJCL)
             print("OB Find")
         except:
-            OBJCL = re.search("/(safe|euclid|keter|thaumiel|explained|neutralized)/im", scpTarget.source).group(0)
+            OBJCL = re.search("/(safe|euclid|keter|thaumiel|explained|neutralized)/im", ObjectClassFinder).group(0)
             ClassColour = await self.ColourPicker(OBJCL)
             print("Regex")
         if OBJCL == None:
