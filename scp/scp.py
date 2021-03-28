@@ -21,7 +21,13 @@ class SCP(commands.Cog):
     async def _scp(self, ctx, *, scp: str):
         """Attempts to search for an SCP. Denote them with `-ex` or `-j` to go for explained/joke scp's (and others!)
             Searching by ID is almost always ideal, though names will work in most cases - Pascal Case is ideal.""" 
-        if len(scp) <= 2 and scp.isdecimal() and len(scp)[0] != "-":
+        if scp[0] == "-":
+            em = discord.Embed(
+                title="Error!",
+                description="This isnt a valid SCP name. Try its Article number, or its formal name, if it has one."
+            )
+            return await ctx.send(embed=em)
+        elif len(scp) <= 2 and scp.isdecimal():
             scpID = scp.replace(" ", "")
             scpToSearch = (f"{scpID.zfill(3)}")
         else:
