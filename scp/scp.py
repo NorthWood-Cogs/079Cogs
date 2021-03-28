@@ -21,7 +21,16 @@ class SCP(commands.Cog):
     async def _scp(self, ctx, *, scp: str):
         theBot = ctx.guild.me
         emb = await self.CromRequest(ctx, scp, BotSelf=theBot)
-        await ctx.send(embed=emb)
+        if scp == "0" or scp == "00" or scp == "000":
+            em = discord.Embed(
+                title = "SCP-███ - He he watches us all",
+                url = "https://scp-secret-laboratory-wiki.fandom.com/wiki/Hubert_Moszka",
+                color = 0xe91e63
+            )
+            await ctx.send(embed=em)
+        else:
+            emb = await self.CromRequest(ctx, scp, BotSelf=theBot)
+            await ctx.send(embed=emb)
 
     
     async def CromRequest(self, ctx, scp, BotSelf):
