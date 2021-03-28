@@ -59,15 +59,28 @@ class SCP(commands.Cog):
             }}""".format(targetScp=targetSCP))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
             respJson = response.json # Time for the Jason.. Json horde.
-            coreJson = respJson['data']['searchPages'][0] #Save some time 
+            try:
+                coreJson = respJson['data']['searchPages'][0] #Save some time
+            except:
+                em = discord.Embed(
+                    title="Error!",
+                    description="This isnt a valid SCP name. Try its Article number, or its formal name, if it has one."
+                )
+            
             emTitle = (f"{coreJson['wikidotInfo']['title']}") # Expects a string to return, is the SCP-XXXX
             emName = (f"{coreJson['alternateTitles'][0]['title']}") # Expects to be a strin, is the 'name' e.g. SCP 079's name is "Old AI"
+            if emTitle != emName:
+                emTrueTitle = (f"{emTitle} - {emName}")
+            else:
+                emTrueTitle = emTitle
+            
             emImage = (f"{coreJson['wikidotInfo']['thumbnailUrl']}") # Expects to be a URL to the main image of the article
             emURL = (f"{coreJson['url']}") # URL to the article itself
             emDesc1 = (f"{coreJson['wikidotInfo']['rating']}") #The articles rating on the wiki
             emDesc2 = (f"{coreJson['attributions'][0]['user']['name']}") # The original Author/submitter.
+
         em = discord.Embed(
-           title=(f"{emTitle} - {emName}"),
+           title=emTrueTitle,
            url=emURL,
            description=(f"Rating: {emDesc1}, Orignal submitter or author: {emDesc2}")
         )
@@ -76,6 +89,7 @@ class SCP(commands.Cog):
         else:
             em.set_image(url="https://scp-wiki.wdfiles.com/local--files/component:theme/logo.png")
         em.set_footer(text="Powered by Crom - https://crom.avn.sh/", icon_url="https://pbs.twimg.com/profile_images/1344457914073960452/_V6Ihvs-_400x400.jpg")
+        
 
         await session.close()
         return em
