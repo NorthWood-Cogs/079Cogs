@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import discord
 from discord import embeds
 from discord.embeds import Embed
