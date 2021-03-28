@@ -55,7 +55,8 @@ class SCP(commands.Cog):
             }}""".format(targetScp=scp))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
             respjson = response.json
-            print(str(respjson[:10]))
+            firstten = respjson[:10]
+            print(str(firstten))
             await session.close()
 
 
