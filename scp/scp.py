@@ -19,13 +19,14 @@ class SCP(commands.Cog):
 
     @commands.command(name="scp")
     async def _scp(self, ctx, *, scp: str):
-        emb = await self.CromRequest(ctx, scp)
+        theBot = ctx.guild.me
+        emb = await self.CromRequest(ctx, scp, BotSelf=theBot)
         await ctx.send(embed=emb)
 
     
-    async def CromRequest(self, ctx, scp):
-        theBot = discord.Client()   
-        UA = (f"Redbot Cog {theBot.user.name}#{theBot.user.discriminator} - ID {theBot.user.id}") # The lad asked I made sure to identify the bot in the Session via User agents.
+    async def CromRequest(self, ctx, scp, BotSelf):
+
+        UA = (f"Redbot Cog {BotSelf.name}#{BotSelf.discriminator} - ID {BotSelf.id}") # The lad asked I made sure to identify the bot in the Session via User agents.
         print(UA)
         async with aiohttp.ClientSession(headers={'User-Agent': UA}) as session:
             Client = client.GraphQLClient(
