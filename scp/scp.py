@@ -71,12 +71,12 @@ class SCP(commands.Cog):
             pass # We're gpmma try this a bit more... segmented
         if ObjectCLStr is None:
             try:
-                OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", scpTarget.source).group()
+                OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", scpTarget.source).group(0)
                 ClassColour = await self.ColourPicker(OBJCL)
                 return OBJCL
             except:
                 pass
-        if ObjectCLStr is None: # i kinda wish i could put "IS STILL NONE"
+        elif ObjectCLStr is None: # i kinda wish i could put "IS STILL NONE"
             try:
                 OBJCL = scpContent[scpContent.find("ADULT CONTENT"):]
                 ClassColour = 0x99aab5
