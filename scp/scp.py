@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import discord
 from discord import embeds
 from discord.embeds import Embed
@@ -63,7 +64,8 @@ class SCP(commands.Cog):
            title=emTitle,
             url=emURL,
         )
-        if emImage != None or emImage != "none":
+
+        if emImage != NULL or emImage != None:
             em.set_image(url=emImage)
 
         await session.close()
