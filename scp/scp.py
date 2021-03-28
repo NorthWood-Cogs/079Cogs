@@ -54,8 +54,10 @@ class SCP(commands.Cog):
         #So by using string finds, we're gonna pick out the first "block" of the article
         CaseTag = self.special_cases(scpID) #But this will handle all edge-cases.. Woo...
         ObjectClassFinder = await target.source
+        print(self)
         if CaseTag is None:
-            embedBack = await self.SCPFinder(self=self, scpID=scpID, scpContent=Content, scpTarget=target)
+            embedBack = await self.SCPFinder(scpID=scpID, scpContent=Content, scpTarget=target)
+            await ctx.send(embedBack)
 
     async def SCPFinder(self, scpID, scpContent, scpTarget):
         # And now, to hate myself. hey fun fact, you know Python 3.9 is adding switch statements?
@@ -64,21 +66,25 @@ class SCP(commands.Cog):
             ObjectSplit = ObjectCLStr.split()
             OBJCL = ObjectSplit[2]
             ClassColour = await self.ColourPicker(OBJCL)
+            return OBJCL
         except:
             pass # We're gpmma try this a bit more... segmented
         if ObjectCLStr is None:
             try:
                 OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", scpTarget.source).group()
                 ClassColour = await self.ColourPicker(OBJCL)
+                return OBJCL
             except:
                 pass
         if ObjectCLStr is None: # i kinda wish i could put "IS STILL NONE"
             try:
                 OBJCL = scpContent[scpContent.find("ADULT CONTENT"):]
                 ClassColour = 0x99aab5
+                return OBJCL
             except: #Ok here we'll do "oh god its fucked"
                 OBJCL  = "Can't find an object class!"
                 ClassColour = 0x99aab5
+                return OBJCL
         
 
 
