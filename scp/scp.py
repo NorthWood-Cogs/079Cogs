@@ -27,7 +27,6 @@ class SCP(commands.Cog):
     async def CromRequest(self, ctx, scp, BotSelf):
 
         UA = (f"Redbot Cog {BotSelf.name}#{BotSelf.discriminator} - ID {BotSelf.id}") # The lad asked I made sure to identify the bot in the Session via User agents.
-        print(UA)
         async with aiohttp.ClientSession(headers={'User-Agent': UA}) as session:
             Client = client.GraphQLClient(
                 endpoint = "https://api.crom.avn.sh/"
@@ -94,8 +93,6 @@ class SCP(commands.Cog):
         else:
             em.set_image(url="https://scp-wiki.wdfiles.com/local--files/component:theme/logo.png")
         em.set_footer(text="Powered by Crom - https://crom.avn.sh/", icon_url="https://pbs.twimg.com/profile_images/1344457914073960452/_V6Ihvs-_400x400.jpg")
-        
-
         await session.close()
         return em
 
