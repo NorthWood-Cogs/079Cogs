@@ -1,8 +1,8 @@
 import discord
 from discord.colour import Color
 import pyscp # Installed On Cog install, using https://github.com/NorthWood-Cogs/pyscp
+import asyncio
 import aiohttp
-import aio
 from redbot.core import commands, Config, data_manager
 
 
