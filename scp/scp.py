@@ -24,7 +24,8 @@ class SCP(commands.Cog):
 
     
     async def CromRequest(self, ctx, scp):
-        UA = (f"Redbot Cog {discord.ClientUser.name} UID: {discord.ClientUser.name}") # The lad asked I made sure to identify the bot in the Session via User agents.
+        theBot = discord.Client()   
+        UA = (f"Redbot Cog {theBot.user.name}#{theBot.user.discriminator} - ID {theBot.user.id}") # The lad asked I made sure to identify the bot in the Session via User agents.
         print(UA)
         async with aiohttp.ClientSession(headers={'User-Agent': UA}) as session:
             Client = client.GraphQLClient(
