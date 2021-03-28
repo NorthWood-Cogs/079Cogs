@@ -54,8 +54,8 @@ class SCP(commands.Cog):
                 }}
             }}""".format(targetScp=scp))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
-            respJson = json.loads(response.json)
-            callJson = respJson['data']['searchPages'][0]
+            respJson = response.json
+            callJson = respJson['data'][0]['searchPages']
         em = discord.Embed(
             title=(f"{callJson['wikidotInfo']['title']} - {callJson['alternateTitles']['title']}"),
             url=callJson['url'],
