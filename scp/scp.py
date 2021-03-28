@@ -23,7 +23,6 @@ class SCP(commands.Cog):
     @commands.command(name="scp")
     async def _scp(self, ctx, *, scp: str):
         await self.CromRequest(ctx, scp)
-        await ctx.send(self.bot.name)
 
 
 
@@ -58,7 +57,7 @@ class SCP(commands.Cog):
             print(str(CromQuery))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
             print(response)
-            title = regex.search("url", str(response)).group()
+            title = regex.search("url", str(response)).group(0)
             print(title)
             await session.close()
 
