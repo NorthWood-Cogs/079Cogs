@@ -73,6 +73,8 @@ class SCP(commands.Cog):
         )
         if emImage != "None": #This is annoying..
             em.set_image(url=emImage)
+        else:
+            em.set_image(url="https://scp-wiki.wdfiles.com/local--files/component:theme/logo.png")
         em.set_footer("Powered by Crom - https://crom.avn.sh/")
 
         await session.close()
