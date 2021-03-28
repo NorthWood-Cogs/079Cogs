@@ -26,7 +26,34 @@ class SCP(commands.Cog):
 
 
 
-    def CromRequest(self, scp):
-        response = yield from aiohttp.request("GET", """'https://api.crom.avn.sh/' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: https://api.crom.avn.sh' --data-binary '{"query":"{\n  searchPages(query: \"{targetScp}\") {\n    url\n    wikidotInfo {\n      title\n      rating\n      thumbnailUrl\n    }\n    alternateTitles {\n      type\n      title\n    }\n    attributions {\n      type\n      user {\n        name\n      }\n    }\n  }\n}\n"}' --compressed}""".format(targetScp=scp))
-        print(repr(response))
+    async def CromRequest(self, scp):
+        async with aiohttp.ClientSession() as session:
+            Client = client.GraphQLClient(
+                endpoint = "https://api.crom.avn.sh/"
+            )
+            CromQuery = client.GraphQLRequest("""
+            {{
+            searchPages(query: "{targetScp}")
+                {{
+                    url
+                    wikidotInfo {{
+                        title
+                        rating
+                        thumbnailUrl
+                    }}
+                    alternateTitles {{
+                        type
+                        title
+                    }}
+                    attributions {{
+                        type
+                        user {{
+                            name
+                        }}
+                    }}
+                }}
+            }}""".format(targetScp=scp))
+            print(str(CromQuery))
+            response: client.GraphQLResponse = await Client.query(request=CromQuery)
+            session.close()
 
