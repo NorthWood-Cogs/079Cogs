@@ -21,15 +21,7 @@ class SCP(commands.Cog):
                 isthisjustawayofsavingmytime=True,
                 configLocation=str(data_manager.cog_data_path(self) / "scp.db")
         )
-        self.SCPWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
-        #try:
-            #confLoc = str(self.config.configLocation())
-            #self.SCPWiki = pyscp.snapshot.Wiki('scp-wiki.wikidot.com', confLoc)
-        #except:
-            #self.SCPWIki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')
-            #print("WARNING - DB Not Found! This cog will be slower!")
-            
-    
+        self.SCPWiki = pyscp.wikidot.Wiki('scp-wiki.wikidot.com')            
 
     async def ColourPicker(self, OClass):
         #Basically just a list of If statements because fuck it
@@ -47,7 +39,7 @@ class SCP(commands.Cog):
             return 0x99aab5 #Greyple
 
     @commands.command()
-    async def scp(self, ctx, scpIDOG: str):
+    async def scp(self, ctx,*, scpIDOG: str):
         """Finds an SCP based on their number. Standard Content warning applies.
         Include -j or -ex after the number if it is a joke/explained SCP. Others work too!"""
         scpID = scpIDOG.replace(" ", "")
@@ -63,60 +55,32 @@ class SCP(commands.Cog):
         CaseTag = self.special_cases(scpID) #But this will handle all edge-cases.. Woo...
         ObjectClassFinder = await target.source
         if CaseTag is None:
-            try:
-                try:
-                    ObjectCLStr = Content[Content.find("Object Class"):]
-                    ObjectSplit = ObjectCLStr.split() #This will (try) to find a string
-                    OBJCL = ObjectSplit[2]
-                    ClassColour = await self.ColourPicker(OBJCL)
-                except:
-                    try:
-                        OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", ObjectClassFinder).group()
-                        ClassColour = await self.ColourPicker(OBJCL)
-                    # the less neat way...
-                    except:
-                        try:
-                            OBJCL = re.search("/ADULT CONTENT/im", ObjectClassFinder).group()
-                            ClassColour = await self.ColourPicker(OBJCL)
-                        except:
-                            OBJCL = "Failed to Obtain Object Class..."
-                            ClassColour = 0x99aab5 
-            #Then, we'll attempt to grab the Special Containment Procedures in a similar manner.
-                try:
-                    SpeConProStr = Content[Content.find("Special Containment Procedures"):Content.find("Description")]
-                    ContainmentInfo = " ".join(SpeConProStr.split(" ")[3:])
-                    ContainmentToEmbed = ContainmentInfo[:750] + (ContainmentInfo[750:] and '...')
-                    #Instead of splitting like last time, this time we'll join off a split for the fun of it.
-                except:
-                    ContainmentToEmbed = "Couldn't obtain the Containment Procedure..."
- 
-                errors = " "
-            except:
-                errors = "There was some trouble obtaining some information. Typically, this is due to an archive warning - the Link should work fine to open the real article."
-                ClassColour = self.ColourPicker("Keked") #Greyple in case it all goes wrong
+            embedBack = await self.SCPFinder(self=self, scpID=scpID, scpContent=Content, scpTarget=target)
 
-            scpEM = discord.Embed(
-                title=f"{target.title}",
-                url=f"{target.url}", #We're not really including a lot in the base embed (NOTE to self do I want a footer?) 
-                colour=ClassColour,     # Since we want custom fields for the formatting.
-            )
-            #as all this is, technically, not required, so it gets its own try loop. THE ORDER HERE IS IMPORTANT!
-            OBJCCL = OBJCL.capitalize()
-            scpEM.add_field(name="Object Class",value=f"{OBJCCL}",inline=False)
-            scpEM.add_field(name="Special Containment Procedures", value=f"{ContainmentToEmbed}",inline=False)
+    async def SCPFinder(self, scpID, scpContent, scpTarget):
+        # And now, to hate myself. hey fun fact, you know Python 3.9 is adding switch statements?
+        try:
+            ObjectCLStr = scpContent[scpContent.find("Object Class"):]
+            ObjectSplit = ObjectCLStr.split()
+            OBJCL = ObjectSplit[2]
+            ClassColour = await self.ColourPicker(OBJCL)
+        except:
+            pass # We're gpmma try this a bit more... segmented
+        if ObjectCLStr is None:
             try:
-                scpEM.set_thumbnail(url=target.images[0]) #THUMBNAIL must ALWAYS be last, as not every page has an image attached
+                OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", scpTarget.source).group()
+                ClassColour = await self.ColourPicker(OBJCL)
             except:
                 pass
+        if ObjectCLStr is None: # i kinda wish i could put "IS STILL NONE"
             try:
-                await ctx.send(f"{errors}",embed=scpEM)
-            except HTTPException(Forbidden):
-                try:
-                    await ctx.send("I can't send embeds here! Probably")
-                except: pass
-        else:
-            await ctx.send(embed=CaseTag)
+                OBJCL = scpContent[scpContent.find("ADULT CONTENT"):]
+                ClassColour = 0x99aab5
+            except: #Ok here we'll do "oh god its fucked"
+                OBJCL  = "Can't find an object class!"
+                ClassColour = 0x99aab5
         
+
 
         # The wiki has a lot of.. unique cases that the script can't figure out. they go here. If adding to this, please follow the elif format.
     def special_cases(self, ID: str):
