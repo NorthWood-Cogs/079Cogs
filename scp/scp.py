@@ -70,7 +70,7 @@ class SCP(commands.Cog):
             return OBJCL
         except:
             try:
-                OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", scpTarget.source).group(0)
+                OBJCL = re.search("(?im)safe|euclid|keter|thaumiel|explained|neutralized", scpTarget.source).group(0)
                 ClassColour = await self.ColourPicker(OBJCL)
                 print("Regex")
                 return OBJCL
