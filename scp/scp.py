@@ -23,7 +23,7 @@ class SCP(commands.Cog):
         )    
 
     @commands.command(name="scp")
-    async def _scp(self, ctx, *, scp):
+    async def _scp(self, ctx, *, scp: str):
         await self.CromRequest(scp=scp)
 
 
