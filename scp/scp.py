@@ -1,4 +1,3 @@
-from re import template
 import discord
 from discord.colour import Color
 from discord.errors import Forbidden, HTTPException
@@ -52,6 +51,7 @@ class SCP(commands.Cog):
             }
         }""") # Ye gods
             querytogo = json.substitute({'querytarget': scp})
-            async with session.get(cromURL+querytogo) as response:
-                print(response)
+            async with session.get(cromURL+querytogo) as resp:
+                print(resp.status)
+                print(await resp.text())
 
