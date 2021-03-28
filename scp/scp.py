@@ -8,6 +8,7 @@ import aiohttp
 from redbot.core import commands, Config, data_manager
 import regex
 import json
+import trollius
 
 cromURL = "https://api.crom.avn.sh/"
 
@@ -59,14 +60,13 @@ class SCP(commands.Cog):
             respJson = response.json
             emTitle = (f"{respJson['data']['searchPages'][0]['wikidotInfo']['title']}")
             emImage = (f"{respJson['data']['searchPages'][0]['wikidotInfo']['thumbnailUrl']}")
+            print(str(emImage))
             emURL = (f"{respJson['data']['searchPages'][0]['url']}")
         em = discord.Embed(
            title=emTitle,
             url=emURL,
         )
-
-        if emImage != NULL or emImage != None:
-            em.set_image(url=emImage)
+        em.set_image(url=emImage)
 
         await session.close()
         return em
