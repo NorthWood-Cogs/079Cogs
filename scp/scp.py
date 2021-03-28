@@ -56,13 +56,13 @@ class SCP(commands.Cog):
             respJson = response.json
             emTitle = (f"{respJson['data']['searchPages'][0]['wikidotInfo']['title']}")
             emImage = (f"{respJson['data']['searchPages'][0]['wikidotInfo']['thumbnailUrl']}")
-            print(str(emImage))
             emURL = (f"{respJson['data']['searchPages'][0]['url']}")
         em = discord.Embed(
            title=emTitle,
             url=emURL,
         )
-        em.set_image(url=emImage)
+        if emImage != "None":
+            em.set_image(url=emImage)
 
         await session.close()
         return em
