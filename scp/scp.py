@@ -1,4 +1,5 @@
 import discord
+from discord import embeds
 from discord.embeds import Embed
 import pyscp # No longer used maybe i haven't made my mind up yet
 from aiographql import client
@@ -22,7 +23,7 @@ class SCP(commands.Cog):
     @commands.command(name="scp")
     async def _scp(self, ctx, *, scp: str):
         emb = await self.CromRequest(ctx, scp)
-        await ctx.send(Embed=emb)
+        await ctx.send(emb)
 
 
 
