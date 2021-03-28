@@ -63,7 +63,7 @@ class SCP(commands.Cog):
            title=emTitle,
             url=emURL,
         )
-        if emImage != None:
+        if emImage != None or emImage != "none":
             em.set_image(url=emImage)
 
         await session.close()
