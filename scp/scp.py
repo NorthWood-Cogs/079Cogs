@@ -69,26 +69,22 @@ class SCP(commands.Cog):
             print("OB Find")
             return OBJCL
         except:
-            pass # We're gpmma try this a bit more... segmented
-        if ObjectCLStr is None:
             try:
                 OBJCL = re.search("/safe|euclid|keter|thaumiel|explained|neutralized/im", scpTarget.source).group(0)
                 ClassColour = await self.ColourPicker(OBJCL)
                 print("Regex")
                 return OBJCL
             except:
-                pass
-        elif ObjectCLStr is None: # i kinda wish i could put "IS STILL NONE"
-            try:
-                OBJCL = scpContent[scpContent.find("ADULT CONTENT"):]
-                ClassColour = 0x99aab5
-                print("AC")
-                return OBJCL
-            except: #Ok here we'll do "oh god its fucked"
-                OBJCL  = "Can't find an object class!"
-                print("error")
-                ClassColour = 0x99aab5
-                return OBJCL
+                try:
+                    OBJCL = scpContent[scpContent.find("ADULT CONTENT"):]
+                    ClassColour = 0x99aab5
+                    print("AC")
+                    return OBJCL
+                except: #Ok here we'll do "oh god its fucked"
+                    OBJCL  = "Can't find an object class!"
+                    print("error")
+                    ClassColour = 0x99aab5
+                    return OBJCL
         
 
 
