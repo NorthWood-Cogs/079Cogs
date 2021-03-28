@@ -14,7 +14,7 @@ class SCP(commands.Cog):
         self.config = Config.get_conf(self, identifier="3957890832758296589023290568043")
         self.config.register_global(
                 isthisjustawayofsavingmytime=True,
-                configLocation=str(data_manager.cog_data_path(self) / "scp.db")
+                #configLocation=str(data_manager.cog_data_path(self) / "scp.db")
         )
 
     @commands.command(name="scp")
@@ -22,10 +22,10 @@ class SCP(commands.Cog):
         emb = await self.CromRequest(ctx, scp)
         await ctx.send(embed=emb)
 
-
-
+    
     async def CromRequest(self, ctx, scp):
-        async with aiohttp.ClientSession() as session:
+        UA = (f"Redbot Cog {discord.Client.user.name}")
+        async with aiohttp.ClientSession(headers={'User-Agent': UA}) as session:
             Client = client.GraphQLClient(
                 endpoint = "https://api.crom.avn.sh/"
             )
