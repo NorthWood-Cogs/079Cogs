@@ -49,7 +49,7 @@ class SCP(commands.Cog):
                     }}
                 }}
             }}""".format(targetScp=scp)
-            async with session(cromURL) as resp:
+            async with session.get(cromURL) as resp:
                 print(resp.status)
                 print(await resp.text())
 
