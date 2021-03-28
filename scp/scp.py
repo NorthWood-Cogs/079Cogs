@@ -67,13 +67,11 @@ class SCP(commands.Cog):
             OBJCL = ObjectSplit[2]
             ClassColour = await self.ColourPicker(OBJCL)
             print("OB Find")
-            return OBJCL
         except:
             try:
                 OBJCL = re.search("/(safe|euclid|keter|thaumiel|explained|neutralized)/im", scpTarget.source).group()
                 ClassColour = await self.ColourPicker(OBJCL)
                 print("Regex")
-                return OBJCL
             except:
                 try:
                     OBJCL = scpContent[scpContent.find("ADULT CONTENT"):]
@@ -81,12 +79,11 @@ class SCP(commands.Cog):
                         raise self.GoFuckYourself
                     ClassColour = 0x99aab5
                     print("AC")
-                    return OBJCL
                 except: #Ok here we'll do "oh god its fucked"
                     OBJCL  = str("Can't find an object class!")
                     print("error")
                     ClassColour = 0x99aab5
-                    return OBJCL
+        return OBJCL
             
     class GoFuckYourself(Exception):
         pass
