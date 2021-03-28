@@ -5,8 +5,7 @@ import pyscp # Installed On Cog install, using https://github.com/NorthWood-Cogs
 from aiographql import client
 import aiohttp
 from redbot.core import commands, Config, data_manager
-import regex
-
+import json
 
 cromURL = "https://api.crom.avn.sh/"
 
@@ -56,7 +55,7 @@ class SCP(commands.Cog):
             }}""".format(targetScp=scp))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
             respjson = response.json
-            print(str(respjson))
+            print(str(respjson[:10]))
             await session.close()
 
 
