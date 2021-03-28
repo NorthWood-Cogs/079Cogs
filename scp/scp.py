@@ -28,27 +28,27 @@ class SCP(commands.Cog):
     async def CromRequest(self, scp):
         async with aiohttp.ClientSession() as session:
             CromQuery = """
-            {
+            {{
             searchPages(query: "{targetScp}")
-                {
+                {{
                     url
-                    wikidotInfo {
+                    wikidotInfo {{
                         title
                         rating
                         thumbnailUrl
-                    }
-                    alternateTitles {
+                    }}
+                    alternateTitles {{
                         type
                         title
-                    }
-                    attributions {
+                    }}
+                    attributions {{
                         type
-                        user {
+                        user {{
                             name
-                        }
-                    }
-                }
-            }""".format(targetScp=scp)
+                        }}
+                    }}
+                }}
+            }}""".format(targetScp=scp)
             async with session(cromURL) as resp:
                 print(resp.status)
                 print(await resp.text())
