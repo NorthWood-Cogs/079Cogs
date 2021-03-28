@@ -63,7 +63,10 @@ class SCP(commands.Cog):
            title=emTitle,
             url=emURL,
         )
-        em.set_image(url=emImage)
+        try:
+            em.set_image(url=emImage)
+        except:
+            print("") # Pass was being weird.
 
         await session.close()
         return em
