@@ -23,7 +23,7 @@ class SCP(commands.Cog):
     @commands.command(name="scp")
     async def _scp(self, ctx, *, scp: str):
         emb = await self.CromRequest(ctx, scp)
-        await ctx.send(emb)
+        await ctx.send(embed=emb)
 
 
 
