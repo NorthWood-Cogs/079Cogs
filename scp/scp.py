@@ -19,11 +19,11 @@ class SCP(commands.Cog):
 
     @commands.command(name="scp")
     async def _scp(self, ctx, *, scp: str):
-        scpID = scp.replace(" ", "")
-        if len(scpID) <= 2:
+        if len(scp) <= 2 and scp.isdecimal():
+            scpID = scp.replace(" ", "")
             scpToSearch = (f"{scpID.zfill(3)}")
         else:
-            scpToSearch = scpID
+            scpToSearch = scp
         theBot = ctx.guild.me
         if scp == "0" or scp == "00" or scp == "000":
             em = discord.Embed(
