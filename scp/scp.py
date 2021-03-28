@@ -75,7 +75,7 @@ class SCP(commands.Cog):
             em.set_image(url=emImage)
         else:
             em.set_image(url="https://scp-wiki.wdfiles.com/local--files/component:theme/logo.png")
-        em.set_footer("Powered by Crom - https://crom.avn.sh/")
+        em.set_footer(text="Powered by Crom - https://crom.avn.sh/", icon_url="https://pbs.twimg.com/profile_images/1344457914073960452/_V6Ihvs-_400x400.jpg")
 
         await session.close()
         return em
