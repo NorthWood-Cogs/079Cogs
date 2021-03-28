@@ -17,7 +17,7 @@ class SCP(commands.Cog):
         self.config.register_global(
                 isthisjustawayofsavingmytime=True,
                 configLocation=str(data_manager.cog_data_path(self) / "scp.db")
-        )    
+        )
 
     @commands.command(name="scp")
     async def _scp(self, ctx, *, scp: str):
@@ -55,14 +55,16 @@ class SCP(commands.Cog):
             }}""".format(targetScp=scp))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
             respJson = response.json
-            emTitle = (f"{respJson['data']['searchPages'][0]['wikidotInfo']['title']} - {respJson['data']['searchPages'][0]['alternateTitles']['title']}")
-        # em = discord.Embed(
-        #     title=(f"{respJson['data']['searchPages'][0]['wikidotInfo']['title']} - {respJson['data']['searchPages'][0]['alternateTitles']['title']}"),
-        #     url=respJson['data']['searchPages'][0]['url'],
-        # )
-        # em.set_image(respJson['data']['searchPages'][0]['wikidotInfo']['thumbnailUrl'])
+            emTitle = (f"{respJson['data']['searchPages'][0]['wikidotInfo']['title']}")
+            emImage = (f"{respJson['data']['searchPages'][0]['wikidotInfo']['thumbnailUrl']}")
+            emURL = (f"{respJson['data']['searchPages'][0]['url']}")
+        em = discord.Embed(
+           title=(f"{respJson['data']['searchPages'][0]['wikidotInfo']['title']} - {respJson['data']['searchPages'][0]['alternateTitles']['title']}"),
+            url=respJson['data']['searchPages'][0]['url'],
+        )
+        em.set_image(respJson['data']['searchPages'][0]['wikidotInfo']['thumbnailUrl'])
 
-        # await session.close()
-        # return em
+        await session.close()
+        return em
 
 
