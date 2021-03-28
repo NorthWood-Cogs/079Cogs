@@ -1,4 +1,5 @@
 import discord
+from discord.embeds import Embed
 import pyscp # No longer used maybe i haven't made my mind up yet
 from aiographql import client
 import aiohttp
@@ -20,8 +21,8 @@ class SCP(commands.Cog):
 
     @commands.command(name="scp")
     async def _scp(self, ctx, *, scp: str):
-        await self.CromRequest(ctx, scp)
-        #WIP
+        emb = await self.CromRequest(ctx, scp)
+        await ctx.send(Embed=emb)
 
 
 
@@ -54,9 +55,14 @@ class SCP(commands.Cog):
             }}""".format(targetScp=scp))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
             respJson = response.json
-            print(respJson['data']['searchPages'][0]['url'])
-
+            callJson = respJson['data']['searchPages'][0]
+        em = discord.Embed(
+            title=(f"{callJson['wikidotInfo']['title']} - {callJson['alternateTitles']['title']}"),
+            url=callJson['url'],
+        )
+        em.set_image(callJson['wikidotInfo']['thumbnailUrl'])
 
         await session.close()
+        return em
 
 
