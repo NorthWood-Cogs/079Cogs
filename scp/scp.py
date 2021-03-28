@@ -1,3 +1,4 @@
+from re import template
 import discord
 from discord.colour import Color
 from discord.errors import Forbidden, HTTPException
@@ -5,7 +6,7 @@ import pyscp # Installed On Cog install, using https://github.com/NorthWood-Cogs
 import asyncio
 import aiohttp
 import os
-
+from string import Template
 from redbot.core import commands, Config, data_manager
 from typing import Optional
 from redbot.core.commands import Cog
@@ -31,7 +32,7 @@ class SCP(commands.Cog):
 
     async def CromRequest(self, scp):
         async with aiohttp.ClientSession() as session:
-            json = ("""searchPages(query: "{querytarget}") 
+            json = Template("""{searchPages(query: "$querytarget") 
             {url
                 wikidotInfo {
                     title
@@ -49,7 +50,8 @@ class SCP(commands.Cog):
                     }
                 }
             }
-        }""".format(querytarget=scp)) # Ye gods
-            async with session.get(cromURL+json) as response:
+        }""") # Ye gods
+            querytogo = json.substitute({'querytarget': scp})
+            async with session.get(cromURL+querytogo) as response:
                 print(response)
 
