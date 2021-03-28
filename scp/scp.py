@@ -58,7 +58,7 @@ class SCP(commands.Cog):
             print(str(CromQuery))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
             print(response)
-            title = regex.search("url", response).group()
+            title = regex.search("url", str(response)).group()
             print(title)
             await session.close()
 
