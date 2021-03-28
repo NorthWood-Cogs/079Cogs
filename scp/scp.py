@@ -77,6 +77,8 @@ class SCP(commands.Cog):
             except:
                 try:
                     OBJCL = scpContent[scpContent.find("ADULT CONTENT"):]
+                    if OBJCL == None:
+                        raise self.GoFuckYourself
                     ClassColour = 0x99aab5
                     print("AC")
                     return OBJCL
@@ -85,8 +87,9 @@ class SCP(commands.Cog):
                     print("error")
                     ClassColour = 0x99aab5
                     return OBJCL
-        
-
+            
+    class GoFuckYourself(Exception):
+        pass
 
         # The wiki has a lot of.. unique cases that the script can't figure out. they go here. If adding to this, please follow the elif format.
     def special_cases(self, ID: str):
