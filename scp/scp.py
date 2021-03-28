@@ -64,7 +64,7 @@ class SCP(commands.Cog):
             emName = (f"{coreJson['alternateTitles'][0]['title']}") # Expects to be a strin, is the 'name' e.g. SCP 079's name is "Old AI"
             emImage = (f"{coreJson['wikidotInfo']['thumbnailUrl']}") # Expects to be a URL to the main image of the article
             emURL = (f"{coreJson['url']}") # URL to the article itself
-            emDesc1 = (f"{coreJson['rating']}") #The articles rating on the wiki
+            emDesc1 = (f"{coreJson['wikidotInfo']['rating']}") #The articles rating on the wiki
             emDesc2 = (f"{coreJson['attributions'][0]['user']['name']}") # The original Author/submitter.
         em = discord.Embed(
            title=(f"{emTitle} - {emName}"),
