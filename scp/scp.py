@@ -55,8 +55,8 @@ class SCP(commands.Cog):
                 }}
             }}""".format(targetScp=scp))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
-            RawUrl = str(response)[str(response).find("url"):]
-            print(RawUrl)
+            respjson = response.json
+            print(str(respjson))
             await session.close()
 
 
