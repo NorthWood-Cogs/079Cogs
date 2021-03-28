@@ -19,6 +19,11 @@ class SCP(commands.Cog):
 
     @commands.command(name="scp")
     async def _scp(self, ctx, *, scp: str):
+        scpID = scp.replace(" ", "")
+        if len(scpID) <= 2:
+            scpToSearch = (f"{scpID.zfill(3)}")
+        else:
+            scpToSearch = scpID
         theBot = ctx.guild.me
         if scp == "0" or scp == "00" or scp == "000":
             em = discord.Embed(
@@ -26,9 +31,12 @@ class SCP(commands.Cog):
                 url = "https://scp-secret-laboratory-wiki.fandom.com/wiki/Hubert_Moszka",
                 color = 0xe91e63
             )
+            em.add_field(name="Object Class", value="Thaumiel", inline=False)
+            em.add_field(name="Help", value="We're trapped in his basement, help!", inline=False)
+            em.set_thumbnail(url="https://cdn.discordapp.com/attachments/681599779242770444/817006021276336128/HubS.png")
             await ctx.send(embed=em)
         else:
-            emb = await self.CromRequest(ctx, scp, BotSelf=theBot)
+            emb = await self.CromRequest(ctx, scpToSearch, BotSelf=theBot)
             await ctx.send(embed=emb)
 
     
