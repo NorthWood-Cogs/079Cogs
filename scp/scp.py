@@ -20,7 +20,6 @@ class SCP(commands.Cog):
     @commands.command(name="scp")
     async def _scp(self, ctx, *, scp: str):
         theBot = ctx.guild.me
-        emb = await self.CromRequest(ctx, scp, BotSelf=theBot)
         if scp == "0" or scp == "00" or scp == "000":
             em = discord.Embed(
                 title = "SCP-███ - He he watches us all",
