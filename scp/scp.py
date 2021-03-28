@@ -80,6 +80,7 @@ class SCP(commands.Cog):
             respJson = response.json # Time for the Jason.. Json horde.
             try:
                 coreJson = respJson['data']['searchPages'][0] #Save some time
+                emTitle = (f"{coreJson['wikidotInfo']['title']}") # Expects a string to return, is the SCP-XXXX
             except:
                 em = discord.Embed(
                     title="Error!",
@@ -87,7 +88,6 @@ class SCP(commands.Cog):
                 )
                 return em
 
-            emTitle = (f"{coreJson['wikidotInfo']['title']}") # Expects a string to return, is the SCP-XXXX
             emName = (f"{coreJson['alternateTitles'][0]['title']}") # Expects to be a strin, is the 'name' e.g. SCP 079's name is "Old AI"
             if emTitle != emName:
                 emTrueTitle = (f"{emTitle} - {emName}")
