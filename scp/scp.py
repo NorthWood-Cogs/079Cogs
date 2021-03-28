@@ -6,9 +6,6 @@ import pyscp # No longer used maybe i haven't made my mind up yet
 from aiographql import client
 import aiohttp
 from redbot.core import commands, Config, data_manager
-import regex
-import json
-import trollius
 
 cromURL = "https://api.crom.avn.sh/"
 
