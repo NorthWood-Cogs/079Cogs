@@ -1,7 +1,8 @@
+from aiohttp import client
 import discord
 from discord.colour import Color
 import pyscp # Installed On Cog install, using https://github.com/NorthWood-Cogs/pyscp
-import asyncio
+import aiographql
 import aiohttp
 from redbot.core import commands, Config, data_manager
 
@@ -27,7 +28,10 @@ class SCP(commands.Cog):
 
     async def CromRequest(self, scp):
         async with aiohttp.ClientSession() as session:
-            CromQuery = """
+            Client = aiographql.client.GraphQLClient(
+                endpoint = "https://api.crom.avn.sh/"
+            )
+            CromQuery = aiographql.client.GraphQLRequest("""
             {{
             searchPages(query: "{targetScp}")
                 {{
@@ -48,8 +52,7 @@ class SCP(commands.Cog):
                         }}
                     }}
                 }}
-            }}""".format(targetScp=scp)
-            async with session.get(cromURL+CromQuery) as resp:
-                print(resp.status)
-                print(await resp.text())
+            }}""".format(targetScp=scp))
+            print(cromURL+CromQuery)
+            response: aiographql.client.GraphQLResponse = await Client.query(request=CromQuery)
 
