@@ -31,7 +31,7 @@ class SCP(commands.Cog):
             Client = client.GraphQLClient(
                 endpoint = "https://api.crom.avn.sh/"
             )
-            CromQuery = aiographql.client.GraphQLRequest("""
+            CromQuery = client.GraphQLRequest("""
             {{
             searchPages(query: "{targetScp}")
                 {{
