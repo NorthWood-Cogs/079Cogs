@@ -59,10 +59,10 @@ class SCP(commands.Cog):
             emImage = (f"{respJson['data']['searchPages'][0]['wikidotInfo']['thumbnailUrl']}")
             emURL = (f"{respJson['data']['searchPages'][0]['url']}")
         em = discord.Embed(
-           title=(f"{respJson['data']['searchPages'][0]['wikidotInfo']['title']} - {respJson['data']['searchPages'][0]['alternateTitles']['title']}"),
-            url=respJson['data']['searchPages'][0]['url'],
+           title=emTitle,
+            url=emURL,
         )
-        em.set_image(respJson['data']['searchPages'][0]['wikidotInfo']['thumbnailUrl'])
+        em.set_image(url=emImage)
 
         await session.close()
         return em
