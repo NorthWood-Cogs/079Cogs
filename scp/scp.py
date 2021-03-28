@@ -4,6 +4,7 @@ from aiographql import client
 import aiohttp
 from redbot.core import commands, Config, data_manager
 import regex
+import json
 
 cromURL = "https://api.crom.avn.sh/"
 
@@ -54,7 +55,10 @@ class SCP(commands.Cog):
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
             respjson = response.json
             regexData = regex.search("\[{'url'.+?(?={'url')", str(respjson)).group()
-            print(regexData)
+            regexedJson = json.loads(regexData.json)
+            print(regexedJson['url'])
+            
+
 
         await session.close()
 
