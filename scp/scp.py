@@ -24,7 +24,7 @@ class SCP(commands.Cog):
 
     
     async def CromRequest(self, ctx, scp):
-        UA = (f"Redbot Cog {discord.Client.user.name}")
+        UA = (f"Redbot Cog {discord.ClientUser.user.name}")
         async with aiohttp.ClientSession(headers={'User-Agent': UA}) as session:
             Client = client.GraphQLClient(
                 endpoint = "https://api.crom.avn.sh/"
