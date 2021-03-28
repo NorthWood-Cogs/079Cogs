@@ -81,7 +81,7 @@ class SCP(commands.Cog):
                     print("AC")
                     return OBJCL
                 except: #Ok here we'll do "oh god its fucked"
-                    OBJCL  = "Can't find an object class!"
+                    OBJCL  = str("Can't find an object class!")
                     print("error")
                     ClassColour = 0x99aab5
                     return OBJCL
