@@ -53,6 +53,6 @@ class SCP(commands.Cog):
                     }}
                 }}
             }}""".format(targetScp=scp))
-            print(cromURL+CromQuery)
+            print(str(CromQuery))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
 
