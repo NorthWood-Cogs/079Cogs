@@ -2,8 +2,8 @@
   "author": ["Danstr#1984", "Northwood Bot Development Team"],
   "name" : "SCP",
   "short" : "SCP Cog but with added **zest**",
-  "install_msg" : "Enjoy! if this cog fails to load and mentions a lack of pyscp, please consult the readme in the SCP cogs folder on our github.",
+  "install_msg" : "SCP cog, but now brought to you with Crom instead of pycsp.",
   "end_user_data_statement" : "We store nothing, Fuck storing things *na-na-na-naa*",
-  "requirements": ["git+https://github.com/NorthWood-Cogs/pyscp"]
+  "requirements": ["aiographql-client>=1.0.3a2"]
   
 }
