@@ -1,6 +1,5 @@
 import discord
-from discord import embeds
-from discord.embeds import Embed
+import random
 import pyscp # No longer used maybe i haven't made my mind up yet
 from aiographql import client
 import aiohttp
@@ -67,7 +66,7 @@ class SCP(commands.Cog):
                     description="This isnt a valid SCP name. Try its Article number, or its formal name, if it has one."
                 )
                 return em
-                
+
             emTitle = (f"{coreJson['wikidotInfo']['title']}") # Expects a string to return, is the SCP-XXXX
             emName = (f"{coreJson['alternateTitles'][0]['title']}") # Expects to be a strin, is the 'name' e.g. SCP 079's name is "Old AI"
             if emTitle != emName:
@@ -80,10 +79,13 @@ class SCP(commands.Cog):
             emDesc1 = (f"{coreJson['wikidotInfo']['rating']}") #The articles rating on the wiki
             emDesc2 = (f"{coreJson['attributions'][0]['user']['name']}") # The original Author/submitter.
 
+        r = lambda: random.randint(0,255)
+        colour = ('#%02X%02X%02X' % (r(),r(),r()))
         em = discord.Embed(
            title=emTrueTitle,
            url=emURL,
-           description=(f"Rating: {emDesc1}, Orignal submitter or author: {emDesc2}")
+           description=(f"Rating: {emDesc1}, Orignal submitter or author: {emDesc2}"),
+           color=colour
         )
         if emImage != "None": #This is annoying..
             em.set_image(url=emImage)
