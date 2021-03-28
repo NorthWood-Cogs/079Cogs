@@ -66,7 +66,8 @@ class SCP(commands.Cog):
                     title="Error!",
                     description="This isnt a valid SCP name. Try its Article number, or its formal name, if it has one."
                 )
-            
+                return em
+                
             emTitle = (f"{coreJson['wikidotInfo']['title']}") # Expects a string to return, is the SCP-XXXX
             emName = (f"{coreJson['alternateTitles'][0]['title']}") # Expects to be a strin, is the 'name' e.g. SCP 079's name is "Old AI"
             if emTitle != emName:
