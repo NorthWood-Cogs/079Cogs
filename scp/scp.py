@@ -11,12 +11,14 @@ class SCP(commands.Cog):
     """ SCP Cog that utilises Crom - https://crom.avn.sh/"""
     def __init__(self, bot):
         self.bot = bot
-        self.config = Config.get_conf(self, identifier="3957890832758296589023290568043")
+        self.config = Config.get_conf(self, identifier="2785289375238075112348")
         self.config.register_global(
-                isthisjustawayofsavingmytime=True,
+                defaultLang="0",
                 #configLocation=str(data_manager.cog_data_path(self) / "scp.db")
         )
 
+    
+    @commands.guild_only()
     @commands.command(name="scp")
     async def _scp(self, ctx, *, scp: str):
         """Attempts to search for an SCP. Denote them with `-ex` or `-j` to go for explained/joke scp's (and others!)
@@ -27,13 +29,13 @@ class SCP(commands.Cog):
                 description="This isnt a valid SCP name. Try its Article number, or its formal name, if it has one."
             )
             return await ctx.send(embed=em)
-        elif len(scp) <= 2 and scp.isdecimal():
+        elif len(scp) <= 2 and scp.isdecimal(): #Idiot proofing for the degenerates who put "scp 1" and expect not to get hit in the back of the head by more rational folk
             scpID = scp.replace(" ", "")
             scpToSearch = (f"{scpID.zfill(3)}")
         else:
             scpToSearch = scp
         theBot = ctx.guild.me
-        if scp == "0" or scp == "00" or scp == "000":
+        if scp == "0" or scp == "00" or scp == "000": #Funny Hubert haha
             em = discord.Embed(
                 title = "SCP-███ - He he watches us all",
                 url = "https://scp-secret-laboratory-wiki.fandom.com/wiki/Hubert_Moszka",
@@ -47,20 +49,22 @@ class SCP(commands.Cog):
             emb = await self.CromRequest(ctx, scpToSearch, BotSelf=theBot)
             await ctx.send(embed=emb)
 
-    
-    async def CromRequest(self, ctx, scp, BotSelf):
 
+
+    #actual logic for the request. Might move it to a helper file if I want to. ctx may also get a use at some point, but not right yet.
+    async def CromRequest(self, ctx, scp, BotSelf):
         UA = (f"Redbot Cog {BotSelf.name}#{BotSelf.discriminator} - ID {BotSelf.id}") # The lad asked I made sure to identify the bot in the Session via User agents.
         async with aiohttp.ClientSession(headers={'User-Agent': UA}) as session:
             Client = client.GraphQLClient(
                 endpoint = "https://api.crom.avn.sh/"
             )
-            if str(scp).isdecimal():
+            if str(scp).isdecimal(): #Possibly redundant, but I'd rather be sure
                 targetSCP = scp
             else:
                 targetSCP = str(scp).title()
                 
-            CromQuery = client.GraphQLRequest("""
+            #The query itself. If you ever need to update this(Which you shouldn't, thats my problem) just add it into the existing layout.
+            CromQuery = client.GraphQLRequest("""  
             {{
             searchPages(query: "{targetScp}")
                 {{
@@ -83,7 +87,7 @@ class SCP(commands.Cog):
                 }}
             }}""".format(targetScp=targetSCP))
             response: client.GraphQLResponse = await Client.query(request=CromQuery)
-            respJson = response.json # Time for the Jason.. Json horde.
+            respJson = response.json # Time for the Jason.. Json horde. I'll explain things as we go.
             try:
                 coreJson = respJson['data']['searchPages'][0] #Save some time
                 emTitle = (f"{coreJson['wikidotInfo']['title']}") # Expects a string to return, is the SCP-XXXX
