@@ -1,4 +1,4 @@
-from .leaveofabscence import LOACog
+from .leaveofabsence_withkeyssprinkels import LOACog
 
 
 def setup(bot):
