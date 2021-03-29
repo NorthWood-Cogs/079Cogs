@@ -1,0 +1,6 @@
+{
+    "author": ["Mozeman", "NW Bot Dev Team"],
+    "name" : "Timezone",
+    "short" : "Role-based Timezone tracker",
+    "end_user_data_statement" : "This stores a user ID and a timezone that they provide."
+}

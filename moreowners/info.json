@@ -1,7 +1,0 @@
-{
-    "author": ["Danstr#1984", "Northwood Bot Development Team"],
-    "name" : "MoreOwners",
-    "short" : "Internal Tool for handling more Owners on the fly",
-    "installmsg" : "We at Northwood **are not**, **will not be**, and **never will be** responsible for anything that happens because you gave someone permissions on your bot via this cog. This is your one, and ONLY warning.",
-    "end_user_data_statement" : "This Cog stores User ID's. HOWEVER, Due to their utter necessity you cannot scrub this normally. Only Bot owners will be on this list anyway, so worry not."
-}
