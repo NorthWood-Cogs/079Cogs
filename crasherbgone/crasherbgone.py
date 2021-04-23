@@ -145,7 +145,7 @@ class CrasherBGone(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        settingsdict = self.config.channel(message.channel).all()
+        settingsdict = await self.config.channel(message.channel).all()
         user = message.author
         if user.bot:
             return
