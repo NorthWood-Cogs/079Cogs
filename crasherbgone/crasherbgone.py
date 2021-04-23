@@ -43,12 +43,15 @@ class CrasherBGone(commands.Cog):
     @staticmethod
     async def register_casetypes():
         video_crasher_log = {
-            "name": "videochar",
+            "name": "videoclr",
             "default_setting": True,
             "image": "\N{MOVIE CAMERA}",
             "case_str": "Client Crasher",
         }
-        await modlog.register_casetype(**video_crasher_log)
+        try:
+            await modlog.register_casetype(**video_crasher_log)
+        except RuntimeError:
+            pass
 
 
     @commands.command(name="crashcheck")
