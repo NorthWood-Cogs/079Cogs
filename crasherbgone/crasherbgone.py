@@ -43,7 +43,7 @@ class CrasherBGone(commands.Cog):
     @staticmethod
     async def register_casetypes():
         video_crasher_log = {
-            "name": "videoclr",
+            "name": "videochar",
             "default_setting": True,
             "image": "\N{MOVIE CAMERA}",
             "case_str": "Client Crasher",
