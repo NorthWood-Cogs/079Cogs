@@ -23,7 +23,7 @@ class CrasherBGone(commands.Cog):
         "action": ""
     }
     async def initialize(self):
-        await register_casetypes()
+        await self.register_casetypes()
     def __init__(self, bot: "Red"):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=18082006)
