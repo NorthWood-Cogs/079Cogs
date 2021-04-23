@@ -117,5 +117,5 @@ class CrasherBGone(commands.Cog):
         if Channel == None:
             Channel = ctx.channel
         LogChannelSet = await LogGuild.logchannel.set(Channel.id)
-        LogTest = LogGuild.logchannel()
+        LogTest = LogGuild.logchannel(0)
         await ctx.send(f"{Channel.id} {LogTest}")
