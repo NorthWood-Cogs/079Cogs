@@ -28,7 +28,6 @@ class CrasherBGone(commands.Cog):
         self.config.register_channel(**self.default_channel)
         async def initialize(self):
             await register_casetypes()
-        
         async def red_delete_data_for_user(
             self,
             *,
@@ -114,11 +113,14 @@ class CrasherBGone(commands.Cog):
 
     @crcheckadmin.command(name="logchannel")
     async def _logchannelset(self, ctx, Channel : discord.TextChannel):
+        """Sets the Logging Channel for the `channelog` mode of the.. Log. You ever say log so much it sounds weird?"""
         LogGuild = self.config.guild(ctx.guild)
         settingsdict = await LogGuild.all()
         if Channel == None:
             Channel = ctx.channel
-        LogChannelSet = await LogGuild.logchannel.set(Channel.id)
-        LogTest = settingsdict["logchannel"]
-        lol = self.bot.get_channel(LogTest)
-        await ctx.send(f"{Channel.id} {lol.mention}")
+        try:
+            LogChannelSet = await LogGuild.logchannel.set(Channel.id)
+            LogChannelTest = await settingsdict["logchannel"]
+            await ctx.send("Log Channel set to {id}, {name.mention}".format(id=LogChannelTest, name=self.bot.get_channel(LogChannelTest)))
+        except:
+            await ctx.send("That might not have been Valid. Try it again with a channel ping, like this: {channel.mention}".format(channel=ctx.channel))
