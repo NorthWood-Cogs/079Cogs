@@ -1,3 +1,4 @@
+import re
 import discord
 import asyncio
 from discord.ext.commands.core import guild_only
@@ -66,6 +67,8 @@ class CrasherBGone(commands.Cog):
             await ctx.reply("Crash Video checking is enabled within {Chann}".format(Chann=Chan))
   
 
+
+
     @commands.group()
     @guild_only()
     @checks.admin_or_permissions(manage_guild=True)
@@ -88,7 +91,6 @@ class CrasherBGone(commands.Cog):
 
         if Mode == None:
             await ctx.send("Logging is currently `{status}`(True Means On, False Means Off) `{togglemode}`(You chose the mode, remember!)".format(status=TogSetting, togglemode=TogMode))
-            await ctx.send("")
             return
         else:
             if Mode.lower() == "modlog":
@@ -135,3 +137,25 @@ class CrasherBGone(commands.Cog):
             await ctx.send("Log Channel set to {id}, {name.mention}".format(id=LogChannelTest, name=self.bot.get_channel(LogChannelTest)))
         except:
             await ctx.send("That might not have been Valid. Try it again with a channel ping, like this: {channel.mention}".format(channel=ctx.channel))
+    @crcheckadmin.command(name="action")
+    async def _craction(self, ctx, *, Command: str = None):
+        """Set a command to be ran on folks who post a crash-link."""
+        LogGuild = self.config.guild(ctx.guild)
+        settingsdict = await LogGuild.all()
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        settingsdict = self.config.channel(message.channel).all()
+        user = message.author
+        if user.bot:
+            return
+        if not message.guild:
+            return
+        if settingsdict["enabled"] != True:
+            return
+        if not message.attachments: # Gotta check links too!
+            escaped = discord.utils.escape_markdown(message.content)
+            stripped = escaped.lstrip("\\|")
+            stripped2 = stripped.rstrip("|") # Borrowing from gallery a tad
+            uris = re.search("?=\S+gfycat\.com|\S+youtu\.be\/|\S+tenor\.com|\S+\.tiff|\S+\.gif|\S+\.mp4|\S+\.webm|\S+\.png|")
+            print(uris)
