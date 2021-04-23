@@ -1,5 +1,7 @@
 import discord
 import asyncio
+from discord.ext.commands.core import guild_only
+from discord.mentions import AllowedMentions
 from redbot.core import bot, commands, checks, Config
 from typing import Union
 from redbot.core import modlog
@@ -16,7 +18,7 @@ class CrasherBGone(commands.Cog):
     default_guild = {
         "logtoggle" : False,
         "logmode": "",
-        "logchannel": None,
+        "logchannel": 0,
         "action": ""
     }
     def __init__(self, *args, **kwargs):
@@ -48,6 +50,7 @@ class CrasherBGone(commands.Cog):
 
 
     @commands.command(name="crashcheck")
+    @guild_only()
     @checks.admin_or_permissions(manage_guild=True)
     async def _crashcheck(self, ctx, Option: bool, Chan: Union[discord.TextChannel , int] = None):
         """Enable the crash checker in a channel. We'd recommend you only use this in image heavy channels."""
@@ -61,8 +64,10 @@ class CrasherBGone(commands.Cog):
         else:
             await ChannelConfig.enabled.set(True)
             await ctx.reply("Crash Video checking is enabled within {Chann}".format(Chann=Chan))
-        
+  
+
     @commands.group()
+    @guild_only()
     @checks.admin_or_permissions(manage_guild=True)
     async def crcheckadmin(self, ctx):
         """Admin commands for Crash Checker"""
@@ -78,36 +83,45 @@ class CrasherBGone(commands.Cog):
         LogGuild = self.config.guild(ctx.guild)
         TogSetting = LogGuild.logtoggle()
         if Mode == None:
-            await ctx.reply("Logging to ModLog is currently `{status}`".format(status=TogSetting))
+            await ctx.send("Logging to ModLog is currently `{status}`".format(status=TogSetting))
             return
         else:
-
-
-
             if Mode.lower() == "modlog":
                 await LogGuild.logmode.set("ModLog")
-                await ctx.reply("Cases are now going to Red's ModLog. Or I guess, {botname}'s ModLog.".format(botname=ctx.me.name))
+                await ctx.send("Cases are now going to Red's ModLog. Or I guess, {botname}'s ModLog.".format(botname=ctx.me.name))
                 return
+
             if Mode.lower() == "channellog":
                 await LogGuild.logmode.set("ChannelLog")
                 LogChannelConfig = LogGuild.logchannel()
                 try:
-                    LogChannel = bot.get_channel(LogChannelConfig)
+                    LogChannel = await bot.get_channel(LogChannelConfig)
                 except:
                      LogChannel = None
                 if LogChannel == None:
-                    await ctx.reply("""Incidents will now be going to a defined channel. What that channel is,
-I don't know, since you **Haven't defined one yet. Please go and do that** - its `{p}crcheckadmin logchannel`""".format(p=ctx.prefix))
+                    await ctx.send("""Incidents will now be going to a defined channel. What that channel is, I don't know, since you **Haven't defined one yet. Please go and do that** - its `{p}crcheckadmin logchannel`""".format(p=ctx.prefix))
                     return
                 else:
-                    await ctx.reply("""Incidents are now being logged to {channel}""".format(channel=LogChannel))
+                    await ctx.send("""Incidents are now being logged to {channel}""".format(channel=LogChannel))
                     return
+
             if Mode.lower() == "none":
-                await LogGuild.logmode.set("None")
-                await ctx.reply("Logging Disabled.")
+                await ctx.send("Logging Disabled.")
                 return
             else:
-                await ctx.reply("I think you put an invalid option. Try again, make sure the formatting is correct.")
+                await ctx.send("I think you put an invalid option. Try again, make sure the formatting is correct.")
                 return
 
-        
+    @crcheckadmin.command(bame="channelset")
+    async def _logchannelset(self, ctx, Channel : Union[discord.TextChannel, int] = None):
+        LogGuild = self.config.guild(ctx.guild)
+        if Channel == None:
+            Channel = ctx.channel
+        TargetToLog = Channel.id
+        try:
+            TLCR = await bot.get_channel(TargetToLog) # Testing tif the ID is valid beforehand, basically.
+            await ctx.send("Logging channel has been set to {chan}. Please ensure to enable logging to this channel with `{p}crcheckadmin togglelog channellog`".format(chan=TLCR.mention, p=ctx.prefix))
+        except:
+            return ctx.send("Couldn't retrieve that Channel. Weird.")
+        LogChannel = await LogGuild.logchannel.set(Channel.id)
+        await ctx.send("Logging channel has been set to {chan}. Please ensure to enable logging to this channel with `{p}crcheckadmin togglelog channellog`".format(chan=TLCR.mention))
