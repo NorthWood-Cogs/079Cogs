@@ -97,7 +97,7 @@ class CrasherBGone(commands.Cog):
                      LogChannel = None
                 if LogChannel == None:
                     await ctx.reply("""Incidents will now be going to a defined channel. What that channel is,
-                    I don't now, since you **Haven't defined one yet. Please go and do that** - its {p}crcheckadmin logchannel""".format(p=ctx.prefix))
+                    I don't know, since you **Haven't defined one yet. Please go and do that** - its `{p}crcheckadmin logchannel`""".format(p=ctx.prefix))
                     return
                 else:
                     await ctx.reply("""Incidents are now being logged to {channel}""".format(channel=LogChannel))
