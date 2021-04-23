@@ -116,4 +116,6 @@ class CrasherBGone(commands.Cog):
         LogGuild = self.config.guild(ctx.guild)
         if Channel == None:
             Channel = ctx.channel
-        await ctx.send(Channel.id)
+        LogChannelSet = await LogGuild.logchannel.set(Channel.id)
+        LogTest = LogGuild.logchannel()
+        await ctx.send("The Log channel is now {id}, {name}".format(id=LogTest, name=await self.bot.Red.get_channel(LogTest)))
