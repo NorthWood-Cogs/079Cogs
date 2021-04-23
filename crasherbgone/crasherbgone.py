@@ -93,10 +93,10 @@ class CrasherBGone(commands.Cog):
 
             if Mode.lower() == "channellog":
                 await LogGuild.logmode.set("ChannelLog")
-                try:
-                    LogChannel = settingsdict["logchannel"]
-                except:
-                     LogChannel = None
+                
+                LogChannel = settingsdict["logchannel"]
+                # except:
+                #      LogChannel = None
                 if LogChannel == None:
                     await ctx.send("""Incidents will now be going to a defined channel. What that channel is, I don't know, since you **Haven't defined one yet. Please go and do that** - its `{p}crcheckadmin logchannel`""".format(p=ctx.prefix))
                     return
