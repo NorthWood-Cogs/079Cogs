@@ -16,7 +16,7 @@ class CrasherBGone(commands.Cog):
     default_guild = {
         "logtoggle" : False,
         "logmode": "",
-        "logchannel": "",
+        "logchannel": None,
         "action": ""
     }
     def __init__(self, *args, **kwargs):
@@ -91,7 +91,7 @@ class CrasherBGone(commands.Cog):
             if Mode.lower() == "channellog":
                 await LogGuild.logmode.set("ChannelLog")
                 LogChannel = LogGuild.logchannel()
-                if LogChannel == "":
+                if LogChannel == None:
                     await ctx.reply("""Incidents will now be going to a defined channel. What that channel is,
                     I don't now, since you **Haven't defined one yet. Please go and do that** - its {p}crcheckadmin logchannel""".format(p=ctx.prefix))
                     return
