@@ -3,6 +3,7 @@ import asyncio
 from discord.ext.commands.core import guild_only
 from discord.mentions import AllowedMentions
 from redbot.core import bot, commands, checks, Config
+from redbot.core.bot import Red
 from typing import Union
 from redbot.core import modlog
 from redbot.core.modlog import register_casetype, register_casetypes
@@ -20,7 +21,7 @@ class CrasherBGone(commands.Cog):
         "logchannel": 0,
         "action": ""
     }
-    def __init__(self, *args, **kwargs):
+    def __init__(self, bot: "Red"):
         super().__init__()
         self.bot = bot
         self.config = Config.get_conf(self, identifier=18082006)
