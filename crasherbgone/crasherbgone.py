@@ -75,8 +75,8 @@ class CrasherBGone(commands.Cog):
         None - Disables Logging.```
         Omit all options to see the current setting.\n
         NOTE - Options are **NOT** case sensitive."""
-        LogGuild = await self.config.guild(ctx.guild)
-        TogSetting = await LogGuild.logtoggle()
+        LogGuild = self.config.guild(ctx.guild)
+        TogSetting = LogGuild.logtoggle()
         if Mode == None:
             await ctx.reply("Logging to ModLog is currently `{status}`".format(status=TogSetting))
             return
