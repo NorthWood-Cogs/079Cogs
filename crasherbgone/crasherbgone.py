@@ -112,7 +112,7 @@ class CrasherBGone(commands.Cog):
                 await ctx.send("I think you put an invalid option. Try again, make sure the formatting is correct.")
                 return
 
-    @crcheckadmin.command(bame="channelset")
+    @crcheckadmin.command(name="logchannel")
     async def _logchannelset(self, ctx, Channel : Union[discord.TextChannel, int] = None):
         LogGuild = self.config.guild(ctx.guild)
         if Channel == None:
