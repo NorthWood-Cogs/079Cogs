@@ -5,7 +5,6 @@ from discord.mentions import AllowedMentions
 from redbot.core import bot, commands, checks, Config
 from typing import Union
 from redbot.core import modlog
-from redbot.core.bot import Red
 from redbot.core.modlog import register_casetype, register_casetypes
 
 
