@@ -80,6 +80,7 @@ class CrasherBGone(commands.Cog):
         Omit all options to see the current setting.\n
         NOTE - Options are **NOT** case sensitive."""
         LogGuild = self.config.guild(ctx.guild)
+        settingsdict = LogGuild.all()
         TogSetting = LogGuild.logtoggle()
         if Mode == None:
             await ctx.send("Logging to ModLog is currently `{status}`".format(status=TogSetting))
@@ -92,9 +93,8 @@ class CrasherBGone(commands.Cog):
 
             if Mode.lower() == "channellog":
                 await LogGuild.logmode.set("ChannelLog")
-                LogChannelConfig = LogGuild.logchannel()
                 try:
-                    LogChannel = await self.bot.get_channel(LogChannelConfig)
+                    LogChannel = settingsdict["logchannel"]
                 except:
                      LogChannel = None
                 if LogChannel == None:
