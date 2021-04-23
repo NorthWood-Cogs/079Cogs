@@ -157,5 +157,5 @@ class CrasherBGone(commands.Cog):
             escaped = discord.utils.escape_markdown(message.content)
             stripped = escaped.lstrip("\\|")
             stripped2 = stripped.rstrip("|") # Borrowing from gallery a tad
-            uris = re.search("?=\S+gfycat\.com|\S+youtu\.be\/|\S+tenor\.com|\S+\.tiff|\S+\.gif|\S+\.mp4|\S+\.webm|\S+\.png|")
+            uris = re.search("?=\S+gfycat\.com|\S+youtu\.be\/|\S+tenor\.com|\S+\.tiff|\S+\.gif|\S+\.mp4|\S+\.webm|\S+\.png|", stripped2)
             print(uris)
