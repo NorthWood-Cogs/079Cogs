@@ -112,11 +112,12 @@ class CrasherBGone(commands.Cog):
                 return
 
     @crcheckadmin.command(name="logchannel")
-    async def _logchannelset(self, ctx, Channel : discord.TextChannel = None):
+    async def _logchannelset(self, ctx, Channel : discord.TextChannel):
         LogGuild = self.config.guild(ctx.guild)
         settingsdict = await LogGuild.all()
         if Channel == None:
             Channel = ctx.channel
         LogChannelSet = await LogGuild.logchannel.set(Channel.id)
         LogTest = settingsdict["logchannel"]
-        await ctx.send(f"{Channel.id} {LogTest}")
+        lol = bot.get_channel(Channel.id)
+        await ctx.send(f"{Channel.id} {lol}")
