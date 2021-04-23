@@ -24,6 +24,8 @@ class CrasherBGone(commands.Cog):
     }
     async def initialize(self):
         await self.register_casetypes()
+
+
     def __init__(self, bot: "Red"):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=18082006)
@@ -46,7 +48,7 @@ class CrasherBGone(commands.Cog):
             "image": "\N{MOVIE CAMERA}",
             "case_str": "Client Crasher",
         }
-        await modlog.register_casetypes(**video_crasher_log)
+        await modlog.register_casetype(**video_crasher_log)
 
 
     @commands.command(name="crashcheck")
