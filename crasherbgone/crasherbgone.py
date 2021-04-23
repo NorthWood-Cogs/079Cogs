@@ -46,7 +46,7 @@ class CrasherBGone(commands.Cog):
         try: await modlog.register_casetypes(**video_crasher_log)
         except: pass
 
-        
+
     @commands.command(name="crashcheck")
     @checks.admin_or_permissions(manage_guild=True)
     async def _crashcheck(self, ctx, Option: bool, Chan: Union[discord.TextChannel , int] = None):
@@ -69,11 +69,10 @@ class CrasherBGone(commands.Cog):
 
     @crcheckadmin.command(name="togglelog")
     async def _modlogtoggle(self, ctx, Mode: str = None):
-        """Toggle whether the modlog is used when a file is deleted. Supported Modes:
+        """Toggle whether the modlog is used when a file is deleted. Supported Modes:\n
         ``` ModLog - Logs to Reds Modlog.None\n
         ChannelLog - Enables logging to a channel set in [p]crcheckadmin logchannel\n
-        None - Disables Logging.
-        ```
+        None - Disables Logging.```
         Omit all options to see the current setting.\n
         NOTE - Options are **NOT** case sensitive."""
         LogGuild = self.config.guild(ctx.guild)
@@ -85,18 +84,23 @@ class CrasherBGone(commands.Cog):
             if Mode.lower() == "modlog":
                 await LogGuild.logmode.set("ModLog")
                 await ctx.reply("Cases are now going to Red's ModLog. Or I guess, [botname]'s ModLog.".format(botname=ctx.me.name))
+                return
             if Mode.lower() == "channellog":
                 await LogGuild.logmode.set("ChannelLog")
                 LogChannel = LogGuild.logchannel()
                 if LogChannel == "":
                     await ctx.reply("""Incidents will now be going to a defined channel. What that channel is,
                     I don't now, since you **Haven't defined one yet. Please go and do that** - its {p}crcheckadmin logchannel""".format(p=ctx.prefix))
+                    return
                 else:
                     await ctx.reply("""Incidents are now being logged to {channel}""".format(channel=LogChannel))
+                    return
             if Mode.lower() == "none":
                 await LogGuild.logmode.set("None")
                 await ctx.reply("Logging Disabled.")
+                return
             else:
                 await ctx.reply("I think you put an invalid option. Try again, make sure the formatting is correct.")
+                return
 
         
