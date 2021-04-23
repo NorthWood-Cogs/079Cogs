@@ -44,7 +44,7 @@ class CrasherBGone(commands.Cog):
             "name": "videoclr",
             "default_setting": True,
             "image": "\N{MOVIE CAMERA}",
-            "case_str": "Posted a Video that can crash Clients."
+            "case_str": "Client Crasher",
         }
         await modlog.register_casetypes(**video_crasher_log)
 
