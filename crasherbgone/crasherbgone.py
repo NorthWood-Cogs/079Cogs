@@ -26,6 +26,7 @@ class CrasherBGone(commands.Cog):
         self.bot = bot
         self.config = Config.get_conf(self, identifier=18082006)
         self.config.register_channel(**self.default_channel)
+        self.config.register_guild(**self.default_guild)
         async def initialize(self):
             await register_casetypes()
         async def red_delete_data_for_user(
@@ -79,10 +80,12 @@ class CrasherBGone(commands.Cog):
         None - Disables Logging.```
         Omit all options to see the current setting.\n
         NOTE - Options are **NOT** case sensitive."""
+
         LogGuild = self.config.guild(ctx.guild)
         settingsdict = await LogGuild.all()
         TogSetting = settingsdict["logtoggle"]
         TogMode = settingsdict["logmode"]
+
         if Mode == None:
             await ctx.send("Logging to ModLog is currently `{status}` `{togglemode}`".format(status=TogSetting, togglemode=TogMode))
             return
