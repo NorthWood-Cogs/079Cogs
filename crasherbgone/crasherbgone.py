@@ -121,8 +121,9 @@ class CrasherBGone(commands.Cog):
         LogChannelSet = await LogGuild.logchannel.set(Channel.id)
         LogChannelTest = settingsdict["logchannel"]
         try:
+            settingsdictUpdate = await LogGuild.all()
             LogChannelSet = await LogGuild.logchannel.set(Channel.id)
-            LogChannelTest = settingsdict["logchannel"]
+            LogChannelTest = settingsdictUpdate["logchannel"]
             await ctx.send("Log Channel set to {id}, {name.mention}".format(id=LogChannelTest, name=self.bot.get_channel(LogChannelTest)))
         except:
             await ctx.send("That might not have been Valid. Try it again with a channel ping, like this: {channel.mention}".format(channel=ctx.channel))
