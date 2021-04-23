@@ -167,7 +167,7 @@ class CrasherBGone(commands.Cog):
                     LogMode = GuildSettingsDict["logmode"]
                     LogChannel = self.bot.get_channel(GuildSettingsDict["logchannel"])
                     if LogMode == "ModLog":
-                        case = modlog.create_case(
+                        case = await modlog.create_case(
                             self.bot.user, message.channel.guild, message.created_at, action_type="video_crash_logger", user=message.author,
                             moderator=self.bot.user, reason="`giant.gfycat link that ends in mp4 - I'd recommend checking the link yourself. Content: {link}".format(link=message.content))
-
+                        await message.channel.send ("I saw that.")
