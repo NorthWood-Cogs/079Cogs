@@ -41,13 +41,12 @@ class CrasherBGone(commands.Cog):
     @staticmethod
     async def register_casetypes():
         video_crasher_log = [{
-            "name": "video_crash_logger",
+            "name": "videoclr",
             "default_setting": True,
             "image": "\N{MOVIE CAMERA}",
             "case_str": "Posted a Video that can crash Clients."
         }]
-        try: await modlog.register_casetypes(**video_crasher_log)
-        except: pass
+        await modlog.register_casetypes(**video_crasher_log)
 
 
     @commands.command(name="crashcheck")
@@ -168,6 +167,6 @@ class CrasherBGone(commands.Cog):
                     LogChannel = self.bot.get_channel(GuildSettingsDict["logchannel"])
                     if LogMode == "ModLog":
                         case = await modlog.create_case(
-                            self.bot.user, message.channel.guild, message.created_at, action_type="video_crash_logger", user=message.author,
+                            self.bot.user, message.channel.guild, message.created_at, action_type="videoclr", user=message.author,
                             moderator=self.bot.user, reason="`giant.gfycat link that ends in mp4 - I'd recommend checking the link yourself. Content: {link}".format(link=message.content))
                         await message.channel.send ("I saw that.")
