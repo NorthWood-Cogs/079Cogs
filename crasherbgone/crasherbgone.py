@@ -119,6 +119,8 @@ class CrasherBGone(commands.Cog):
         if Channel == None:
             Channel = ctx.channel
         LogChannelSet = await LogGuild.logchannel.set(Channel.id)
+        LogChannelTest = await settingsdict["logchannel"]
+        await ctx.send("Log Channel set to {id}, {name.mention}".format(id=LogChannelTest, name=self.bot.get_channel(LogChannelTest)))
         try:
             LogChannelTest = await settingsdict["logchannel"]
             await ctx.send("Log Channel set to {id}, {name.mention}".format(id=LogChannelTest, name=self.bot.get_channel(LogChannelTest)))
