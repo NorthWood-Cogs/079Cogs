@@ -145,17 +145,20 @@ class CrasherBGone(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        settingsdict = await self.config.channel(message.channel).all()
+        ChannelSettingsDict = await self.config.channel(message.channel).all()
+        GuildSettingsDict = await self.config.guild(message.channel.guild).all()
         user = message.author
         if user.bot:
             return
         if not message.guild:
             return
-        if settingsdict["enabled"] != True:
+        if ChannelSettingsDict["enabled"] != True:
             return
         if not message.attachments: # Gotta check links too!
             escaped = discord.utils.escape_markdown(message.content)
             stripped = escaped.lstrip("\\|")
             stripped2 = stripped.rstrip("|") # Borrowing from gallery a tad
-            uris = re.search("(?im)gfycat.com", stripped2)
+            uris = re.search("(?im)giant.gfycat.com|gfycat.com|gfycat", stripped2)
             print(uris)
+            if uris != None: #We'll be a bit overzealous and trade it off with this one being calmer.
+                print("Hit!")
