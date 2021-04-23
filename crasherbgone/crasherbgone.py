@@ -158,7 +158,16 @@ class CrasherBGone(commands.Cog):
             escaped = discord.utils.escape_markdown(message.content)
             stripped = escaped.lstrip("\\|")
             stripped2 = stripped.rstrip("|") # Borrowing from gallery a tad
-            uris = re.search("(?im)giant.gfycat.com|gfycat.com|gfycat", stripped2)
+            uris = re.search("(?im)giant.gfycat.com.*mp4", stripped2)
             print(uris)
             if uris != None: #We'll be a bit overzealous and trade it off with this one being calmer.
-                print("Hit!")
+                            #calmer as in it won't fire an action.
+                ModMode = GuildSettingsDict["logtoggle"]
+                if ModMode:
+                    LogMode = GuildSettingsDict["logmode"]
+                    LogChannel = self.bot.get_channel(GuildSettingsDict["logchannel"])
+                    if LogMode == "ModLog":
+                        case = modlog.create_case(
+                            self.bot.user, message.channel.guild, message.created_at, action_type="video_crash_logger", user=message.author,
+                            moderator=self.bot.user, reason="`giant.gfycat link that ends in mp4 - I'd recommend checking the link yourself. Content: {link}".format(link=message.content))
+
