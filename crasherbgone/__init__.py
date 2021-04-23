@@ -1,4 +1,4 @@
 from .crasherbgone import CrasherBGone
 
-def setup(bot):
+async def setup(bot):
     bot.add_cog(CrasherBGone(bot))

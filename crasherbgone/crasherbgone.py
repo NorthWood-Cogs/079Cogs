@@ -119,5 +119,5 @@ class CrasherBGone(commands.Cog):
             Channel = ctx.channel
         LogChannelSet = await LogGuild.logchannel.set(Channel.id)
         LogTest = settingsdict["logchannel"]
-        lol = ctx.bot.get_channel(Channel.id)
-        await ctx.send(f"{Channel.id} {lol}")
+        lol = self.bot.get_channel(LogTest)
+        await ctx.send(f"{Channel.id} {lol.mention}")
