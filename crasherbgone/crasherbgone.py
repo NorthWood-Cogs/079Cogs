@@ -22,14 +22,14 @@ class CrasherBGone(commands.Cog):
         "logchannel": 0,
         "action": ""
     }
+    async def initialize(self):
+        await register_casetypes()
     def __init__(self, bot: "Red"):
-        super().__init__()
         self.bot = bot
         self.config = Config.get_conf(self, identifier=18082006)
         self.config.register_channel(**self.default_channel)
         self.config.register_guild(**self.default_guild)
-        async def initialize(self):
-            await register_casetypes()
+
         async def red_delete_data_for_user(
             self,
             *,
