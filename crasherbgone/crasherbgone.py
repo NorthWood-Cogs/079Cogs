@@ -117,9 +117,9 @@ class CrasherBGone(commands.Cog):
         if Channel == None:
             Channel = ctx.channel
         TargetToLog = Channel.id
-        CR = self.bot.fetch_channel(TargetToLog)
+        TLCR = discord.Client.get_channel(TargetToLog) # For some fucking reason, redbot.core.bot won't recognise the existence of get Channel, thus we go the long way round.
         try:
-            TLCR = self.bot.get_channel(TargetToLog)
+    
             await ctx.send("Logging channel has been set to {chan}. Please ensure to enable logging to this channel with `{p}crcheckadmin togglelog channellog`".format(chan=TLCR.mention, p=ctx.prefix))
         except:
             return await ctx.send("Couldn't retrieve that Channel. Weird.")
