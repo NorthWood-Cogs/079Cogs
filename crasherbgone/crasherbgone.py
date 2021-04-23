@@ -81,9 +81,12 @@ class CrasherBGone(commands.Cog):
             await ctx.reply("Logging to ModLog is currently `{status}`".format(status=TogSetting))
             return
         else:
+
+
+
             if Mode.lower() == "modlog":
                 await LogGuild.logmode.set("ModLog")
-                await ctx.reply("Cases are now going to Red's ModLog. Or I guess, [botname]'s ModLog.".format(botname=ctx.me.name))
+                await ctx.reply("Cases are now going to Red's ModLog. Or I guess, {botname}'s ModLog.".format(botname=ctx.me.name))
                 return
             if Mode.lower() == "channellog":
                 await LogGuild.logmode.set("ChannelLog")
