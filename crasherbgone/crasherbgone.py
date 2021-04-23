@@ -1,8 +1,10 @@
-from os import name
 import discord
 import asyncio
 from redbot.core import bot, commands, checks, Config
 from typing import Union
+from redbot.core import modlog
+from redbot.core.bot import Red
+from redbot.core.modlog import register_casetype, register_casetypes
 
 
 
@@ -18,10 +20,13 @@ class CrasherBGone(commands.Cog):
         "action": ""
     }
     def __init__(self, *args, **kwargs):
+        super().__init__()
         self.bot = bot
         self.config = Config.get_conf(self, identifier=18082006)
         self.config.register_channel(**self.default_channel)
-        self.registration_task = self.bot.loop.create_task(self.register_logtype())
+        async def initialize(self):
+            await register_casetypes()
+        
         async def red_delete_data_for_user(
             self,
             *,
@@ -31,14 +36,17 @@ class CrasherBGone(commands.Cog):
             pass # We don't store user data.
             
     @staticmethod
-    async def register_logtype():
-        casetoregister = [{
+    async def register_casetypes():
+        video_crasher_log = [{
             "name": "video_crash_logger",
             "default_setting": True,
             "image": "\N{MOVIE CAMERA}",
             "case_str": "Posted a Video that can crash Clients."
-
         }]
+        try: await modlog.register_casetypes(**video_crasher_log)
+        except: pass
+
+        
     @commands.command(name="crashcheck")
     @checks.admin_or_permissions(manage_guild=True)
     async def _crashcheck(self, ctx, Option: bool, Chan: Union[discord.TextChannel , int] = None):
