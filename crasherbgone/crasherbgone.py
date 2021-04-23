@@ -113,13 +113,14 @@ class CrasherBGone(commands.Cog):
                 return
 
     @crcheckadmin.command(name="logchannel")
-    async def _logchannelset(self, ctx, Channel : Union[discord.TextChannel, int] = None):
+    async def _logchannelset(self, ctx, Channel : discord.TextChannel = None):
         LogGuild = self.config.guild(ctx.guild)
         if Channel == None:
             Channel = ctx.channel
         TargetToLog = Channel.id
+        CR = await self.bot.get_channel(TargetToLog)
         try:
-            TLCR = await bot.get_channel(TargetToLog) # Testing tif the ID is valid beforehand, basically.
+            TLCR = await self.bot.get_channel(TargetToLog)
             await ctx.send("Logging channel has been set to {chan}. Please ensure to enable logging to this channel with `{p}crcheckadmin togglelog channellog`".format(chan=TLCR.mention, p=ctx.prefix))
         except:
             return await ctx.send("Couldn't retrieve that Channel. Weird.")
