@@ -120,9 +120,9 @@ class CrasherBGone(commands.Cog):
             Channel = ctx.channel
         LogChannelSet = await LogGuild.logchannel.set(Channel.id)
         LogChannelTest = settingsdict["logchannel"]
-        await ctx.send("Log Channel set to {id}, {name.mention}".format(id=LogChannelTest, name=self.bot.get_channel(LogChannelTest)))
         try:
-            LogChannelTest = await settingsdict["logchannel"]
+            LogChannelSet = await LogGuild.logchannel.set(Channel.id)
+            LogChannelTest = settingsdict["logchannel"]
             await ctx.send("Log Channel set to {id}, {name.mention}".format(id=LogChannelTest, name=self.bot.get_channel(LogChannelTest)))
         except:
             await ctx.send("That might not have been Valid. Try it again with a channel ping, like this: {channel.mention}".format(channel=ctx.channel))
