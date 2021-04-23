@@ -122,6 +122,6 @@ class CrasherBGone(commands.Cog):
             TLCR = await bot.get_channel(TargetToLog) # Testing tif the ID is valid beforehand, basically.
             await ctx.send("Logging channel has been set to {chan}. Please ensure to enable logging to this channel with `{p}crcheckadmin togglelog channellog`".format(chan=TLCR.mention, p=ctx.prefix))
         except:
-            return ctx.send("Couldn't retrieve that Channel. Weird.")
+            return await ctx.send("Couldn't retrieve that Channel. Weird.")
         LogChannel = await LogGuild.logchannel.set(Channel.id)
         await ctx.send("Logging channel has been set to {chan}. Please ensure to enable logging to this channel with `{p}crcheckadmin togglelog channellog`".format(chan=TLCR.mention))
