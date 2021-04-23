@@ -75,8 +75,8 @@ class CrasherBGone(commands.Cog):
         None - Disables Logging.```
         Omit all options to see the current setting.\n
         NOTE - Options are **NOT** case sensitive."""
-        LogGuild = self.config.guild(ctx.guild)
-        TogSetting = LogGuild.logtoggle()
+        LogGuild = await self.config.guild(ctx.guild)
+        TogSetting = await LogGuild.logtoggle()
         if Mode == None:
             await ctx.reply("Logging to ModLog is currently `{status}`".format(status=TogSetting))
             return
@@ -90,7 +90,11 @@ class CrasherBGone(commands.Cog):
                 return
             if Mode.lower() == "channellog":
                 await LogGuild.logmode.set("ChannelLog")
-                LogChannel = LogGuild.logchannel()
+                LogChannelConfig = LogGuild.logchannel()
+                try:
+                    LogChannel = bot.get_channel(LogChannelConfig)
+                except:
+                     LogChannel = None
                 if LogChannel == None:
                     await ctx.reply("""Incidents will now be going to a defined channel. What that channel is,
                     I don't now, since you **Haven't defined one yet. Please go and do that** - its {p}crcheckadmin logchannel""".format(p=ctx.prefix))
