@@ -80,10 +80,11 @@ class CrasherBGone(commands.Cog):
         Omit all options to see the current setting.\n
         NOTE - Options are **NOT** case sensitive."""
         LogGuild = self.config.guild(ctx.guild)
-        settingsdict = LogGuild.all()
-        TogSetting = LogGuild.logtoggle()
+        settingsdict = await LogGuild.all()
+        TogSetting = settingsdict["logtoggle"]
+        TogMode = settingsdict["logmode"]
         if Mode == None:
-            await ctx.send("Logging to ModLog is currently `{status}`".format(status=TogSetting))
+            await ctx.send("Logging to ModLog is currently `{status}` `{togglemode}`".format(status=TogSetting, togglemode=TogMode))
             return
         else:
             if Mode.lower() == "modlog":
