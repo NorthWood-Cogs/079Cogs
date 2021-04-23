@@ -87,16 +87,19 @@ class CrasherBGone(commands.Cog):
         TogMode = settingsdict["logmode"]
 
         if Mode == None:
-            await ctx.send("Logging to ModLog is currently `{status}` `{togglemode}`".format(status=TogSetting, togglemode=TogMode))
+            await ctx.send("Logging is currently `{status}`(True Means On, False Means Off) `{togglemode}`(You chose the mode, remember!)".format(status=TogSetting, togglemode=TogMode))
+            await ctx.send("")
             return
         else:
             if Mode.lower() == "modlog":
                 await LogGuild.logmode.set("ModLog")
+                await LogGuild.logtoggle.set(True)
                 await ctx.send("Cases are now going to Red's ModLog. Or I guess, {botname}'s ModLog.".format(botname=ctx.me.name))
                 return
 
             if Mode.lower() == "channellog":
                 await LogGuild.logmode.set("ChannelLog")
+                await LogGuild.logtoggle.set(True)
                 
                 LogChannel = settingsdict["logchannel"]
                 # except:
@@ -109,6 +112,7 @@ class CrasherBGone(commands.Cog):
                     return
 
             if Mode.lower() == "none":
+                await LogGuild.logtoggle.set(False)
                 await ctx.send("Logging Disabled.")
                 return
             else:
