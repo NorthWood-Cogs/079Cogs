@@ -219,8 +219,9 @@ class CrasherBGone(commands.Cog):
             resultEFF = os.popen(f"ffmpeg -sseof -1 -i {file_file} -update 1 -q:v 1 {end_frame_file}").read()
         except:
             pass
-        SFFStreamType = re.search("Stream #(.*)Metadata:", resultSFF)
-        EFFStreamType = re.search("Stream #(.*)Metadata:", resultEFF)
+        SFFStreamType = re.search("Stream #(.*)Metadata:", resultSFF).group(1)
+        EFFStreamType = re.search("Stream #(.*)Metadata:", resultEFF).group(1)
         print(SFFStreamType)
         print(EFFStreamType)
+        return "YES"
         # OK so now that we have our two images, its time to probe
