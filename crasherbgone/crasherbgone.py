@@ -216,7 +216,7 @@ class CrasherBGone(commands.Cog):
                     print("File Downloaded.")
         try:
             resultSFF = os.popen(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}")
-            resultEFF = os.popen(f"ffmpeg -sseof -3 -i {file_file} -update 1 -q:v 1 {end_frame_file}")
+            resultEFF = os.popen(f"ffmpeg -sseof -1 -i {file_file} -update 1 -q:v 1 {end_frame_file}")
         except subprocess.TimeoutExpired:
             os.remove(file_file)
             try:
