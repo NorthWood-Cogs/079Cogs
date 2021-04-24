@@ -1,21 +1,18 @@
-from io import BytesIO
 import os
 import re
 import subprocess
 import aiohttp
 import discord
 import asyncio
+import aiofiles
 from discord.ext.commands.core import guild_only
-from discord.mentions import AllowedMentions
 from redbot.core import bot, commands, checks, Config
 from redbot.core.bot import Red
 from typing import Union
 from redbot.core import modlog
 from redbot.core.modlog import register_casetype, register_casetypes
-from subprocess import Popen # its just os with added memes
 from redbot.core.data_manager import cog_data_path #For image storage
 import secrets
-
 
 
 class CrasherBGone(commands.Cog):
@@ -195,7 +192,6 @@ class CrasherBGone(commands.Cog):
             if message.content.startswith("https://cdn.discordapp.com/attachments/"):
                 maybe_url = message.content.split()[0]
                 if maybe_url.endswith(".mp4") or maybe_url.endswith(".gif"):
-                    print(maybe_url)
                     await self._video_checker(maybe_url)
         if message.attachments != None: # and now the real fun begins.
             pass
@@ -213,9 +209,10 @@ class CrasherBGone(commands.Cog):
 
         async with aiohttp.ClientSession() as session:
             async with session.get(inputfile) as resp:
-                data = resp.content.read()
-                with open(file_file, "wb+") as g:
-                    g.write(data)
+                if resp.status == 200:
+                    f = await aiofiles.open(file_file, mode="wb+")
+                    await f.write(await resp.read())
+                    await f.close()
         try:
             resultSFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-i", file_file, "-vframes 1", "-q:v 1", f"{start_frame_file}"], timeout=60))
             resultEFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-sseof -3", "-i", file_file, "-update 1", "-q:v 1", f"{end_frame_file}"], timeout=60))
