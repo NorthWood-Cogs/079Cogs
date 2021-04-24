@@ -213,9 +213,10 @@ class CrasherBGone(commands.Cog):
                     f = await aiofiles.open(file_file, mode="wb+")
                     await f.write(await resp.read())
                     await f.close()
+
         try:
-            resultSFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-i", file_file, "-vframes 1", "-q:v 1", f"{start_frame_file}"], timeout=60))
-            resultEFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-sseof -3", "-i", file_file, "-update 1", "-q:v 1", f"{end_frame_file}"], timeout=60))
+            resultSFF = self.bot.loop.run_in_executor(None, subprocess.call([f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}"], timeout=60))
+            resultEFF = self.bot.loop.run_in_executor(None, subprocess.call([f"ffmpeg -sseof -3 -i {file_file} -update 1 -q:v 1 {end_frame_file}"], timeout=60))
         except subprocess.TimeoutExpired:
             os.remove(file_file)
             try:
