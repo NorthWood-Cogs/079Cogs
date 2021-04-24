@@ -215,8 +215,8 @@ class CrasherBGone(commands.Cog):
                     await f.close()
                     print("File Downloaded.")
         try:
-            resultSFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-i", f"{file_file}", " -vframes 1", " -q:v 1", f" {start_frame_file}"], timeout=60))
-            resultEFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", " -sseof -3", " -i", f"{file_file}", " -update 1", " -q:v 1", f" {end_frame_file}"], timeout=60))
+            resultSFF = os.popen(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}")
+            resultEFF = os.popen(f"ffmpeg -sseof -3 -i {file_file} -update 1 -q:v 1 {end_frame_file}")
         except subprocess.TimeoutExpired:
             os.remove(file_file)
             try:
@@ -229,8 +229,6 @@ class CrasherBGone(commands.Cog):
                 pass
             return "ERROR"
         # OK so now that we have our two images, its time to probe
-        resultEFF.cancel()
-        resultSFF.cancel() # make sure they're dead.
         SFFOut = None
         EFFOut = None
         try:
