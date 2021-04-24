@@ -203,8 +203,8 @@ class CrasherBGone(commands.Cog):
         CogPath = f"{cog_data_path(self)}/"
         file_name = f"temp_vid{r}.mp4"
         file_file = f"{CogPath}{file_name}"
-        start_frame_file = f"{CogPath}start_frame{r}.jpg"
-        end_frame_file = f"{CogPath}end_frame{r}.jpg"
+        start_frame_file = f"{CogPath}start_frame{r}.txt"
+        end_frame_file = f"{CogPath}end_frame{r}.txt"
 
         async with aiohttp.ClientSession() as session:
             async with session.get(inputfile) as resp:
@@ -214,10 +214,9 @@ class CrasherBGone(commands.Cog):
                     await f.close()
                     print("File Downloaded.")
         try:
-            resultSFF = os.popen(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}").read()
-            resultEFF = os.popen(f"ffmpeg -sseof -1 -i {file_file} -update 1 -q:v 1 {end_frame_file}").read()
+            resultSFF = os.popen(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 -f ffmetadata {start_frame_file}").read()
+            resultEFF = os.popen(f"ffmpeg -sseof -3 -i {file_file} -update 1 -q:v 1 -f ffmetadata {end_frame_file}").read()
         except:
             pass
-        print(resultSFF[resultSFF.find("Stream #"):])
-        print(resultEFF[resultEFF.find("Stream #"):])
+        
         # OK so now that we have our two images, its time to probe
