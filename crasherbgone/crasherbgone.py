@@ -215,8 +215,8 @@ class CrasherBGone(commands.Cog):
                     await f.close()
                     print("File Downloaded.")
         try:
-            resultSFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-i", f"{file_file}", "-vframes 1", "-q:v 1", f"{start_frame_file}"], timeout=60))
-            resultEFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-sseof -3", "-i", f"{file_file}", "-update 1", "-q:v 1", f"{end_frame_file}"], timeout=60))
+            resultSFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-i", f"{file_file}", " -vframes 1", " -q:v 1", f" {start_frame_file}"], timeout=60))
+            resultEFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", " -sseof -3", " -i", f"{file_file}", " -update 1", " -q:v 1", f" {end_frame_file}"], timeout=60))
         except subprocess.TimeoutExpired:
             os.remove(file_file)
             try:
