@@ -195,6 +195,7 @@ class CrasherBGone(commands.Cog):
             if message.content.startswith("https://cdn.discordapp.com/attachments/"):
                 maybe_url = message.content.split()[0]
                 if maybe_url.endswith(".mp4") or maybe_url.endswith(".gif"):
+                    print(maybe_url)
                     await self._video_checker(maybe_url)
         if message.attachments != None: # and now the real fun begins.
             pass
