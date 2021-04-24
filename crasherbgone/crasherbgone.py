@@ -14,7 +14,6 @@ from redbot.core.modlog import register_casetype, register_casetypes
 from redbot.core.data_manager import cog_data_path #For image storage
 import secrets
 
-
 class CrasherBGone(commands.Cog):
     """"I've had it with these motherfucking crashing videos on this motherfucking platform!"""
     default_channel = {
@@ -219,9 +218,6 @@ class CrasherBGone(commands.Cog):
             resultEFF = os.popen(f"ffmpeg -sseof -1 -i {file_file} -update 1 -q:v 1 {end_frame_file}").read()
         except:
             pass
-        SFFStreamType = resultSFF[resultSFF.find("Stream #") : resultSFF.find("Metadata:")]
-        EFFStreamType = resultEFF[resultEFF.find("Stream #") : resultEFF.find("Metadata:")]
-        print(SFFStreamType)
-        print(EFFStreamType)
-        return "YES"
+        print(resultSFF[resultSFF.find("Stream #"):])
+        print(resultEFF[resultEFF.find("Stream #"):])
         # OK so now that we have our two images, its time to probe
