@@ -232,8 +232,8 @@ class CrasherBGone(commands.Cog):
         SFFOut = None
         EFFOut = None
         try:
-            probeSFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffprobe", "-i", start_frame_file], stdout=SFFOut, timeout=60))
-            probeEFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffprobe", "-i", end_frame_file], stdout=EFFOut, timeout=60))
+            probeSFF = os.popen(f"ffprobe -i {start_frame_file}")
+            probeEFF = os.popen(f"ffprobe -i {start_frame_file}")
             print(SFFOut)
             print(EFFOut)
         except:
