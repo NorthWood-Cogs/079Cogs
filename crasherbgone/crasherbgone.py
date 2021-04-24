@@ -215,27 +215,12 @@ class CrasherBGone(commands.Cog):
                     await f.close()
                     print("File Downloaded.")
         try:
-            resultSFF = os.popen(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}")
-            resultEFF = os.popen(f"ffmpeg -sseof -1 -i {file_file} -update 1 -q:v 1 {end_frame_file}")
-        except subprocess.TimeoutExpired:
-            os.remove(file_file)
-            try:
-                os.remove(start_frame_file)
-            except FileNotFoundError:
-                pass
-            try:
-                os.remove(end_frame_file)
-            except FileNotFoundError:
-                pass
-            return "ERROR"
-        # OK so now that we have our two images, its time to probe
-        SFFOut = None
-        EFFOut = None
-        try:
-            probeSFF = os.popen(f"ffprobe -i {start_frame_file}")
-            probeEFF = os.popen(f"ffprobe -i {start_frame_file}")
-            print(SFFOut)
-            print(EFFOut)
+            resultSFF = os.popen(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}").read()
+            resultEFF = os.popen(f"ffmpeg -sseof -1 -i {file_file} -update 1 -q:v 1 {end_frame_file}").read()
         except:
             pass
-
+        SFFStreamType = re.search("Stream #(.*)Metadata:", resultSFF)
+        EFFStreamType = re.search("Stream #(.*)Metadata:", resultEFF)
+        print(SFFStreamType)
+        print(EFFStreamType)
+        # OK so now that we have our two images, its time to probe
