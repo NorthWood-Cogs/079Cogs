@@ -201,7 +201,7 @@ class CrasherBGone(commands.Cog):
 
 
 
-    async def _video_checker(self, inputfile): #Yeah Aikaternas File downloader seems to be as good as I'm gonna get, really. mix it in with Popen for bonus points.
+    async def _video_checker(self, inputfile): #Borrowing from Aik and Zeph to try and get this to work
         r = secrets.token_hex(6)
         CogPath = f"{cog_data_path(self)}/"
         file_name = f"temp_vid{r}.mp4"
@@ -216,10 +216,9 @@ class CrasherBGone(commands.Cog):
                     await f.write(await resp.read())
                     await f.close()
                     print("File Downloaded.")
-        EFFFile = open("EFFLog.txt","wb+")
         try:
-            resultSFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-i", file_file, "-vframes 1", "-q:v 1", start_frame_file],stdout=EFFFile,timeout=60))
-        except error as e:
-            return e
+            EFF = await asyncio.create_subprocess_exec(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}")
+        except:
+            return "Penis"
         
         # OK so now that we have our two images, its time to probe
