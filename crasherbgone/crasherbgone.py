@@ -1,3 +1,4 @@
+from logging import error
 import os
 import re
 import subprocess
@@ -213,10 +214,11 @@ class CrasherBGone(commands.Cog):
                     await f.write(await resp.read())
                     await f.close()
                     print("File Downloaded.")
+        EFFFile = open("EFFLog.txt","wb+")
         try:
-            resultSFF = os.popen(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 -f ffmetadata {start_frame_file}").read()
-            resultEFF = os.popen(f"ffmpeg -sseof -3 -i {file_file} -update 1 -q:v 1 -f ffmetadata {end_frame_file}").read()
-        except:
-            pass
+            resultSFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-i", file_file, " -vframes 1", " -q:v 1", start_frame_file],stdout=EFFFile,stderr=subprocess.STDOUT,timeout=60))
+        except error as e:
+            await ctx.send(f"Errored OUT: \n {e}")
+            
         
         # OK so now that we have our two images, its time to probe
