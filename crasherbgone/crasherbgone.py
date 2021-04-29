@@ -205,9 +205,13 @@ class CrasherBGone(commands.Cog):
     async def _video_checker(self, inputfile): #Borrowing from Aik and Zeph to try and get this to work
         r = secrets.token_hex(6)
         CogPath = f"{cog_data_path(self)}/"
+        print(CogPath)
         file_name = f"temp_vid{r}.mp4"
+        print(file_name)
         file_file = f"{CogPath}{file_name}"
+        print(file_file)
         start_frame_file = f"{CogPath}start_frame{r}.txt"
+        print(start_frame_file)
         end_frame_file = f"{CogPath}end_frame{r}.txt"
 
         async with aiohttp.ClientSession() as session:
