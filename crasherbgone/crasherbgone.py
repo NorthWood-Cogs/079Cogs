@@ -192,7 +192,9 @@ class CrasherBGone(commands.Cog):
             if message.content.startswith("https://cdn.discordapp.com/attachments/"):
                 maybe_url = message.content.split()[0]
                 if maybe_url.endswith(".mp4") or maybe_url.endswith(".gif"):
-                    await self._video_checker(maybe_url)
+                    afib = await self._video_checker(maybe_url)
+                    await message.channel.send(afib)
+
         if message.attachments != None: # and now the real fun begins.
             pass
     
@@ -218,7 +220,6 @@ class CrasherBGone(commands.Cog):
         try:
             resultSFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-i", file_file, "-vframes 1", "-q:v 1", start_frame_file],stdout=EFFFile,timeout=60))
         except error as e:
-            await ctx.send(f"Errored OUT: \n {e}")
-            
+            return e
         
         # OK so now that we have our two images, its time to probe
