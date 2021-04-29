@@ -219,6 +219,6 @@ class CrasherBGone(commands.Cog):
                     await f.close()
         
         print(file_file)
-        EFF = await asyncio.create_subprocess_exec(f"ffmpeg -i temp_vidvid910791ae86be.mp4 -vframes 1 -q:v 1 fuckingreee.jpg")
+        EFF = await asyncio.create_subprocess_exec(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}")
         
         # OK so now that we have our two images, its time to probe
