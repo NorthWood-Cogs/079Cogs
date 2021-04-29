@@ -217,10 +217,8 @@ class CrasherBGone(commands.Cog):
                     await f.write(await resp.read())
                     print(f"File Downloaded.")
                     await f.close()
-        try:
-            print(file_file)
-            EFF = await asyncio.create_subprocess_exec(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}")
-        except:
-            return f"{sys.exc_info()[0]}"
+        
+        print(file_file)
+        EFF = await asyncio.create_subprocess_exec(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}")
         
         # OK so now that we have our two images, its time to probe
