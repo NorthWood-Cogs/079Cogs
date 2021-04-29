@@ -215,9 +215,10 @@ class CrasherBGone(commands.Cog):
                 if resp.status == 200:
                     f = await aiofiles.open(file_file, mode="wb+")
                     await f.write(await resp.read())
+                    print(f"File Downloaded.")
                     await f.close()
-                    print("File Downloaded.")
         try:
+            print(file_file)
             EFF = await asyncio.create_subprocess_exec(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}")
         except:
             return f"{sys.exc_info()[0]}"
