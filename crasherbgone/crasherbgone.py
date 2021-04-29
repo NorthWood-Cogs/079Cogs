@@ -219,6 +219,7 @@ class CrasherBGone(commands.Cog):
                     await f.close()
         
         print(file_file)
+        await asyncio.sleep(5)
         EFF = await asyncio.create_subprocess_exec(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}")
         
         # OK so now that we have our two images, its time to probe
