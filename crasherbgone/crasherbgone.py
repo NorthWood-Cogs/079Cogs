@@ -1,6 +1,7 @@
 from logging import error
 import os
 import re
+import sys
 import subprocess
 import aiohttp
 import discord
@@ -219,6 +220,6 @@ class CrasherBGone(commands.Cog):
         try:
             EFF = await asyncio.create_subprocess_exec(f"ffmpeg -i {file_file} -vframes 1 -q:v 1 {start_frame_file}")
         except:
-            return "Penis"
+            return f"{sys.exc_info()[0]}"
         
         # OK so now that we have our two images, its time to probe
