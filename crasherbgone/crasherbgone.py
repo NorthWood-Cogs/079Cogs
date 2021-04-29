@@ -216,7 +216,7 @@ class CrasherBGone(commands.Cog):
                     print("File Downloaded.")
         EFFFile = open("EFFLog.txt","wb+")
         try:
-            resultSFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-i", file_file, " -vframes 1", " -q:v 1", start_frame_file],stdout=EFFFile,stderr=subprocess.STDOUT,timeout=60))
+            resultSFF = self.bot.loop.run_in_executor(None, subprocess.call(["ffmpeg", "-i", file_file, " -vframes 1", " -q:v 1", start_frame_file],stdout=EFFFile,timeout=60))
         except error as e:
             await ctx.send(f"Errored OUT: \n {e}")
             
