@@ -1,3 +1,4 @@
+#Standard Imports 
 import asyncio
 import contextlib
 import datetime
@@ -8,7 +9,7 @@ from copy import copy
 from typing import Union, Optional, Literal
 
 import discord
-
+#Redbot imports
 from redbot.cogs.warnings.helpers import (
     warning_points_add_check,
     get_command_for_exceeded_points,
@@ -23,6 +24,7 @@ from redbot.core.i18n import Translator, cog_i18n
 from redbot.core.utils import AsyncIter
 from redbot.core.utils.chat_formatting import inline, warning, pagify
 from redbot.core.utils.menus import menu, DEFAULT_CONTROLS
+
 
 _ = Translator("Warnings", __file__)
 
@@ -314,6 +316,7 @@ class Warnings(commands.Cog):
                     em = discord.Embed(
                         title=_("Reason: {name}").format(name=r),
                         description=v["description"],
+                        color=await ctx.embed_colour(),
                     )
                     em.add_field(name=_("Points"), value=str(v["points"]))
                     msg_list.append(em)
@@ -339,7 +342,10 @@ class Warnings(commands.Cog):
         async with guild_settings.actions() as registered_actions:
             for r in registered_actions:
                 if await ctx.embed_requested():
-                    em = discord.Embed(title=_("Action: {name}").format(name=r["action_name"]))
+                    em = discord.Embed(
+	                        title=_("Action: {name}").format(name=r["action_name"]),
+	                        color=await ctx.embed_colour(),
+	                    )
                     em.add_field(name=_("Points"), value="{}".format(r["points"]), inline=False)
                     em.add_field(
                         name=_("Exceed command"),
@@ -430,11 +436,6 @@ class Warnings(commands.Cog):
                 "submitTime": currentTime,
             }
         }
-        async with member_settings.warnings() as user_warnings:
-            user_warnings.update(warning_to_add)
-        current_point_count += reason_type["points"]
-        await member_settings.total_points.set(current_point_count)
-
         await warning_points_add_check(self.config, ctx, user, current_point_count)
         dm = guild_settings["toggle_dm"]
         showmod = guild_settings["show_mod"]
@@ -445,8 +446,7 @@ class Warnings(commands.Cog):
             else:
                 title = _("Warning")
             em = discord.Embed(
-                title=title,
-                description=reason_type["description"],
+                title=title, description=reason_type["description"], color=await ctx.embed_colour()
             )
             em.add_field(name=_("Points"), value=str(reason_type["points"]))
             try:
@@ -466,6 +466,11 @@ class Warnings(commands.Cog):
                     " but I wasn't able to send them a warn message."
                 ).format(user=user.mention)
             )
+        async with member_settings.warnings() as user_warnings:
+	        user_warnings.update(warning_to_add)
+        current_point_count += reason_type["points"]
+        await member_settings.total_points.set(current_point_count)
+        await warning_points_add_check(self.config, ctx, user, current_point_count)
 
         toggle_channel = guild_settings["toggle_channel"]
         if toggle_channel:
@@ -474,8 +479,7 @@ class Warnings(commands.Cog):
             else:
                 title = _("Warning")
             em = discord.Embed(
-                title=title,
-                description=reason_type["description"],
+                title=title, description=reason_type["description"], color=await ctx.embed_colour()
             )
             em.add_field(name=_("Points"), value=str(reason_type["points"]))
             warn_channel = self.bot.get_channel(guild_settings["warn_channel"])
@@ -675,3 +679,4 @@ class Warnings(commands.Cog):
         )
 
         await ctx.tick()
+
