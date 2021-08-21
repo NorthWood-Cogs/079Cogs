@@ -25,7 +25,7 @@ class SCP(commands.Cog):
             Searching by ID is almost always ideal, though names will work in most cases - Pascal Case is ideal.""" 
         if scp[0] == "random":
             lol = random.randint(1, 6999)
-            emb = await self.CromRequest(ctx, scp=lol, BotSelf=ctx.guild.me)
+            emb = await self.CromRequest(ctx, scp=str(lol), BotSelf=ctx.guild.me)
             await ctx.send(embed=emb)
         if scp[0] == "-":
             em = discord.Embed(
@@ -101,8 +101,14 @@ class SCP(commands.Cog):
                     description="This isnt a valid SCP name. Try its Article number, or its formal name, if it has one."
                 )
                 return em
-
-            emName = (f"{coreJson['alternateTitles'][0]['title']}") # Expects to be a strin, is the 'name' e.g. SCP 079's name is "Old AI"
+            try:
+                emName = (f"{coreJson['alternateTitles'][0]['title']}") # Expects to be a strin, is the 'name' e.g. SCP 079's name is "Old AI"
+            except:
+                em = discord.Embed(
+                    title="Error!",
+                    description="This isnt a valid SCP name. Try its Article number, or its formal name, if it has one."
+                )
+                return em
             if emTitle != emName:
                 emTrueTitle = (f"{emTitle} - {emName}")
             else:
