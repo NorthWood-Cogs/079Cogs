@@ -25,7 +25,7 @@ class SCP(commands.Cog):
             Searching by ID is almost always ideal, though names will work in most cases - Pascal Case is ideal.""" 
         if scp.lower() == "random":
             lol = random.randint(1, 6999)
-            print(str(lol))
+            #print(str(lol))
             emb = await self.CromRequest(ctx, scp=str(lol), BotSelf=ctx.guild.me)
             await ctx.send(embed=emb)
         
