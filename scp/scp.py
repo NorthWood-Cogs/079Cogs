@@ -23,6 +23,10 @@ class SCP(commands.Cog):
     async def _scp(self, ctx, *, scp: str):
         """Attempts to search for an SCP. Denote them with `-ex` or `-j` to go for explained/joke scp's (and others!)
             Searching by ID is almost always ideal, though names will work in most cases - Pascal Case is ideal.""" 
+        if scp[0] == "random":
+            lol = random.randint(1, 6999)
+            emb = await self.CromRequest(ctx, scp=lol, BotSelf=ctx.guild.me)
+            await ctx.send(embed=emb)
         if scp[0] == "-":
             em = discord.Embed(
                 title="Error!",
