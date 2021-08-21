@@ -28,6 +28,7 @@ class SCP(commands.Cog):
             print(str(lol))
             emb = await self.CromRequest(ctx, scp=str(lol), BotSelf=ctx.guild.me)
             await ctx.send(embed=emb)
+        
         if scp[0] == "-":
             em = discord.Embed(
                 title="Error!",
@@ -50,7 +51,7 @@ class SCP(commands.Cog):
             em.add_field(name="Help", value="We're trapped in his basement, help!", inline=False)
             em.set_thumbnail(url="https://cdn.discordapp.com/attachments/681599779242770444/817006021276336128/HubS.png")
             await ctx.send(embed=em)
-        else:
+        elif scp.lower() != "random":
             emb = await self.CromRequest(ctx, scpToSearch, BotSelf=theBot)
             await ctx.send(embed=emb)
 
