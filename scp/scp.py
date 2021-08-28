@@ -44,7 +44,7 @@ class SCP(commands.Cog):
         if scp == "0" or scp == "00" or scp == "000": #Funny Hubert haha
             em = discord.Embed(
                 title = "SCP-███ - He he watches us all",
-                url = "https://scp-secret-laboratory-wiki.fandom.com/wiki/Hubert_Moszka",
+                url = "https://hub.scpslgame.com/index.php?title=Hubert_Moszka",
                 color = 0xe91e63
             )
             em.add_field(name="Object Class", value="Thaumiel", inline=False)
