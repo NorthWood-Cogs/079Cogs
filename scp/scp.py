@@ -21,7 +21,7 @@ class SCP(commands.Cog):
     
     @commands.guild_only()
     @commands.command(name="scp")
-    @commands.cooldown(1, 5, type=channel)
+    @commands.cooldown(rate=1, per=5, type=commands.BucketType.channel)
     async def _scp(self, ctx, *, scp: str):
         """Attempts to search for an SCP. Denote them with `-ex` or `-j` to go for explained/joke scp's (and others!)
             Searching by ID is almost always ideal, though names will work in most cases - Pascal Case is ideal.""" 
