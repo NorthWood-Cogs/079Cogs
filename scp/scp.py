@@ -1,5 +1,6 @@
 import discord
 import random
+from discord import channel
 import pyscp # No longer used maybe i haven't made my mind up yet
 from aiographql import client
 import aiohttp
@@ -20,6 +21,7 @@ class SCP(commands.Cog):
     
     @commands.guild_only()
     @commands.command(name="scp")
+    @commands.cooldown(1, 5, type=channel)
     async def _scp(self, ctx, *, scp: str):
         """Attempts to search for an SCP. Denote them with `-ex` or `-j` to go for explained/joke scp's (and others!)
             Searching by ID is almost always ideal, though names will work in most cases - Pascal Case is ideal.""" 
@@ -50,10 +52,10 @@ class SCP(commands.Cog):
             em.add_field(name="Object Class", value="Thaumiel", inline=False)
             em.add_field(name="Help", value="We're trapped in his basement, help!", inline=False)
             em.set_thumbnail(url="https://cdn.discordapp.com/attachments/681599779242770444/817006021276336128/HubS.png")
-            await ctx.send(embed=em)
+            await ctx.reply(embed=em)
         elif scp.lower() != "random":
             emb = await self.CromRequest(ctx, scpToSearch, BotSelf=theBot)
-            await ctx.send(embed=emb)
+            await ctx.reply(embed=emb)
 
 
 
