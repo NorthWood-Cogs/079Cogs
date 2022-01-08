@@ -33,10 +33,10 @@ class QRBeeper(commands.Cog):
         status = self.Conff.channel(ctx.channel).enabled()
 
         if status == True:
-            await self.Conff.channel(ctx.channel).enabled.set(False)
+            #await self.Conff.channel(ctx.channel).enabled.set(False)
             await ctx.reply("QR Scanning Now **Disabled** In this channel.")
         if status == False: 
-            await self.Conff.channel(ctx.channel).enabled.set(True)
+            #await self.Conff.channel(ctx.channel).enabled.set(True)
             await ctx.reply("QR Scanning Now **Enabled** In this channel.")
 
     @_qrcodeset.command(name="autodel")
