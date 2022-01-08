@@ -1,0 +1,6 @@
+{
+  "author": ["Danstr#1984", "Northwood Bot Development Team"],
+  "name" : "QRBeeper",
+  "requirements": ["pyzbar"]
+  
+}
