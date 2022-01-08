@@ -8,7 +8,7 @@ import discord
 
 async def QRScanner(message: discord.Message, data: str):
     """Main Logic for actually handling the QR Codes. Actually quite simple."""
-
+    print("lol")
     async with aiohttp.ClientSession() as sesh:
         async with sesh.get(data) as resp:
             print("lol")
