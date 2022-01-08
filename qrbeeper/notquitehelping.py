@@ -6,9 +6,8 @@ from io import BytesIO
 import discord
 
 
-async def QRScanner(message: discord.Message, data: bytes):
+async def QRScanner(message: discord.Message, data: str):
     """Main Logic for actually handling the QR Codes. Actually quite simple."""
-    data_url = data.decode("utf-8")
     async with aiohttp.ClientSession() as sesh:
         async with sesh.get(data) as resp:
             #await message.channel.send(message.content)
