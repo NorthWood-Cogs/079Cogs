@@ -31,7 +31,7 @@ class QRBeeper(commands.Cog):
     async def _toggle(self, ctx):
         """Toggles the Automatic QR Scanner."""
         status = self.Conff.channel(ctx.channel).enabled()
-
+        await ctx.reply(status)
         if status == True:
             #await self.Conff.channel(ctx.channel).enabled.set(False)
             await ctx.reply("QR Scanning Now **Disabled** In this channel.")
