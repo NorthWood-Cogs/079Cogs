@@ -15,7 +15,7 @@ async def QRScanner(message: discord.Message, data: str):
             decodedImage = decode(Image.open(BytesIO(resp.content)))
             AreWeThereYet = str(decodedImage[0])
             QRURL = AreWeThereYet.partition("data=b'")[2].partition("',")[0]
-            TheRealQRURL = (f"<{QRURL}")
+            TheRealQRURL = (f"<{QRURL}>")
 
             await message.channel.send(TheRealQRURL)
 
