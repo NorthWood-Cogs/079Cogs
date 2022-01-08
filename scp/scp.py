@@ -71,7 +71,7 @@ class SCP(commands.Cog):
             else:
                 targetSCP = str(scp).title()
                 
-            #The query itself. If you ever need to update this(Which you shouldn't, thats my problem) just add it into the existing layout.
+            #The query itself. If you ever need to update this(Which you shouldn't, thats my problem) just add it into the existing layout
             CromQuery = client.GraphQLRequest("""  
             {{
             searchPages(query: "{targetScp}")
