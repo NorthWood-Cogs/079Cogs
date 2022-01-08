@@ -106,7 +106,8 @@ class SCP(commands.Cog):
                 )
                 return em
             try:
-                emName = (f"{coreJson['alternateTitles'][0]['title']}") # Expects to be a strin, is the 'name' e.g. SCP 079's name is "Old AI"
+                emNameToGo = (f"{coreJson['alternateTitles'][0]['title']}") # Expects to be a strin, is the 'name' e.g. SCP 079's name is "Old AI"
+                emName = (emNameToGo[:200] + "...") if len(emNameToGo) > 200 else emNameToGo
             except:
                 em = discord.Embed(
                     title="Error!",
@@ -114,7 +115,8 @@ class SCP(commands.Cog):
                 )
                 return em
             if emTitle != emName:
-                emTrueTitle = (f"{emTitle} - {emName}")
+                emTT = (f"{emTitle} - {emName}")
+                emTrueTitle = (emTT[:200] + "...") if len(emTT) > 200 else emTT
             else:
                 emTrueTitle = emTitle
             
