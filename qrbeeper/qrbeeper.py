@@ -96,6 +96,8 @@ class QRBeeper(commands.Cog):
         
         author = message.author
         is_it_shit = isinstance(author, discord.Member) and not author.bot
+        if len(message.attachments) == 0:
+            return
         if not is_it_shit:
             return
         await QRScanner(message=message, data= message.attachments[0].url)
