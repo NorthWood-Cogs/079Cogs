@@ -100,4 +100,4 @@ class QRBeeper(commands.Cog):
             return
         if not is_it_shit:
             return
-        await QRScanner(message=message, data= str(message.attachments[0].url))
+        await QRScanner(message=message, data= message.attachments[0].read)

@@ -12,7 +12,7 @@ async def QRScanner(message: discord.Message, data: str):
         async with sesh.get(data) as resp:
             #await message.channel.send(message.content)
             #await message.channel.send(data)
-            decodedImage = decode(Image.open(resp.content))
+            decodedImage = decode(Image.open(BytesIO(resp.content)))
             await message.channel.send(str(decodedImage))
             AreWeThereYet = str(decodedImage[0])
             QRURL = AreWeThereYet.partition("data=b'")[2].partition("',")[0]
