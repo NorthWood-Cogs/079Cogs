@@ -21,7 +21,7 @@ class QRBeeper(commands.Cog):
 
 
 
-    @commands.group(name="qrset", invoke_without_command=True)
+    @commands.group(name="qrset")
     @commands.guild_only()
     @checks.mod_or_permissions(manage_messages=True)
     async def _qrcodeset(self, ctx):
