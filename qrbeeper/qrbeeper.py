@@ -98,11 +98,7 @@ class QRBeeper(commands.Cog):
         is_it_shit = isinstance(author, discord.Member) and not author.bot
         if not is_it_shit:
             return
-
         QR_result = await QRScanner(message.attachments[0].url)
 
-        if QR_result == "Error":
-            await message.channel.send("An Error Has occured within the QRScanner.")
-
-        else:
-            await message.channel.send(QR_result)
+        
+        await message.channel.send(QR_result)

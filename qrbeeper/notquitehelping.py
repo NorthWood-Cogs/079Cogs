@@ -10,11 +10,10 @@ async def QRScanner(data: str):
 
     async with aiohttp.ClientSession() as sesh:
         async with sesh.get(data) as resp:
-            try:
-                decodedImage = decode(Image.open(BytesIO(resp.content)))
-                AreWeThereYet = str(decodedImage[0])
-                QRURL = AreWeThereYet.partition("data=b'")[2].partition("',")[0]
-                return QRURL
-            except:
-                return "Error"
+            
+            decodedImage = decode(Image.open(BytesIO(resp.content)))
+            AreWeThereYet = str(decodedImage[0])
+            QRURL = AreWeThereYet.partition("data=b'")[2].partition("',")[0]
+            return QRURL
+            
 
