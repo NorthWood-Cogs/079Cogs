@@ -21,10 +21,9 @@ class QRBeeper(commands.Cog):
 
 
 
-    @commands.group(invoke_without_command=True)
+    @commands.group(name="qrset", invoke_without_command=True)
     @commands.guild_only()
     @checks.mod_or_permissions(manage_messages=True)
-    @commands.command(name="qrset")
     async def _qrcodeset(self, ctx):
         """Settings for QRBeeper."""
 
@@ -52,8 +51,7 @@ class QRBeeper(commands.Cog):
             await self.Conff.channel(ctx.channel).DeleteOffenders.set(True)
             await ctx.reply("I am now deleting QR Codes if their contents are on the blacklist.")
 
-    @_qrcodeset.group()
-    @_qrcodeset.command(name=list)
+    @_qrcodeset.group(name="list")
     async def _list(self, ctx):
         """Manage the Automatic delete List, or blacklist for short."""
 
