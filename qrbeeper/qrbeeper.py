@@ -1,5 +1,5 @@
 from redbot.core import commands, Config, checks
-from redbot.cogs.qrbeeper.notquitehelping import QRScanner
+from .notquitehelping import QRScanner
 import discord
 
 
@@ -102,7 +102,7 @@ class QRBeeper(commands.Cog):
         if not is_it_shit:
             return
 
-        QR_result = await self.QRScanner(message.attachments[0].url)
+        QR_result = await QRScanner(message.attachments[0].url)
 
         if QR_result == "Error":
             await message.channel.send("An Error Has occured within the QRScanner.")
