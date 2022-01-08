@@ -25,10 +25,10 @@ class QRBeeper(commands.Cog):
     @commands.guild_only()
     @checks.mod_or_permissions(manage_messages=True)
     @commands.command(name="qrset")
-    async def _qrset(self, ctx):
+    async def _qrcodeset(self, ctx):
         """Settings for QRBeeper."""
 
-    @_qrset.command(name="toggle")
+    @_qrcodeset.command(name="toggle")
     async def _toggle(self, ctx):
         """Toggles the Automatic QR Scanner."""
         status = self.Conff.channel(ctx.channel).enabled()
@@ -40,7 +40,7 @@ class QRBeeper(commands.Cog):
             await self.Conff.channel(ctx.channel).enabled.set(True)
             await ctx.reply("QR Scanning Now **Enabled** In this channel.")
 
-    @_qrset.command(name="autodel")
+    @_qrcodeset.command(name="autodel")
     async def _autodelete(self, ctx):
         """Tells the bot to automatically delete A QR code if its link contains text from the blacklist."""
         status = self.Conff.channel(ctx.channel).DeleteOffenders()
@@ -52,8 +52,8 @@ class QRBeeper(commands.Cog):
             await self.Conff.channel(ctx.channel).DeleteOffenders.set(True)
             await ctx.reply("I am now deleting QR Codes if their contents are on the blacklist.")
 
-    @_qrset.group()
-    @_qrset.command(name=list)
+    @_qrcodeset.group()
+    @_qrcodeset.command(name=list)
     async def _list(self, ctx):
         """Manage the Automatic delete List, or blacklist for short."""
 
