@@ -2,6 +2,8 @@
 A collection of modified cogs and our own creations for SCP-079 the discord bot.
 
 Please check all cogs for their respective licenses and links to their sources.
+# Note: This is far from an exhaustive list of all cogs, and is only those we have made, or have modified. The Original Owners of all forked cogs have the right to request their cog's removal from this repo.
+
 # Cog List
 
 | Cog       | Original Repo - If applicable.    | Notices |
