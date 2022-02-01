@@ -1,3 +1,4 @@
+-- On semi-hiatus while awaiting D.py 2.0 support for Red -- 
 # 079Cogs
 A collection of modified cogs and our own creations for SCP-079 the discord bot.
 
