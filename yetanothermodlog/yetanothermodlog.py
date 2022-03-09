@@ -4,6 +4,7 @@ from redbot.core import commands, checks, Config
 class YetAnotherModLog(commands.Cog):
     """Oh How conveinient, the Acroynym's YAML"""
     def __init__(self, bot):
+        super().__init__()
         self.bot = bot
         self.Config = Config.get_conf(self, IDENTIFIER="FUCKYOUMRFREEMAN", force_registration=True)
         default_guild= {
