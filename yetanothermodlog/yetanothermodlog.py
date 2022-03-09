@@ -7,11 +7,10 @@ class YetAnotherModLog(commands.Cog):
         super().__init__()
         self.bot = bot
         self.Config = Config.get_conf(self, identifier="FUCKYOUMRFREEMAN", force_registration=True)
-        default_guild= {
-            "enabled": False,
-            "embed": True,
-            "channelID": 0}
-        self.Config.register_guild(default_guild)
+        self.Config.register_guild(
+            enabled=False,
+            embed=True,
+            channelID=0)
     def EmbedBuilder(DeletedMsg, UserID):
         """Guess by the name"""
         em = discord.Embed(color="red", title=f"Deleted Message by {UserID}", description="DeletedMsg")
