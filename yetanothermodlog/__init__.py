@@ -1,6 +1,6 @@
-from .yetanothermodlog import yetAnotherModLog
+from .yetanothermodlog import YetAnotherModLog
 
 
 def setup(bot):
     """Load it!"""
-    bot.add_cog(yetAnotherModLog(bot))
+    bot.add_cog(YetAnotherModLog(bot))
