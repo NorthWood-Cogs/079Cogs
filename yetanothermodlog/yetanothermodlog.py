@@ -11,7 +11,7 @@ class YetAnotherModLog(commands.Cog):
             "enabled": False,
             "embed": True,
             "channelID": 0}
-        self.config.register_guild(default_guild)
+        self.Config.register_guild(default_guild)
     def EmbedBuilder(DeletedMsg, UserID):
         """Guess by the name"""
         em = discord.Embed(color="red", title=f"Deleted Message by {UserID}", description="DeletedMsg")
@@ -40,7 +40,7 @@ class YetAnotherModLog(commands.Cog):
         """penis"""
         if message.content is not None:
             embed = self.EmbedBuilder(message.content, message.author)
-            settings =await self.config.guild(message.channel.guild).all()
+            settings =await self.Config.guild(message.channel.guild).all()
             lol = message.author.avatar.url
             if settings.enabled() == True:
                 channel = discord.utils.get(message.channel.guild.channels, id=settings.channelID())
