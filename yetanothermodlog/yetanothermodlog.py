@@ -25,7 +25,7 @@ class YetAnotherModLog(commands.Cog):
     async def _enable(self, ctx, toggle: bool):
         """Enable or disable the ModLog."""
         if toggle== True:
-            settings = await self.Config.guild(ctx.guild)
+            settings = self.Config.guild(ctx.guild)
             await settings.enabled.set(toggle)
     @_mlset.command(name="channel")
     async def _channel(self, ctx, channelID: int):
