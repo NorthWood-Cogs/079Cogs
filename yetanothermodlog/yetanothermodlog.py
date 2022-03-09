@@ -35,7 +35,7 @@ class YetAnotherModLog(commands.Cog):
 
     #TODO : Other settings commands, for now we monkeypatching
 
-    @commands.Listener
+    @commands.Cog.listener()
     async def on_message_delete(self, message):
         """penis"""
         if message.content is not None:
