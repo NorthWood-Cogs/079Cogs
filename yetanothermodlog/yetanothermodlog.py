@@ -19,7 +19,7 @@ class YetAnotherModLog(commands.Cog):
     @checks.admin_or_permissions(manage_guild=True)
     @commands.guild_only()
     @commands.group(name="mlset")
-    async def _mlset(self):
+    async def _mlset(self, ctx):
         """Settings for ModLog. What did you expect?"""
 
     @_mlset.command(name="enable")
