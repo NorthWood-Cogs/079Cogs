@@ -6,7 +6,7 @@ class YetAnotherModLog(commands.Cog):
     def __init__(self, bot):
         super().__init__()
         self.bot = bot
-        self.Config = Config.get_conf(self, IDENTIFIER="FUCKYOUMRFREEMAN", force_registration=True)
+        self.Config = Config.get_conf(self, identifier="FUCKYOUMRFREEMAN", force_registration=True)
         default_guild= {
             "enabled": False,
             "embed": True,
