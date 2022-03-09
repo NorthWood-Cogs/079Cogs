@@ -1,5 +1,5 @@
 import discord
-from redbot import commands, checks, Config
+from redbot.core import commands, checks, Config
 
 class YetAnotherModLog(commands.Cog):
     """Oh How conveinient, the Acroynym's YAML"""
