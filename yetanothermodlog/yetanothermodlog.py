@@ -38,7 +38,7 @@ class YetAnotherModLog(commands.Cog):
     async def on_message_delete(self, message):
         """penis"""
         if message.content is not None:
-            embed = self.EmbedBuilder(message.content, message.author)
+            embed = "penis"
             settings =await self.Config.guild(message.channel.guild).all()
             lol = message.author.avatar.url
             if settings.enabled() == True:
