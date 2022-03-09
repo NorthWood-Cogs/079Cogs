@@ -1,4 +1,3 @@
-from typing_extensions import Self
 import discord
 from redbot import commands, checks, Config
 
